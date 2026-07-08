@@ -1,42 +1,88 @@
 # Project One QA Toolkit
 
-This package runs a repeatable QA pass over the Fleet Project One dataset export. It is designed to speed up review, not replace it: the output is a prioritized review queue with explainable flags and concrete proof obligations for a human reviewer.
+This repo is a handoff for Fleet Project One. It contains a repeatable QA workflow for deciding which tasks in `JUNE24-PSI-UNDELIVERED-EVALED` are easiest to recover, which need repair, and which should go to deeper manual review.
 
-## GitHub Handoff
+The goal is not to let an LLM decide what ships. The goal is to make the repetitive QA work faster, consistent, and easy for a human reviewer to audit.
 
-Upload this folder as the Project One repository/root. The dataset export itself is not committed; download/export it from the Fleet dashboard and pass its local path into the scripts. The most important files for reviewers are:
+## Start Here
 
-- `final_project_one_report.md`: concise findings and recovery strategy.
-- `SUBMISSION.md`: short handoff note with scope, run commands, and known limits.
-- `triage_dataset.py`: scoped static triage script.
-- `constant_derivability_worklist.py`: verifier-constant proof-obligation script.
-- `reports/task_triage.csv`: one row per task, bucketed for review.
-- `reports/task_recovery_ranked.csv`: ordered recovery queue with category, recommended action, and reason.
-- `reports/derivability_worklist.csv`: hidden verifier constants that need seed/session proof.
-- `evidence_log.md` and `verification_sample.md`: human-in-the-loop checks showing how I audited the tool output.
-- `live_dashboard_check.md` and `mixed_batch_run_plan.md`: live dashboard/session run notes.
+| If you are... | Open first | Why |
+| --- | --- | --- |
+| A product manager or operator | `SUBMISSION.md` | Short scope, outputs, and bottom-line handoff. |
+| Reviewing task quality | `reports/task_recovery_ranked.csv` | Ordered queue of tasks to spot-check, recover, repair, or manually review. |
+| Reviewing the analysis | `final_project_one_report.md` | Concise method, findings, bucket counts, and next steps. |
+| Reviewing the tool | `triage_dataset.py` and `constant_derivability_worklist.py` | The two scripts that generate the QA outputs. |
+| Checking human judgment | `evidence_log.md` | Manual sample showing how I audited the tool output. |
 
-Do not upload API keys, browser cookies, bearer tokens, or local dashboard request headers. The repo is meant to contain the tool, generated reports, and human QA evidence.
+## Current Scope
 
-## What It Does
+Fleet clarified that tasks with no visible runs can be dropped from this analysis for now. I therefore scoped the committed analysis to the run-backed/evaluated slice.
 
-- Reads the exported dataset JSONL.
-- Extracts prompt app cues, verifier app usage, relative dates, lookup burden, conditional branches, money literals, and dependency types.
-- Compares prompt app families against verifier app families.
-- Surfaces verifier-only amounts and user-visible constants that may need derivability checks.
-- Optionally joins dashboard task/session API exports so each task row includes run count, status count, and model coverage.
-- Writes a CSV, JSON, summary report, and manual review queue.
+| Item | Count |
+| --- | ---: |
+| Original local export | 520 tasks |
+| In-scope session-backed tasks | 257 tasks |
+| Dropped no-session tasks | 263 tasks |
+| Consumer-finance tasks in scope | 150 tasks |
+| Personal-health tasks in scope | 107 tasks |
+| Total sessions in scope | 712 sessions |
+| Scored sessions on corrected dashboard | 658 sessions |
+| Tasks scored on corrected dashboard | 220 tasks |
+| Dashboard pass rate | 7.6% |
+| Dashboard average score | 0.08 |
 
-The second layer, `constant_derivability_worklist.py`, takes the most important static signal and makes it actionable:
+The downloaded JSONL export still contains 520 rows. The corrected live dashboard shows 257 tasks, matching the session-backed scope used here.
 
-- Extracts hidden verifier amounts, dates, names/labels, emails, and phone numbers.
-- Filters out prompt-mentioned constants by default.
-- Adds likely source app, task bucket, risk score, session count, verifier context, and a review question.
-- Produces a worklist for proving whether each verifier constant is uniquely derivable from seed data.
+## Main Deliverables
+
+| File | What it is for |
+| --- | --- |
+| `reports/task_recovery_ranked.csv` | Main recovery queue. Start here when deciding what to review next. |
+| `reports/task_triage.csv` | Full task-level static QA output with risk score, bucket, findings, session count, and prompt preview. |
+| `reports/derivability_worklist.csv` | Verifier constants that need proof from the prompt, seed data, or session evidence. |
+| `reports/manual_review_queue.md` | Top 50 high-risk tasks with manual-review checklist prompts. |
+| `final_project_one_report.md` | Summary of method, results, recovery strategy, and limits. |
+| `evidence_log.md` | Human-in-the-loop sample across buckets and environments. |
+| `live_dashboard_check.md` | Corrected dashboard score snapshot and task-set check. |
+
+The dataset export, API keys, browser cookies, bearer tokens, and local request headers are intentionally not committed.
+
+## How The Workflow Works
+
+1. Scope the dataset to tasks with visible sessions, per Fleet guidance.
+2. Run static triage over each task prompt and verifier.
+3. Bucket each task by recovery priority.
+4. Extract verifier constants that are not obviously present in the prompt.
+5. Turn those constants into proof questions for a human reviewer.
+6. Validate the approach with a manual sample across buckets and environments.
+
+## Recovery Buckets
+
+| Bucket | Meaning | What to do |
+| --- | --- | --- |
+| `A_likely_good_spot_check` | Low static risk. | Spot-check seed/session evidence, then consider promotion. |
+| `B_close_verify_derivability` | Likely recoverable. | Prove hidden verifier constants are derivable. |
+| `C_repair_candidate` | Worth saving, but needs cleanup. | Reconcile prompt, verifier, and seed-world facts. |
+| `D_high_risk_manual_review` | Highest static risk. | Inspect manually before spending recovery time. |
+
+The bucket is not pass/fail. It is a review priority.
+
+## Current Results
+
+| Bucket | Count |
+| --- | ---: |
+| `A_likely_good_spot_check` | 17 |
+| `B_close_verify_derivability` | 92 |
+| `C_repair_candidate` | 109 |
+| `D_high_risk_manual_review` | 39 |
+
+The strongest near-term recovery pool is the 17 likely-good tasks plus the 92 close/derivability tasks. The 109 repair candidates are the main fix backlog. The 39 high-risk tasks should be inspected before investing recovery time.
+
+The derivability worklist found 1,843 verifier constants across 254 scoped tasks. That is not a rejection count. It is a list of proof obligations: for each hidden amount, date, name, email, or phone number, a reviewer should confirm whether it is uniquely derivable from the prompt plus the seed world.
 
 ## How To Run
 
-From the repo root, with the dataset JSONL available locally:
+From the repo root, with the dataset JSONL and dashboard API exports available locally:
 
 ```bash
 python3 triage_dataset.py \
@@ -47,17 +93,7 @@ python3 triage_dataset.py \
   --out-dir reports
 ```
 
-The `--require-sessions` flag applies the final Project One scope: tasks without visible sessions are dropped, per Fleet guidance. To run a broader static-only pass for exploration, omit the session arguments and `--require-sessions`.
-
-Static-only exploration mode:
-
-```bash
-python3 triage_dataset.py \
-  path/to/JUNE24-PSI-UNDELIVERED-EVALED.jsonl \
-  --out-dir reports
-```
-
-Then generate the constant-derivability worklist:
+Then generate the verifier-constant worklist:
 
 ```bash
 python3 constant_derivability_worklist.py \
@@ -66,61 +102,43 @@ python3 constant_derivability_worklist.py \
   --out-dir reports
 ```
 
-Generated files:
+For a broader static-only exploration pass, omit the session arguments and `--require-sessions`.
 
-- `final_project_one_report.md`: final writeup with methodology, bucket counts, evidence sample summary, and next steps.
-- `evidence_log.md`: human-in-the-loop sample review across buckets and environments.
-- `reports/task_triage.csv`: one row per task with tags, scores, and bucket.
-- `reports/task_recovery_ranked.csv`: ordered task-level recovery queue with bucket, recommended action, primary reason, and run coverage.
-- `reports/task_triage.json`: same data as JSON.
-- `reports/summary.md`: dataset-level counts and top review queues.
-- `reports/manual_review_queue.md`: top 50 manual-review candidates with checkboxes.
-- `reports/derivability_worklist.csv`: one row per hidden verifier constant that should be proven against seed/session evidence.
-- `reports/derivability_worklist.json`: same derivability worklist as JSON.
-- `reports/derivability_summary.md`: summary of constant counts by type, source app, bucket, and priority.
-- `verification_sample.md`: small sample showing where the tool was useful and where it over-flagged.
-- `session_api_notes.md`: explanation of task records versus model-run sessions.
-- `live_dashboard_check.md`: Chrome dashboard check covering sessions, charts, discussion, Task Quality, and the spot-check run I created.
-- `mixed_batch_run_plan.md`: stratified 48-task run plan and dashboard job metadata for the mixed batch validation run.
+## How To Read The Ranked CSV
 
-## Current Results
+Open `reports/task_recovery_ranked.csv`. The most useful columns are:
 
-On the `JUNE24-PSI-UNDELIVERED-EVALED` export:
+| Column | Meaning |
+| --- | --- |
+| `recovery_rank` | Suggested order for review. |
+| `bucket` | Recovery category. |
+| `recommended_action` | What a reviewer should do next. |
+| `risk_score` | Static risk score from the triage script. |
+| `session_count` / `completed_sessions` | Run coverage from session metadata. |
+| `primary_reason` | Plain-English summary of why the task landed where it did. |
+| `findings` | Machine-readable QA flags. |
+| `verifier_only_amounts` / `verifier_only_user_values` | Hidden verifier constants to prove. |
 
-- 520 tasks in the original local export.
-- 257 session-backed tasks in scope after Fleet clarified that unrun/no-session tasks can be dropped for now.
-- The corrected live dashboard view now also shows 257 tasks, matching the committed analysis scope.
-- 263 tasks dropped from this analysis because they had no visible session rows in the observed dashboard API response.
-- 150 in-scope consumer-finance tasks.
-- 107 in-scope personal-health tasks.
-- 712 sessions joined to the 257 in-scope tasks.
-- Corrected live dashboard score snapshot: 220 tasks scored, 658 scored sessions, 712 total sessions, 7.6% overall pass rate, and 0.08 overall average score.
-- Static buckets in the session-backed scope: 17 low-risk spot-check candidates, 92 close/verify-derivability, 109 repair candidates, 39 high-risk manual-review tasks.
-- Derivability worklist in the session-backed scope: 1,843 hidden verifier constants across 254 tasks, including 689 amounts, 710 dates, 315 names/labels, 120 emails, and 9 phone numbers.
+## What The Tool Flags
 
-That second number is not a rejection count. It is the review workload made explicit: for each flagged constant, the human question is whether the value is uniquely derivable from the prompt plus seed world.
+- Relative-date anchors that need a shared current-date interpretation.
+- Cross-system tasks with many app dependencies.
+- Conditional branches and lookup-heavy prompts.
+- Prompt app cues that do not appear in verifier app usage.
+- Verifier-only money amounts, dates, names, emails, and phone numbers.
+- Health and finance side effects that deserve careful review.
 
-The clearest task-level ranking is `reports/task_recovery_ranked.csv`. It orders tasks by recovery priority: likely-good spot checks first, close/derivability tasks next, repair candidates after that, and high-risk manual review last.
-
-## What Session Enrichment Means
-
-In Fleet's dashboard, a task is the authored prompt/verifier/environment record. A session is an execution attempt against a task, usually from a model run or evaluation job. One task can have zero sessions, one session, or several sessions from different models. In the original local pull, the dashboard session API showed 712 total sessions across 257 distinct tasks, while the exported JSONL contained 520 tasks.
-
-After Fleet clarified that tasks without runs can be dropped from Project One for now, the committed reports use the 257 session-backed tasks as the main analysis scope. The corrected live dashboard now shows the same 257-task count.
-
-The session API data used here came from the dashboard's own task/session listing calls. It gives useful coverage signals such as run count, model name, and status (`completed`, `errored`, `cancelled`, or `in_progress`). The observed response did not include verifier scores or pass/fail results, so task-level scores are not joined into `task_triage.csv`. Aggregate score data is captured in `live_dashboard_check.md`.
+These flags are review leads. They are not automatic failures.
 
 ## Known Limits
 
-- It does not open the seeded environment databases or session recordings.
-- It intentionally excludes the 263 no-session tasks from the main committed reports because Fleet said those can be dropped from this task for now.
-- App mapping is heuristic. For example, health billing language can be over-mapped to Ledger/QuickBooks.
-- Verifier-only amounts or names are not automatically bad; they may be valid hidden ground truth that the agent is supposed to derive.
-- The derivability worklist is intentionally conservative. It can still include harmless verifier constants or no-change guards.
-- Session records currently provide status/model coverage, but no verifier scores were present in the observed API response.
-- The corrected dashboard score snapshot is aggregate, not a substitute for task-level prompt/verifier/seed review.
-- API keys and session headers are intentionally excluded from these files. Use local environment variables or dashboard-authenticated exports rather than publishing live credentials.
+- The scripts are static QA accelerators, not final graders.
+- The tool does not open seed databases or session recordings.
+- The corrected dashboard score snapshot is aggregate; it is not joined to each task row.
+- Verifier-only constants are not always bad. Many are valid hidden ground truth if they are uniquely derivable.
+- App mapping is heuristic, especially where health billing and finance billing use similar words.
+- Human review is still required before promoting or rejecting tasks.
 
 ## What I Would Build Next
 
-Given more time, I would connect the derivability worklist directly to recordings/traces as they become visible. I would also add environment probes that launch or inspect seed databases for targeted verifier constants, turning “likely hidden ground truth” into “derivable / not derivable / ambiguous.” Finally, I would add a lightweight review UI where a human can approve, repair, or reject each task while preserving the evidence trail.
+The next improvement would connect `reports/derivability_worklist.csv` directly to seed-data probes or session traces. That would turn each hidden verifier constant into one of three labels: derivable, ambiguous, or not derivable. I would also add a lightweight review UI so operators can approve, repair, or reject tasks while preserving the evidence trail.
