@@ -19,6 +19,8 @@ The committed analysis covers the 257-task dashboard scope.
 - `reports/task_triage.csv`: ranked task-level triage with bucket, risk score, session count, findings, and prompt preview.
 - `reports/task_recovery_ranked.csv`: ordered recovery queue with category, recommended action, and reason.
 - `trace_evidence.md`: concrete dashboard trace findings from 20 completed runs, 5 from each recovery bucket.
+- `reports/post_run_verification.csv`: completed-run evidence converted into pass, repair, ambiguity, environment, and broad-failure queues.
+- `reports/post_run_verification_summary.md`: readable summary of the post-run verification layer.
 - `reports/manual_review_queue.md`: top 50 dashboard-scoped tasks by QA risk.
 - `reports/derivability_worklist.csv`: verifier constants that need proof against seed/session evidence.
 - `evidence_log.md`: human-in-the-loop sample across buckets and environments.
@@ -55,6 +57,24 @@ python3 constant_derivability_worklist.py \
   --out-dir reports
 ```
 
+Run the post-run verifier after traces or completed-session transcripts are available:
+
+```bash
+python3 post_run_verifier.py \
+  --trace-evidence trace_evidence.md \
+  --triage-csv reports/task_triage.csv \
+  --out-dir reports
+```
+
+For larger batches, download completed-session transcripts from the dashboard and swap in:
+
+```bash
+python3 post_run_verifier.py \
+  --transcript-dir path/to/downloaded/session_transcripts \
+  --triage-csv reports/task_triage.csv \
+  --out-dir reports
+```
+
 ## Limits
 
-The scripts are static QA accelerators. They do not replace seed-world or recording review, and they do not use an LLM as the final judge. I added a small dashboard trace sample so the handoff includes actual observed pass/fail behavior, not only static flags. The dashboard has aggregate score data, but the observed session API export did not include row-level scores, so the task-level decision path still rests on prompt/verifier/seed derivability plus visible trace review.
+The scripts are QA accelerators. They do not replace seed-world or recording review, and they do not use an LLM as the final judge. I added a dashboard trace sample and a post-run classifier so the handoff includes actual observed pass/fail behavior, not only static flags. The dashboard has aggregate score data, but the observed session API export did not include row-level scores, so the task-level decision path still rests on prompt/verifier/seed derivability plus visible trace review.

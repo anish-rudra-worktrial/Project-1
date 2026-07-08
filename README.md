@@ -11,8 +11,8 @@ The goal is not to let an LLM decide what ships. The goal is to make the repetit
 | A product manager or operator | `SUBMISSION.md` | Short scope, outputs, and bottom-line handoff. |
 | Reviewing task quality | `reports/task_recovery_ranked.csv` | Ordered queue of tasks to spot-check, recover, repair, or manually review. |
 | Reviewing the analysis | `final_project_one_report.md` | Concise method, findings, bucket counts, and next steps. |
-| Reviewing actual runs | `trace_evidence.md` | Concrete completed-session findings from the dashboard trace viewer. |
-| Reviewing the tool | `triage_dataset.py` and `constant_derivability_worklist.py` | The two scripts that generate the QA outputs. |
+| Reviewing actual runs | `trace_evidence.md` and `reports/post_run_verification_summary.md` | Concrete completed-session findings plus a post-run category queue. |
+| Reviewing the tool | `triage_dataset.py`, `constant_derivability_worklist.py`, and `post_run_verifier.py` | The scripts that generate the QA outputs. |
 | Checking human judgment | `evidence_log.md` | Manual sample showing how I audited the tool output. |
 
 ## Current Scope
@@ -41,6 +41,8 @@ I scoped the committed analysis to the dashboard/evaluated task set shown there.
 | `reports/task_recovery_ranked.csv` | Main recovery queue. Start here when deciding what to review next. |
 | `reports/task_triage.csv` | Full task-level static QA output with risk score, bucket, findings, session count, and prompt preview. |
 | `reports/derivability_worklist.csv` | Verifier constants that need proof from the prompt, seed data, or session evidence. |
+| `reports/post_run_verification.csv` | Completed-run evidence classified into pass, narrow repair, partial, environment, ambiguity, or broad-failure queues. |
+| `reports/post_run_verification_summary.md` | Human-readable summary of the post-run verification layer. |
 | `reports/manual_review_queue.md` | Top 50 high-risk tasks with manual-review checklist prompts. |
 | `trace_evidence.md` | Concrete session-level examples: 5 completed traces from each recovery bucket. |
 | `final_project_one_report.md` | Summary of method, results, recovery strategy, and limits. |
@@ -56,7 +58,8 @@ The dataset export, API keys, browser cookies, bearer tokens, and local request 
 3. Bucket each task by recovery priority.
 4. Extract verifier constants that are not obviously present in the prompt.
 5. Inspect actual completed traces for representative pass/fail behavior.
-6. Turn static flags and trace outcomes into concrete repair/promote decisions.
+6. Run the post-run verifier to turn completed trace evidence into a repair/promote queue.
+7. Turn static flags and trace outcomes into concrete repair/promote decisions.
 
 ## Recovery Buckets
 
@@ -88,6 +91,8 @@ The trace sample adds concrete calibration:
 - `task_dlmkv6otfy07...`: invoice and email work mostly passed, but the transfer/accounting-line check failed.
 - `task_a3usg9top92...`: health task passed with clean appointment, refill, payment, cancellation, and calendar checks.
 
+The post-run verifier classified the 20 inspected completed traces as 6 clean passes, 1 pass with high static risk, 5 narrow verifier/state failures, 3 partial completions, 2 environment/navigation failures, 1 task-or-seed ambiguity, and 2 broad side-effect failures.
+
 ## How To Run
 
 From the repo root, with the dashboard dataset JSONL and API exports available locally:
@@ -110,6 +115,24 @@ python3 constant_derivability_worklist.py \
   --out-dir reports
 ```
 
+Then classify completed-run evidence after model runs have finished:
+
+```bash
+python3 post_run_verifier.py \
+  --trace-evidence trace_evidence.md \
+  --triage-csv reports/task_triage.csv \
+  --out-dir reports
+```
+
+If you download raw completed-session transcripts from the dashboard, run the same post-run layer at larger scale:
+
+```bash
+python3 post_run_verifier.py \
+  --transcript-dir path/to/downloaded/session_transcripts \
+  --triage-csv reports/task_triage.csv \
+  --out-dir reports
+```
+
 ## How To Read The Ranked CSV
 
 Open `reports/task_recovery_ranked.csv`. The most useful columns are:
@@ -127,6 +150,8 @@ Open `reports/task_recovery_ranked.csv`. The most useful columns are:
 
 ## What The Tool Flags
 
+Static triage flags:
+
 - Relative-date anchors that need a shared current-date interpretation.
 - Cross-system tasks with many app dependencies.
 - Conditional branches and lookup-heavy prompts.
@@ -134,12 +159,23 @@ Open `reports/task_recovery_ranked.csv`. The most useful columns are:
 - Verifier-only money amounts, dates, names, emails, and phone numbers.
 - Health and finance side effects that deserve careful review.
 
+Post-run verification categories:
+
+- `PASS_CLEAN`
+- `PASS_BUT_STATIC_RISK`
+- `NARROW_VERIFIER_FAILURE`
+- `PARTIAL_COMPLETION`
+- `ENVIRONMENT_OR_NAVIGATION_FAILURE`
+- `TASK_OR_SEED_AMBIGUITY`
+- `BROAD_SIDE_EFFECT_FAILURE`
+- `UNSCORED_OR_TRACE_UNAVAILABLE`
+
 These flags are review leads. They are not automatic failures.
 
 ## Known Limits
 
 - The scripts are static QA accelerators, not final graders.
-- The scripts do not open seed databases or session recordings by themselves; `trace_evidence.md` documents a manual dashboard trace sample.
+- The scripts do not open seed databases or session recordings by themselves; `trace_evidence.md` documents a manual dashboard trace sample, and `post_run_verifier.py` parses that evidence or downloaded transcripts.
 - The dashboard score snapshot is aggregate; it is not joined to each task row.
 - Verifier-only constants are not always bad. Many are valid hidden ground truth if they are uniquely derivable.
 - App mapping is heuristic, especially where health billing and finance billing use similar words.

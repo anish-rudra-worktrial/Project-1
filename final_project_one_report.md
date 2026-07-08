@@ -2,12 +2,14 @@
 
 ## Executive Summary
 
-I reviewed the `JUNE24-PSI-UNDELIVERED-EVALED` dataset with a three-layer process:
+I reviewed the `JUNE24-PSI-UNDELIVERED-EVALED` dataset with a four-layer process:
 
 1. A repeatable static QA tool that scored the 257-task scope from the Fleet dashboard dataset.
 2. A derivability worklist that extracts hidden verifier constants from that scoped task set and turns them into concrete review questions.
 3. A dashboard trace sample that inspected completed sessions and captured actual verifier pass/fail output.
-4. A human evidence log that sampled tasks across buckets and checked prompt/verifier/session alignment, with the dashboard score snapshot used as supporting evidence rather than the final judge.
+4. A post-run verifier that converts completed-run evidence into an auditable repair/promote queue.
+
+I also kept a human evidence log across buckets to check prompt/verifier/session alignment, with the dashboard score snapshot used as supporting evidence rather than the final judge.
 
 The goal was not to let an LLM decide what ships. The goal was to build a system that narrows the review queue, exposes likely failure modes, and leaves a human reviewer in control of the final call.
 
@@ -43,7 +45,7 @@ This means a conservative recovery path is:
 
 ## Tool Built
 
-I built two scripts.
+I built three scripts.
 
 `triage_dataset.py` reads the dashboard dataset JSONL, joins task/session API exports, and applies the dashboard task scope used in this handoff.
 
@@ -67,6 +69,17 @@ It flags:
 - verifier context;
 - a human-readable derivability question.
 
+`post_run_verifier.py` is the post-run pass. It does not run models. It parses completed-run evidence from `trace_evidence.md` or downloaded session transcripts, joins back to static triage when it can, and classifies observed outcomes into:
+
+- `PASS_CLEAN`
+- `PASS_BUT_STATIC_RISK`
+- `NARROW_VERIFIER_FAILURE`
+- `PARTIAL_COMPLETION`
+- `ENVIRONMENT_OR_NAVIGATION_FAILURE`
+- `TASK_OR_SEED_AMBIGUITY`
+- `BROAD_SIDE_EFFECT_FAILURE`
+- `UNSCORED_OR_TRACE_UNAVAILABLE`
+
 Outputs:
 
 - `reports/task_triage.csv`
@@ -77,6 +90,9 @@ Outputs:
 - `reports/derivability_worklist.csv`
 - `reports/derivability_worklist.json`
 - `reports/derivability_summary.md`
+- `reports/post_run_verification.csv`
+- `reports/post_run_verification.json`
+- `reports/post_run_verification_summary.md`
 - `trace_evidence.md`
 - `evidence_log.md`
 - `live_dashboard_check.md`
@@ -103,6 +119,18 @@ Concrete examples from the trace sample:
 - `task_us4sqtokm...` exposed a true task/seed ambiguity: no single doctor satisfied all stated constraints.
 
 The full 20-row trace matrix is in `trace_evidence.md`.
+
+I then ran those 20 inspected traces through `post_run_verifier.py`. The post-run queue classified them as:
+
+| Post-run category | Count |
+| --- | ---: |
+| `PASS_CLEAN` | 6 |
+| `PASS_BUT_STATIC_RISK` | 1 |
+| `NARROW_VERIFIER_FAILURE` | 5 |
+| `PARTIAL_COMPLETION` | 3 |
+| `ENVIRONMENT_OR_NAVIGATION_FAILURE` | 2 |
+| `TASK_OR_SEED_AMBIGUITY` | 1 |
+| `BROAD_SIDE_EFFECT_FAILURE` | 2 |
 
 These traces change the recovery plan:
 
@@ -195,7 +223,8 @@ All tasks are anchored to `2025-10-14`, so words like “today,” “yesterday,
    - seed derivability result;
    - final decision;
    - repair recommendation.
-6. Promote only tasks where the verifier checks the same task the prompt describes.
+6. Run `post_run_verifier.py` over the trace evidence or downloaded completed-session transcripts.
+7. Promote only tasks where the verifier checks the same task the prompt describes.
 
 ## What I Would Do Next
 
@@ -217,6 +246,7 @@ Two-week system build:
 
 - The static tool is not a substitute for seed-world verification.
 - The derivability worklist is conservative and may include harmless verifier constants or no-change guards.
+- The post-run verifier is rule-based and intentionally transparent; it organizes completed evidence but does not replace human judgment.
 - The observed session API export did not include pass/fail scores or traces; trace details were inspected manually through the dashboard session viewer for the documented sample.
 - The live score snapshot is aggregate, not task-row-level in the committed CSV. I did not treat pass rate as a replacement for prompt/verifier/seed QA.
 - I did not use an LLM batch reviewer as the final judge.
