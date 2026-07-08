@@ -2,6 +2,8 @@
 
 This log is the human-in-the-loop layer on top of the static triage tool. I sampled tasks across all four buckets and both environments, then manually checked prompt/verifier alignment and available session metadata. This is not a full end-to-end seed-data audit; it is a focused review pass designed to show which static flags deserve deeper environment verification.
 
+For concrete dashboard run evidence, see `trace_evidence.md`. That file records three completed sessions with actual scores, final verifier output, and observed trace behavior.
+
 ## Coverage
 
 - Source of truth: [Fleet dashboard dataset](https://www.fleetai.com/dashboard/datasets/JUNE24-PSI-UNDELIVERED-EVALED).
@@ -10,6 +12,7 @@ This log is the human-in-the-loop layer on top of the static triage tool. I samp
 - Dashboard score snapshot: 220 tasks scored, 658 scored sessions, 7.6% overall pass rate.
 - Session metadata joined: 712 sessions across 257 tasks.
 - Manual evidence sample in this log: 8 tasks.
+- Completed dashboard traces inspected in detail: 3 sessions.
 - Full seed/environment verification completed: 0 tasks so far.
 
 ## Sample Selection
@@ -22,6 +25,18 @@ I selected two tasks from each bucket where possible, balancing finance and heal
 | Repair candidate | `task_ogrtkp7dmz7_n_1781684912333_uubhq8apt__ayush_20260624__worktrial_taskloss_20260707` | `task_wam3eaul71u_n_1781709090122_r7ys8u6oh__ayush_20260624__worktrial_taskloss_20260707` |
 | Close / verify derivability | `task_xyxx2vpkrek_n_1781607774982_827vogeju__ayush_20260624__worktrial_taskloss_20260707` | `task_igpndla7ffq_n_1781736164354_kdb59x0wl__ayush_20260624__worktrial_taskloss_20260707` |
 | Likely-good spot check | `task_yktbgqjdiox_n_1781235421200_h1md9xdpg__ayush_20260624__worktrial_taskloss_20260707` | `task_a3usg9top92_n_1781728721593_j33115ch8__ayush_20260624__worktrial_taskloss_20260707` |
+
+## Trace-Backed Findings Added After Reviewer Calibration
+
+After the team emphasized actual traces, I inspected three completed dashboard sessions and added `trace_evidence.md`.
+
+| Task | Trace result | Actual finding |
+| --- | --- | --- |
+| `task_nw14kiriuj0w...` | Failed, score `0.00` | Ledger expense was correct, but Zelle reimbursement and Latch reply were not completed. |
+| `task_dlmkv6otfy07...` | Failed, score `0.00` | Late-charge invoices and follow-up emails mostly passed; failure concentrated on missing transfer/accounting transaction lines. |
+| `task_a3usg9top92...` | Passed, score `1.00` | Health workflow passed refill, appointment, payment, cancellation/refund, and calendar-event checks. |
+
+These examples are now the model for future review rows: cite the session, cite the exact verifier output, then decide promote/repair/reject.
 
 ## Findings By Task
 
@@ -140,5 +155,5 @@ Task: `task_a3usg9top92_n_1781728721593_j33115ch8__ayush_20260624__worktrial_tas
 
 1. Deep-check the top 10 high-risk tasks with sessions.
 2. Spot-check 10 likely-good tasks, especially those with 3+ sessions.
-3. For each checked task, answer one question: are verifier-only constants uniquely derivable from prompt + seed world?
-4. Promote only tasks that pass that derivability check; otherwise mark as repairable and specify whether the prompt or verifier should move.
+3. For each checked task, record the trace result, final verifier output, and whether verifier-only constants are uniquely derivable from prompt + seed world.
+4. Promote only tasks that pass that derivability check or have a clean passing trace; otherwise mark as repairable and specify whether the prompt, verifier, or environment flow should move.

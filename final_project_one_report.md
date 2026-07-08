@@ -6,7 +6,8 @@ I reviewed the `JUNE24-PSI-UNDELIVERED-EVALED` dataset with a three-layer proces
 
 1. A repeatable static QA tool that scored the 257-task scope from the Fleet dashboard dataset.
 2. A derivability worklist that extracts hidden verifier constants from that scoped task set and turns them into concrete review questions.
-3. A human evidence log that sampled tasks across buckets and checked prompt/verifier/session alignment, with the dashboard score snapshot used as supporting evidence rather than the final judge.
+3. A dashboard trace sample that inspected completed sessions and captured actual verifier pass/fail output.
+4. A human evidence log that sampled tasks across buckets and checked prompt/verifier/session alignment, with the dashboard score snapshot used as supporting evidence rather than the final judge.
 
 The goal was not to let an LLM decide what ships. The goal was to build a system that narrows the review queue, exposes likely failure modes, and leaves a human reviewer in control of the final call.
 
@@ -22,6 +23,7 @@ The goal was not to let an LLM decide what ships. The goal was to build a system
 - Dashboard score snapshot: 220 tasks scored, 658 scored sessions, 712 total sessions, 7.6% overall pass rate, and 0.08 overall average score.
 - The observed session API export did not include row-level score fields, so score data is recorded as a dashboard-level snapshot rather than joined into each task row.
 - Hidden verifier constants surfaced for review in the in-scope set: 1,843 across 254 tasks.
+- Completed dashboard traces manually inspected for this handoff: 3 sessions.
 
 ## Static Triage Results
 
@@ -75,12 +77,30 @@ Outputs:
 - `reports/derivability_worklist.csv`
 - `reports/derivability_worklist.json`
 - `reports/derivability_summary.md`
+- `trace_evidence.md`
 - `evidence_log.md`
 - `live_dashboard_check.md`
 
 `reports/task_recovery_ranked.csv` is the clearest task-level ranking: it orders every in-scope task by recovery priority and includes the bucket, recommended action, risk score, run coverage, primary reason, and task key.
 
 The scoped derivability worklist found 689 amounts, 710 dates, 315 names/labels, 120 emails, and 9 phone numbers that should be proven against seed/session evidence before promotion.
+
+## Actual Trace Findings
+
+I added a trace-backed spot check in `trace_evidence.md` because the strongest signal is not just "this task looks risky"; it is what actually happened when a model ran it.
+
+| Task | Static bucket | Observed trace result | Concrete finding |
+| --- | --- | --- | --- |
+| `task_nw14kiriuj0w...` | `B_close_verify_derivability` | Failed, score `0.00`, `claude-opus-4.8`, 48m39s, 405 steps | Ledger expense was correct, including `Party Depot`, `$35.67`, `EXP-0527`; Harbor/Zelle reimbursement and Latch reply were not completed. |
+| `task_dlmkv6otfy07...` | `C_repair_candidate` | Failed, score `0.00`, `gpt-5.5`, 27m42s, 130 steps | Late-charge invoices and three follow-up emails largely passed verifier checks; final failure was the buffer-transfer/accounting-line check: expected four new transaction lines, found zero. |
+| `task_a3usg9top92...` | `A_likely_good_spot_check` | Passed, score `1.00`, `gpt-5.5`, 18m8s, 117 steps | Refill, Yellow Fever Vaccine appointment, `$62.47` payment, travel-window cancellations, refund, and calendar event all passed durable diff validation. |
+
+These traces change the recovery plan:
+
+- Promote or near-promote tasks with clean pass traces and low static risk first.
+- Treat narrow verifier failures as repair candidates, not blanket rejects.
+- Separate partial-completion or environment-navigation failures from prompt/verifier quality failures.
+- Use static triage to choose what to inspect, then use traces to decide the actual action.
 
 ## Most Common Static Signals
 
@@ -116,7 +136,7 @@ Summary:
 | `task_yktbgqjdiox_n_1781235421200_h1md9xdpg__ayush_20260624__worktrial_taskloss_20260707` | Likely-good finance | Likely good spot-check candidate. |
 | `task_a3usg9top92_n_1781728721593_j33115ch8__ayush_20260624__worktrial_taskloss_20260707` | Likely-good health | Likely good after lab-draw and payment seed check. |
 
-The full sample is in `evidence_log.md`.
+The full manual sample is in `evidence_log.md`; the concrete session examples are in `trace_evidence.md`.
 
 ## Common Recovery Patterns
 
@@ -158,9 +178,10 @@ All tasks are anchored to `2025-10-14`, so words like “today,” “yesterday,
 1. Run the triage tool with session exports and `--require-sessions` so the analysis matches the Fleet dashboard scope.
 2. Run the derivability worklist and filter to high-priority rows in `D_high_risk_manual_review`, then `C_repair_candidate`, then `B_close_verify_derivability`.
 3. Start with tasks that have sessions or many hidden constants.
-4. For each task, inspect prompt, verifier, session metadata, and visible recordings/traces if available.
+4. For each task, inspect prompt, verifier, session metadata, and visible recordings/traces where available.
 5. Fill an evidence row:
    - tool flags;
+   - trace status, score, model, and final verifier output;
    - verifier-only constants;
    - seed derivability result;
    - final decision;
@@ -187,11 +208,11 @@ Two-week system build:
 
 - The static tool is not a substitute for seed-world verification.
 - The derivability worklist is conservative and may include harmless verifier constants or no-change guards.
-- The observed session API export did not include pass/fail scores or traces; the score numbers came from the dashboard chart view.
+- The observed session API export did not include pass/fail scores or traces; trace details were inspected manually through the dashboard session viewer for the documented sample.
 - The live score snapshot is aggregate, not task-row-level in the committed CSV. I did not treat pass rate as a replacement for prompt/verifier/seed QA.
 - I did not use an LLM batch reviewer as the final judge.
-- The current evidence sample covers 8/257 in-scope tasks manually.
+- The current evidence sample covers 8/257 in-scope tasks manually, with 3 completed dashboard traces inspected in detail.
 
 ## Bottom Line
 
-The dashboard scope likely contains a meaningful number of recoverable tasks. The fastest safe path is not to hand-review all 257 in-scope tasks from scratch; it is to use the tool to prioritize, then manually verify derivability for the highest-impact buckets. The strongest recovery pool is the 92 close/verify-derivability tasks plus the 17 likely-good spot-check tasks.
+The dashboard scope likely contains a meaningful number of recoverable tasks. The fastest safe path is not to hand-review all 257 in-scope tasks from scratch; it is to use the tool to prioritize, then inspect actual traces and verifier output for the highest-impact buckets. The strongest recovery pool is the 92 close/verify-derivability tasks plus the 17 likely-good spot-check tasks, with trace-backed passes promoted first and narrow verifier failures routed to repair.

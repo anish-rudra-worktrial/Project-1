@@ -11,12 +11,14 @@ The committed analysis covers the 257-task dashboard scope.
 - In-scope environments: 150 consumer-finance tasks and 107 personal-health tasks.
 - Session metadata joined: 712 sessions.
 - Dashboard score snapshot: 220 tasks scored, 658 scored sessions, 7.6% overall pass rate, 0.08 overall average score.
+- Completed traces manually inspected for this handoff: 3 sessions.
 
 ## Main Outputs
 
 - `final_project_one_report.md`: concise writeup of method, results, recovery path, and limits.
 - `reports/task_triage.csv`: ranked task-level triage with bucket, risk score, session count, findings, and prompt preview.
 - `reports/task_recovery_ranked.csv`: ordered recovery queue with category, recommended action, and reason.
+- `trace_evidence.md`: concrete dashboard trace findings from two failed finance runs and one passed health run.
 - `reports/manual_review_queue.md`: top 50 dashboard-scoped tasks by QA risk.
 - `reports/derivability_worklist.csv`: verifier constants that need proof against seed/session evidence.
 - `evidence_log.md`: human-in-the-loop sample across buckets and environments.
@@ -55,4 +57,4 @@ python3 constant_derivability_worklist.py \
 
 ## Limits
 
-The scripts are static QA accelerators. They do not replace seed-world or recording review, and they do not use an LLM as the final judge. The dashboard has aggregate score data, but the observed session API export did not include row-level scores, so the task-level decision path still rests on prompt/verifier/seed derivability review.
+The scripts are static QA accelerators. They do not replace seed-world or recording review, and they do not use an LLM as the final judge. I added a small dashboard trace sample so the handoff includes actual observed pass/fail behavior, not only static flags. The dashboard has aggregate score data, but the observed session API export did not include row-level scores, so the task-level decision path still rests on prompt/verifier/seed derivability plus visible trace review.

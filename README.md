@@ -11,6 +11,7 @@ The goal is not to let an LLM decide what ships. The goal is to make the repetit
 | A product manager or operator | `SUBMISSION.md` | Short scope, outputs, and bottom-line handoff. |
 | Reviewing task quality | `reports/task_recovery_ranked.csv` | Ordered queue of tasks to spot-check, recover, repair, or manually review. |
 | Reviewing the analysis | `final_project_one_report.md` | Concise method, findings, bucket counts, and next steps. |
+| Reviewing actual runs | `trace_evidence.md` | Concrete completed-session findings from the dashboard trace viewer. |
 | Reviewing the tool | `triage_dataset.py` and `constant_derivability_worklist.py` | The two scripts that generate the QA outputs. |
 | Checking human judgment | `evidence_log.md` | Manual sample showing how I audited the tool output. |
 
@@ -31,6 +32,7 @@ I scoped the committed analysis to the dashboard/evaluated task set shown there.
 | Tasks scored on dashboard | 220 tasks |
 | Dashboard pass rate | 7.6% |
 | Dashboard average score | 0.08 |
+| Trace spot-checks documented | 3 sessions |
 
 ## Main Deliverables
 
@@ -40,6 +42,7 @@ I scoped the committed analysis to the dashboard/evaluated task set shown there.
 | `reports/task_triage.csv` | Full task-level static QA output with risk score, bucket, findings, session count, and prompt preview. |
 | `reports/derivability_worklist.csv` | Verifier constants that need proof from the prompt, seed data, or session evidence. |
 | `reports/manual_review_queue.md` | Top 50 high-risk tasks with manual-review checklist prompts. |
+| `trace_evidence.md` | Concrete session-level examples: two failed finance traces and one passed health trace. |
 | `final_project_one_report.md` | Summary of method, results, recovery strategy, and limits. |
 | `evidence_log.md` | Human-in-the-loop sample across buckets and environments. |
 | `live_dashboard_check.md` | Dashboard score snapshot and task-set check. |
@@ -52,8 +55,8 @@ The dataset export, API keys, browser cookies, bearer tokens, and local request 
 2. Run static triage over each task prompt and verifier.
 3. Bucket each task by recovery priority.
 4. Extract verifier constants that are not obviously present in the prompt.
-5. Turn those constants into proof questions for a human reviewer.
-6. Validate the approach with a manual sample across buckets and environments.
+5. Inspect actual completed traces for representative pass/fail behavior.
+6. Turn static flags and trace outcomes into concrete repair/promote decisions.
 
 ## Recovery Buckets
 
@@ -78,6 +81,12 @@ The bucket is not pass/fail. It is a review priority.
 The strongest near-term recovery pool is the 17 likely-good tasks plus the 92 close/derivability tasks. The 109 repair candidates are the main fix backlog. The 39 high-risk tasks should be inspected before investing recovery time.
 
 The derivability worklist found 1,843 verifier constants across 254 scoped tasks. That is not a rejection count. It is a list of proof obligations: for each hidden amount, date, name, email, or phone number, a reviewer should confirm whether it is uniquely derivable from the prompt plus the seed world.
+
+The trace sample adds concrete calibration:
+
+- `task_nw14kiriuj0w...`: Ledger expense succeeded, but Harbor/Zelle and Latch reply did not complete.
+- `task_dlmkv6otfy07...`: invoice and email work mostly passed, but the transfer/accounting-line check failed.
+- `task_a3usg9top92...`: health task passed with clean appointment, refill, payment, cancellation, and calendar checks.
 
 ## How To Run
 
@@ -130,7 +139,7 @@ These flags are review leads. They are not automatic failures.
 ## Known Limits
 
 - The scripts are static QA accelerators, not final graders.
-- The tool does not open seed databases or session recordings.
+- The scripts do not open seed databases or session recordings by themselves; `trace_evidence.md` documents a manual dashboard trace sample.
 - The dashboard score snapshot is aggregate; it is not joined to each task row.
 - Verifier-only constants are not always bad. Many are valid hidden ground truth if they are uniquely derivable.
 - App mapping is heuristic, especially where health billing and finance billing use similar words.

@@ -22,6 +22,8 @@ The task list API maps the internal task UUID back to the human-readable task ke
 
 The session response I observed did not include verifier scores, pass/fail grading, recording payloads, or full traces. Those fields were not part of the session metadata response used by the scripts.
 
+I later inspected several completed sessions directly in the dashboard session viewer. Those trace findings are documented separately in `trace_evidence.md`.
+
 ## Dashboard Recheck
 
 I rechecked the live dashboard page on July 7, 2026. The dataset page showed:
