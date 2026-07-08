@@ -32,7 +32,7 @@ I scoped the committed analysis to the dashboard/evaluated task set shown there.
 | Tasks scored on dashboard | 220 tasks |
 | Dashboard pass rate | 7.6% |
 | Dashboard average score | 0.08 |
-| Trace spot-checks documented | 3 sessions |
+| Trace spot-checks documented | 20 sessions |
 
 ## Main Deliverables
 
@@ -42,7 +42,7 @@ I scoped the committed analysis to the dashboard/evaluated task set shown there.
 | `reports/task_triage.csv` | Full task-level static QA output with risk score, bucket, findings, session count, and prompt preview. |
 | `reports/derivability_worklist.csv` | Verifier constants that need proof from the prompt, seed data, or session evidence. |
 | `reports/manual_review_queue.md` | Top 50 high-risk tasks with manual-review checklist prompts. |
-| `trace_evidence.md` | Concrete session-level examples: two failed finance traces and one passed health trace. |
+| `trace_evidence.md` | Concrete session-level examples: 5 completed traces from each recovery bucket. |
 | `final_project_one_report.md` | Summary of method, results, recovery strategy, and limits. |
 | `evidence_log.md` | Human-in-the-loop sample across buckets and environments. |
 | `live_dashboard_check.md` | Dashboard score snapshot and task-set check. |

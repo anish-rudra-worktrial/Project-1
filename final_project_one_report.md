@@ -23,7 +23,7 @@ The goal was not to let an LLM decide what ships. The goal was to build a system
 - Dashboard score snapshot: 220 tasks scored, 658 scored sessions, 712 total sessions, 7.6% overall pass rate, and 0.08 overall average score.
 - The observed session API export did not include row-level score fields, so score data is recorded as a dashboard-level snapshot rather than joined into each task row.
 - Hidden verifier constants surfaced for review in the in-scope set: 1,843 across 254 tasks.
-- Completed dashboard traces manually inspected for this handoff: 3 sessions.
+- Completed dashboard traces manually inspected for this handoff: 20 sessions, 5 from each recovery bucket.
 
 ## Static Triage Results
 
@@ -87,13 +87,22 @@ The scoped derivability worklist found 689 amounts, 710 dates, 315 names/labels,
 
 ## Actual Trace Findings
 
-I added a trace-backed spot check in `trace_evidence.md` because the strongest signal is not just "this task looks risky"; it is what actually happened when a model ran it.
+I added a 20-session trace-backed spot check in `trace_evidence.md` because the strongest signal is not just "this task looks risky"; it is what actually happened when a model ran it.
 
-| Task | Static bucket | Observed trace result | Concrete finding |
-| --- | --- | --- | --- |
-| `task_nw14kiriuj0w...` | `B_close_verify_derivability` | Failed, score `0.00`, `claude-opus-4.8`, 48m39s, 405 steps | Ledger expense was correct, including `Party Depot`, `$35.67`, `EXP-0527`; Harbor/Zelle reimbursement and Latch reply were not completed. |
-| `task_dlmkv6otfy07...` | `C_repair_candidate` | Failed, score `0.00`, `gpt-5.5`, 27m42s, 130 steps | Late-charge invoices and three follow-up emails largely passed verifier checks; final failure was the buffer-transfer/accounting-line check: expected four new transaction lines, found zero. |
-| `task_a3usg9top92...` | `A_likely_good_spot_check` | Passed, score `1.00`, `gpt-5.5`, 18m8s, 117 steps | Refill, Yellow Fever Vaccine appointment, `$62.47` payment, travel-window cancellations, refund, and calendar event all passed durable diff validation. |
+| Bucket | Traces reviewed | What the traces showed |
+| --- | ---: | --- |
+| `A_likely_good_spot_check` | 5 | Several real pass traces, plus narrow failures around final sent/done state. This bucket is worth checking first. |
+| `B_close_verify_derivability` | 5 | Many runs were close: successful prompt steps with missing final side effects such as Zelle payments, calendar events, or sent state. |
+| `C_repair_candidate` | 5 | Repairable failures appeared often: unexpected message inserts, wrong transfer/accounting lines, blocked app navigation, or one missing side-effect path. |
+| `D_high_risk_manual_review` | 5 | Mixed evidence: one high-risk task passed, but most traces showed ambiguity, broad missing side effects, or environment-sensitive actions. |
+
+Concrete examples from the trace sample:
+
+- `task_itcgbzweb4f...` passed with exactly 2 transfers, 4 transaction records, and no unexpected changes.
+- `task_dlmkv6otfy07...` failed only after late-charge invoices and three follow-up emails passed; the narrow failure was missing 4 transaction lines.
+- `task_us4sqtokm...` exposed a true task/seed ambiguity: no single doctor satisfied all stated constraints.
+
+The full 20-row trace matrix is in `trace_evidence.md`.
 
 These traces change the recovery plan:
 
@@ -211,7 +220,7 @@ Two-week system build:
 - The observed session API export did not include pass/fail scores or traces; trace details were inspected manually through the dashboard session viewer for the documented sample.
 - The live score snapshot is aggregate, not task-row-level in the committed CSV. I did not treat pass rate as a replacement for prompt/verifier/seed QA.
 - I did not use an LLM batch reviewer as the final judge.
-- The current evidence sample covers 8/257 in-scope tasks manually, with 3 completed dashboard traces inspected in detail.
+- The current evidence sample covers 8/257 in-scope tasks manually, with 20 completed dashboard traces inspected in detail.
 
 ## Bottom Line
 

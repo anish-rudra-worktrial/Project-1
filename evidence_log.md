@@ -2,7 +2,7 @@
 
 This log is the human-in-the-loop layer on top of the static triage tool. I sampled tasks across all four buckets and both environments, then manually checked prompt/verifier alignment and available session metadata. This is not a full end-to-end seed-data audit; it is a focused review pass designed to show which static flags deserve deeper environment verification.
 
-For concrete dashboard run evidence, see `trace_evidence.md`. That file records three completed sessions with actual scores, final verifier output, and observed trace behavior.
+For concrete dashboard run evidence, see `trace_evidence.md`. That file records 20 completed sessions, 5 from each recovery bucket, with actual scores, final verifier output, and observed trace behavior.
 
 ## Coverage
 
@@ -12,7 +12,7 @@ For concrete dashboard run evidence, see `trace_evidence.md`. That file records 
 - Dashboard score snapshot: 220 tasks scored, 658 scored sessions, 7.6% overall pass rate.
 - Session metadata joined: 712 sessions across 257 tasks.
 - Manual evidence sample in this log: 8 tasks.
-- Completed dashboard traces inspected in detail: 3 sessions.
+- Completed dashboard traces inspected in detail: 20 sessions.
 - Full seed/environment verification completed: 0 tasks so far.
 
 ## Sample Selection
@@ -28,13 +28,14 @@ I selected two tasks from each bucket where possible, balancing finance and heal
 
 ## Trace-Backed Findings Added After Reviewer Calibration
 
-After the team emphasized actual traces, I inspected three completed dashboard sessions and added `trace_evidence.md`.
+After the team emphasized actual traces, I inspected 20 completed dashboard sessions and added `trace_evidence.md`.
 
-| Task | Trace result | Actual finding |
-| --- | --- | --- |
-| `task_nw14kiriuj0w...` | Failed, score `0.00` | Ledger expense was correct, but Zelle reimbursement and Latch reply were not completed. |
-| `task_dlmkv6otfy07...` | Failed, score `0.00` | Late-charge invoices and follow-up emails mostly passed; failure concentrated on missing transfer/accounting transaction lines. |
-| `task_a3usg9top92...` | Passed, score `1.00` | Health workflow passed refill, appointment, payment, cancellation/refund, and calendar-event checks. |
+| Bucket | Trace count | Actual pattern |
+| --- | ---: | --- |
+| `A_likely_good_spot_check` | 5 | Real passes plus narrow sent/status failures. |
+| `B_close_verify_derivability` | 5 | Close runs with missing final side effects. |
+| `C_repair_candidate` | 5 | Repairable verifier and environment-flow failures. |
+| `D_high_risk_manual_review` | 5 | Broad failures, ambiguity, and a few conservative false positives. |
 
 These examples are now the model for future review rows: cite the session, cite the exact verifier output, then decide promote/repair/reject.
 
