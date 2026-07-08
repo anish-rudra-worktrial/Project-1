@@ -4,10 +4,10 @@ This log is the human-in-the-loop layer on top of the static triage tool. I samp
 
 ## Coverage
 
-- Original local export size: 520 tasks.
-- Committed Project One scope after Fleet guidance: 257 session-backed tasks.
+- Source of truth: [Fleet dashboard dataset](https://www.fleetai.com/dashboard/datasets/JUNE24-PSI-UNDELIVERED-EVALED).
+- Committed Project One scope: 257 dashboard-scoped tasks.
 - Static tool coverage in committed reports: 257/257 scoped tasks.
-- Corrected dashboard score snapshot: 220 tasks scored, 658 scored sessions, 7.6% overall pass rate.
+- Dashboard score snapshot: 220 tasks scored, 658 scored sessions, 7.6% overall pass rate.
 - Session metadata joined: 712 sessions across 257 tasks.
 - Manual evidence sample in this log: 8 tasks.
 - Full seed/environment verification completed: 0 tasks so far.

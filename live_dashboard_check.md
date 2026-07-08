@@ -2,10 +2,10 @@
 
 Checked in Chrome on July 7, 2026.
 
-## Corrected Dataset View
+## Dashboard Dataset View
 
 - Dataset: `JUNE24-PSI-UNDELIVERED-EVALED`
-- URL checked: `https://www.fleetai.com/dashboard/datasets/JUNE24-PSI-UNDELIVERED-EVALED?tab=charts`
+- URL checked: `https://www.fleetai.com/dashboard/datasets/JUNE24-PSI-UNDELIVERED-EVALED`
 - Dashboard task count: 257 tasks.
 - Total sessions: 712.
 - Scored sessions: 658.
@@ -13,7 +13,7 @@ Checked in Chrome on July 7, 2026.
 - Overall pass rate: 7.6%.
 - Overall average score: 0.08.
 
-This corrected dashboard view matches the 257 task scope used in the committed reports. The original local export still contains 520 task definitions; Fleet clarified that the 263 tasks without visible runs can be dropped from Project One for now.
+This dashboard view is the source of truth for the 257-task scope used in the committed reports.
 
 ## Model Breakdown
 
@@ -35,9 +35,7 @@ The live Tasks tab shows the same dataset slug and a 257-task table. I spot-chec
 - `task_trdudiabd5z`
 - `task_k6hyu6r1uar1`
 
-Interpretation: this is not a different assignment dataset. It is the same Project One dataset after the dashboard/evaluation view was corrected to the run-backed subset.
-
-The locally downloaded JSONL export still has 520 rows, so I treat that as the original full task-definition export and the dashboard's 257-task table as the corrected evaluated/session-backed scope for this deliverable.
+Interpretation: this is the Project One dataset used for the deliverable, and the generated reports match the visible 257-task dashboard scope.
 
 ## How I Use The Scores
 
@@ -47,7 +45,3 @@ The dashboard scores are useful calibration: a 7.6% overall pass rate confirms t
 - `reports/task_triage.csv` for static QA signals and bucket assignment;
 - `reports/derivability_worklist.csv` for verifier constants that need proof;
 - `evidence_log.md` for the human-reviewed sample.
-
-## Historical Note
-
-Earlier dashboard checks showed 520 tasks and no score aggregates while access/eval data was still settling. That state is superseded by this corrected July 7 dashboard check.

@@ -6,7 +6,7 @@ A row here is not automatically a bug. It is a concrete question for a human rev
 
 ## Scope
 
-Scope: tasks present in the supplied triage CSV. With the current session-backed Project One triage, this scans 257 tasks and drops 263 tasks outside that triage scope.
+Scope: tasks present in the supplied triage CSV. With the current Fleet dashboard Project One triage, this scans 257 dashboard-scoped tasks.
 
 ## Shape
 

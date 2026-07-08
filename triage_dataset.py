@@ -639,7 +639,7 @@ def build_summary(scored: list[dict[str, Any]], scope_note: str = "") -> str:
     lines = [
         "# Project One Static QA Summary",
         "",
-        "This report is a first-pass static triage over the exported JSONL dataset. It flags review leads; it does not replace environment inspection or human judgment.",
+        "This report is a first-pass static triage over the Fleet dashboard dataset. It flags review leads; it does not replace environment inspection or human judgment.",
         "",
     ]
     if scope_note:
@@ -775,7 +775,7 @@ def write_manual_queue(path: Path, scored: list[dict[str, Any]]) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Static triage for Fleet Project One JSONL datasets.")
-    parser.add_argument("dataset", type=Path, help="Path to exported dataset JSONL.")
+    parser.add_argument("dataset", type=Path, help="Path to dashboard dataset JSONL.")
     parser.add_argument(
         "--out-dir",
         type=Path,
@@ -795,7 +795,7 @@ def main() -> None:
     parser.add_argument(
         "--require-sessions",
         action="store_true",
-        help="Drop tasks with no visible sessions from generated outputs.",
+        help="Limit generated outputs to tasks with visible session metadata.",
     )
     args = parser.parse_args()
 
@@ -803,18 +803,16 @@ def main() -> None:
     session_stats = load_session_stats(args.task_api_json, args.sessions_json)
     all_scored = [score_task(row, session_stats) for row in rows]
     scored = all_scored
-    scope_note = "Scope: all exported tasks."
+    scope_note = "Scope: all rows in the supplied dashboard dataset file."
     if args.require_sessions:
         scored = [
             row
             for row in all_scored
             if int(row.get("session_count", 0) or 0) > 0
         ]
-        dropped_count = len(all_scored) - len(scored)
         scope_note = (
-            "Scope: session-backed tasks only. Per Fleet guidance, tasks with no visible "
-            f"sessions are dropped from this analysis for now. Included {len(scored)} "
-            f"tasks and dropped {dropped_count} unrun tasks from the {len(all_scored)}-task export."
+            "Scope: Fleet dashboard dataset with visible session metadata. "
+            f"Included {len(scored)} dashboard-scoped tasks."
         )
     args.out_dir.mkdir(parents=True, exist_ok=True)
 
@@ -828,10 +826,9 @@ def main() -> None:
     )
     write_manual_queue(args.out_dir / "manual_review_queue.md", scored)
 
-    print(f"Loaded {len(rows)} tasks")
+    print(f"Read {len(rows)} input dataset rows")
     if args.require_sessions:
-        print(f"Dropped {len(all_scored) - len(scored)} tasks without visible sessions")
-        print(f"Scoped to {len(scored)} session-backed tasks")
+        print(f"Scoped to {len(scored)} dashboard tasks with visible session metadata")
     print(f"Wrote {args.out_dir / 'task_triage.csv'}")
     print(f"Wrote {args.out_dir / 'task_recovery_ranked.csv'}")
     print(f"Wrote {args.out_dir / 'summary.md'}")

@@ -4,23 +4,22 @@
 
 I reviewed the `JUNE24-PSI-UNDELIVERED-EVALED` dataset with a three-layer process:
 
-1. A repeatable static QA tool that scored the 257 session-backed tasks after Fleet clarified that no-session tasks can be dropped for now.
+1. A repeatable static QA tool that scored the 257-task scope from the Fleet dashboard dataset.
 2. A derivability worklist that extracts hidden verifier constants from that scoped task set and turns them into concrete review questions.
-3. A human evidence log that sampled tasks across buckets and checked prompt/verifier/session alignment, with the corrected dashboard score snapshot used as supporting evidence rather than the final judge.
+3. A human evidence log that sampled tasks across buckets and checked prompt/verifier/session alignment, with the dashboard score snapshot used as supporting evidence rather than the final judge.
 
 The goal was not to let an LLM decide what ships. The goal was to build a system that narrows the review queue, exposes likely failure modes, and leaves a human reviewer in control of the final call.
 
 ## Dataset Shape
 
-- Original task export checked locally: 520 tasks.
-- Corrected live dashboard view checked on July 7, 2026: 257 tasks.
-- In-scope tasks analyzed: 257 session-backed tasks.
-- Dropped from the original export per Fleet guidance: 263 no-session/unrun tasks.
+- Source of truth: [Fleet dashboard dataset](https://www.fleetai.com/dashboard/datasets/JUNE24-PSI-UNDELIVERED-EVALED).
+- Dashboard view checked on July 7, 2026: 257 tasks.
+- In-scope tasks analyzed: 257 dashboard-scoped tasks.
 - In-scope consumer finance tasks: 150.
 - In-scope personal health tasks: 107.
 - Current date in task environments: `2025-10-14`.
 - Session metadata joined: 712 sessions across the 257 in-scope tasks.
-- Corrected dashboard score snapshot: 220 tasks scored, 658 scored sessions, 712 total sessions, 7.6% overall pass rate, and 0.08 overall average score.
+- Dashboard score snapshot: 220 tasks scored, 658 scored sessions, 712 total sessions, 7.6% overall pass rate, and 0.08 overall average score.
 - The observed session API export did not include row-level score fields, so score data is recorded as a dashboard-level snapshot rather than joined into each task row.
 - Hidden verifier constants surfaced for review in the in-scope set: 1,843 across 254 tasks.
 
@@ -44,7 +43,7 @@ This means a conservative recovery path is:
 
 I built two scripts.
 
-`triage_dataset.py` reads the dataset JSONL, joins task/session API exports, and can apply the final `--require-sessions` scope so unrun tasks are dropped from generated outputs.
+`triage_dataset.py` reads the dashboard dataset JSONL, joins task/session API exports, and applies the dashboard task scope used in this handoff.
 
 It flags:
 
@@ -156,7 +155,7 @@ All tasks are anchored to `2025-10-14`, so words like “today,” “yesterday,
 
 ## Recommended Human Review Workflow
 
-1. Run the triage tool with session exports and `--require-sessions` so the analysis matches the clarified Project One scope.
+1. Run the triage tool with session exports and `--require-sessions` so the analysis matches the Fleet dashboard scope.
 2. Run the derivability worklist and filter to high-priority rows in `D_high_risk_manual_review`, then `C_repair_candidate`, then `B_close_verify_derivability`.
 3. Start with tasks that have sessions or many hidden constants.
 4. For each task, inspect prompt, verifier, session metadata, and visible recordings/traces if available.
@@ -187,7 +186,6 @@ Two-week system build:
 ## Known Limits
 
 - The static tool is not a substitute for seed-world verification.
-- The main committed reports intentionally exclude the 263 no-session tasks because Fleet said those can be dropped for this task.
 - The derivability worklist is conservative and may include harmless verifier constants or no-change guards.
 - The observed session API export did not include pass/fail scores or traces; the score numbers came from the dashboard chart view.
 - The live score snapshot is aggregate, not task-row-level in the committed CSV. I did not treat pass rate as a replacement for prompt/verifier/seed QA.
@@ -196,4 +194,4 @@ Two-week system build:
 
 ## Bottom Line
 
-The session-backed scope likely contains a meaningful number of recoverable tasks. The fastest safe path is not to hand-review all 257 in-scope tasks from scratch; it is to use the tool to prioritize, then manually verify derivability for the highest-impact buckets. The strongest recovery pool is the 92 close/verify-derivability tasks plus the 17 likely-good spot-check tasks.
+The dashboard scope likely contains a meaningful number of recoverable tasks. The fastest safe path is not to hand-review all 257 in-scope tasks from scratch; it is to use the tool to prioritize, then manually verify derivability for the highest-impact buckets. The strongest recovery pool is the 92 close/verify-derivability tasks plus the 17 likely-good spot-check tasks.

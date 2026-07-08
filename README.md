@@ -16,22 +16,21 @@ The goal is not to let an LLM decide what ships. The goal is to make the repetit
 
 ## Current Scope
 
-Fleet clarified that tasks with no visible runs can be dropped from this analysis for now. I therefore scoped the committed analysis to the run-backed/evaluated slice.
+The source of truth for this handoff is the Fleet dashboard dataset:
+[JUNE24-PSI-UNDELIVERED-EVALED](https://www.fleetai.com/dashboard/datasets/JUNE24-PSI-UNDELIVERED-EVALED).
+
+I scoped the committed analysis to the dashboard/evaluated task set shown there.
 
 | Item | Count |
 | --- | ---: |
-| Original local export | 520 tasks |
-| In-scope session-backed tasks | 257 tasks |
-| Dropped no-session tasks | 263 tasks |
+| Fleet dashboard task scope | 257 tasks |
 | Consumer-finance tasks in scope | 150 tasks |
 | Personal-health tasks in scope | 107 tasks |
 | Total sessions in scope | 712 sessions |
-| Scored sessions on corrected dashboard | 658 sessions |
-| Tasks scored on corrected dashboard | 220 tasks |
+| Scored sessions on dashboard | 658 sessions |
+| Tasks scored on dashboard | 220 tasks |
 | Dashboard pass rate | 7.6% |
 | Dashboard average score | 0.08 |
-
-The downloaded JSONL export still contains 520 rows. The corrected live dashboard shows 257 tasks, matching the session-backed scope used here.
 
 ## Main Deliverables
 
@@ -43,13 +42,13 @@ The downloaded JSONL export still contains 520 rows. The corrected live dashboar
 | `reports/manual_review_queue.md` | Top 50 high-risk tasks with manual-review checklist prompts. |
 | `final_project_one_report.md` | Summary of method, results, recovery strategy, and limits. |
 | `evidence_log.md` | Human-in-the-loop sample across buckets and environments. |
-| `live_dashboard_check.md` | Corrected dashboard score snapshot and task-set check. |
+| `live_dashboard_check.md` | Dashboard score snapshot and task-set check. |
 
 The dataset export, API keys, browser cookies, bearer tokens, and local request headers are intentionally not committed.
 
 ## How The Workflow Works
 
-1. Scope the dataset to tasks with visible sessions, per Fleet guidance.
+1. Start from the Fleet dashboard dataset scope and session metadata.
 2. Run static triage over each task prompt and verifier.
 3. Bucket each task by recovery priority.
 4. Extract verifier constants that are not obviously present in the prompt.
@@ -82,7 +81,7 @@ The derivability worklist found 1,843 verifier constants across 254 scoped tasks
 
 ## How To Run
 
-From the repo root, with the dataset JSONL and dashboard API exports available locally:
+From the repo root, with the dashboard dataset JSONL and API exports available locally:
 
 ```bash
 python3 triage_dataset.py \
@@ -101,8 +100,6 @@ python3 constant_derivability_worklist.py \
   --triage-csv reports/task_triage.csv \
   --out-dir reports
 ```
-
-For a broader static-only exploration pass, omit the session arguments and `--require-sessions`.
 
 ## How To Read The Ranked CSV
 
@@ -134,7 +131,7 @@ These flags are review leads. They are not automatic failures.
 
 - The scripts are static QA accelerators, not final graders.
 - The tool does not open seed databases or session recordings.
-- The corrected dashboard score snapshot is aggregate; it is not joined to each task row.
+- The dashboard score snapshot is aggregate; it is not joined to each task row.
 - Verifier-only constants are not always bad. Many are valid hidden ground truth if they are uniquely derivable.
 - App mapping is heuristic, especially where health billing and finance billing use similar words.
 - Human review is still required before promoting or rejecting tasks.

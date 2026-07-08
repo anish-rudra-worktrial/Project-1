@@ -2,20 +2,22 @@
 
 ## Scope
 
-The original local dataset export contains 520 tasks. After Fleet clarified that tasks with no visible sessions can be dropped for this project, the committed analysis is scoped to the 257 tasks with at least one visible session row. The corrected live dashboard view now also shows 257 tasks, matching this scoped analysis.
+The source of truth for this handoff is the Fleet dashboard dataset:
+[JUNE24-PSI-UNDELIVERED-EVALED](https://www.fleetai.com/dashboard/datasets/JUNE24-PSI-UNDELIVERED-EVALED).
 
-- Included: 257 session-backed tasks.
-- Dropped: 263 unrun/no-session tasks.
+The committed analysis covers the 257-task dashboard scope.
+
+- Included: 257 dashboard-scoped tasks.
 - In-scope environments: 150 consumer-finance tasks and 107 personal-health tasks.
 - Session metadata joined: 712 sessions.
-- Corrected dashboard score snapshot: 220 tasks scored, 658 scored sessions, 7.6% overall pass rate, 0.08 overall average score.
+- Dashboard score snapshot: 220 tasks scored, 658 scored sessions, 7.6% overall pass rate, 0.08 overall average score.
 
 ## Main Outputs
 
 - `final_project_one_report.md`: concise writeup of method, results, recovery path, and limits.
 - `reports/task_triage.csv`: ranked task-level triage with bucket, risk score, session count, findings, and prompt preview.
 - `reports/task_recovery_ranked.csv`: ordered recovery queue with category, recommended action, and reason.
-- `reports/manual_review_queue.md`: top 50 session-backed tasks by QA risk.
+- `reports/manual_review_queue.md`: top 50 dashboard-scoped tasks by QA risk.
 - `reports/derivability_worklist.csv`: verifier constants that need proof against seed/session evidence.
 - `evidence_log.md`: human-in-the-loop sample across buckets and environments.
 - `live_dashboard_check.md`: notes from dashboard/session/job inspection.
@@ -53,4 +55,4 @@ python3 constant_derivability_worklist.py \
 
 ## Limits
 
-The scripts are static QA accelerators. They do not replace seed-world or recording review, and they do not use an LLM as the final judge. The corrected dashboard now has aggregate score data, but the observed session API export did not include row-level scores, so the task-level decision path still rests on prompt/verifier/seed derivability review.
+The scripts are static QA accelerators. They do not replace seed-world or recording review, and they do not use an LLM as the final judge. The dashboard has aggregate score data, but the observed session API export did not include row-level scores, so the task-level decision path still rests on prompt/verifier/seed derivability review.

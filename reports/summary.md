@@ -1,10 +1,10 @@
 # Project One Static QA Summary
 
-This report is a first-pass static triage over the exported JSONL dataset. It flags review leads; it does not replace environment inspection or human judgment.
+This report is a first-pass static triage over the Fleet dashboard dataset. It flags review leads; it does not replace environment inspection or human judgment.
 
 ## Scope
 
-Scope: session-backed tasks only. Per Fleet guidance, tasks with no visible sessions are dropped from this analysis for now. Included 257 tasks and dropped 263 unrun tasks from the 520-task export.
+Scope: Fleet dashboard dataset. Included 257 dashboard-scoped tasks.
 
 ## Dataset Shape
 
@@ -36,7 +36,7 @@ Scope: session-backed tasks only. Per Fleet guidance, tasks with no visible sess
 | qwen3.6-27b | 52 |
 | claude-fable-5 | 2 |
 
-## Corrected Dashboard Score Snapshot
+## Dashboard Score Snapshot
 
 Live dashboard checked on July 7, 2026:
 

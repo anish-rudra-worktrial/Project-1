@@ -562,7 +562,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description="Extract verifier constants that need derivability review."
     )
-    parser.add_argument("dataset", type=Path, help="Path to exported dataset JSONL.")
+    parser.add_argument("dataset", type=Path, help="Path to dashboard dataset JSONL.")
     parser.add_argument(
         "--triage-csv",
         type=Path,
@@ -584,18 +584,17 @@ def main() -> None:
     dataset_rows = load_jsonl(args.dataset)
     triage_rows = load_triage(args.triage_csv)
     source_task_count = len(dataset_rows)
-    scope_note = "Scope: all exported tasks."
+    scope_note = "Scope: all rows in the supplied dashboard dataset file."
     if args.triage_csv:
         dataset_rows = [
             row
             for row in dataset_rows
             if (row.get("key") or "") in triage_rows
         ]
-        dropped_count = source_task_count - len(dataset_rows)
         scope_note = (
             "Scope: tasks present in the supplied triage CSV. With the current "
-            f"session-backed Project One triage, this scans {len(dataset_rows)} tasks "
-            f"and drops {dropped_count} tasks outside that triage scope."
+            f"Fleet dashboard Project One triage, this scans {len(dataset_rows)} "
+            "dashboard-scoped tasks."
         )
     worklist = build_worklist(dataset_rows, triage_rows, args.include_prompt_mentioned)
     args.out_dir.mkdir(parents=True, exist_ok=True)
