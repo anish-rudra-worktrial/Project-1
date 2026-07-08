@@ -2,14 +2,13 @@
 
 ## Executive Summary
 
-I reviewed the `JUNE24-PSI-UNDELIVERED-EVALED` dataset with a four-layer process:
+I reviewed the `JUNE24-PSI-UNDELIVERED-EVALED` dataset with a three-layer QA process:
 
 1. A repeatable static QA tool that scored the 257-task scope from the Fleet dashboard dataset.
 2. A derivability worklist that extracts hidden verifier constants from that scoped task set and turns them into concrete review questions.
-3. A dashboard trace sample that inspected completed sessions and captured actual verifier pass/fail output.
-4. A post-run verifier that converts completed-run evidence into an auditable repair/promote queue.
+3. A post-run verifier that converts completed-run evidence into an auditable repair/promote queue.
 
-I also kept a human evidence log across buckets to check prompt/verifier/session alignment, with the dashboard score snapshot used as supporting evidence rather than the final judge.
+I also kept two human-readable evidence logs: one manual prompt/verifier sample, and one 20-session dashboard trace sample with 5 completed traces from each recovery bucket. The dashboard score snapshot is supporting evidence, not the final judge.
 
 The goal was not to let an LLM decide what ships. The goal was to build a system that narrows the review queue, exposes likely failure modes, and leaves a human reviewer in control of the final call.
 

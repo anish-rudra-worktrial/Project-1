@@ -44,4 +44,6 @@ The dashboard scores are useful calibration: a 7.6% overall pass rate confirms t
 - `reports/task_recovery_ranked.csv` for the ordered recovery queue;
 - `reports/task_triage.csv` for static QA signals and bucket assignment;
 - `reports/derivability_worklist.csv` for verifier constants that need proof;
-- `evidence_log.md` for the human-reviewed sample.
+- `trace_evidence.md` for the 20 completed dashboard trace examples;
+- `reports/post_run_verification_summary.md` for the post-run trace categories;
+- `evidence_log.md` for the human-reviewed prompt/verifier sample.

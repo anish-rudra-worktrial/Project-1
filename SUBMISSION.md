@@ -26,6 +26,14 @@ The committed analysis covers the 257-task dashboard scope.
 - `evidence_log.md`: human-in-the-loop sample across buckets and environments.
 - `live_dashboard_check.md`: notes from dashboard/session/job inspection.
 
+## Three QA Layers
+
+| Layer | What it does | Main file |
+| --- | --- | --- |
+| 1. Static task triage | Ranks tasks by static risk and recovery priority. | `reports/task_recovery_ranked.csv` |
+| 2. Verifier constant review | Pulls hidden amounts, dates, names, emails, and phones that need seed-world proof. | `reports/derivability_worklist.csv` |
+| 3. Post-run trace review | Classifies completed runs into pass, narrow repair, partial completion, environment issue, ambiguity, or broad failure. | `reports/post_run_verification_summary.md` |
+
 ## Buckets
 
 - `A_likely_good_spot_check`: 17 tasks.

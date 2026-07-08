@@ -13,7 +13,7 @@ For concrete dashboard run evidence, see `trace_evidence.md`. That file records 
 - Session metadata joined: 712 sessions across 257 tasks.
 - Manual evidence sample in this log: 8 tasks.
 - Completed dashboard traces inspected in detail: 20 sessions.
-- Full seed/environment verification completed: 0 tasks so far.
+- Full seed-database audit: out of scope for this handoff. This log uses prompt/verifier review, session metadata, and completed trace evidence.
 
 ## Sample Selection
 
@@ -37,7 +37,7 @@ After the team emphasized actual traces, I inspected 20 completed dashboard sess
 | `C_repair_candidate` | 5 | Repairable verifier and environment-flow failures. |
 | `D_high_risk_manual_review` | 5 | Broad failures, ambiguity, and a few conservative false positives. |
 
-These examples are now the model for future review rows: cite the session, cite the exact verifier output, then decide promote/repair/reject.
+These examples are now the model for future review rows: cite the session, cite the exact verifier output, then decide whether the task should be promoted, repaired, or kept in manual review.
 
 ## Findings By Task
 

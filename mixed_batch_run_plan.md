@@ -1,5 +1,9 @@
 # Mixed Batch Run Plan
 
+This is an archived exploratory run note, not the final Project One task analysis.
+
+I created one mixed batch run to smoke-test model execution across a variety of task types. The final handoff does not use this job as the source of truth; it uses the 257-task Fleet dashboard dataset scope documented in `README.md`, `SUBMISSION.md`, and `final_project_one_report.md`.
+
 Selected 48 tasks: 6 from each environment x bucket stratum.
 
 ## Current Relevance
@@ -33,7 +37,7 @@ The dataset dashboard moved from 713 total sessions after the one-task spot chec
 
 I would not treat those 7 scored sessions as representative of the full dataset. They are useful as a smoke test showing that the batch run registered and some grading completed, while the Project One handoff should continue to lean on the Fleet dashboard dataset view, scoped static triage, derivability worklist, and human verification sample.
 
-Scope note: this table preserves the exploratory stratified selection used to create the batch run. It is job evidence, not the final task inventory. The final committed reports use the 257-task Fleet dashboard scope.
+Scope note: this table preserves the exploratory stratified selection used to create the batch run. The available counts below came from the broader pre-filter task inventory used during run setup, not the final 257-task dashboard scope. It is job evidence, not the final task inventory.
 
 | Environment | Bucket | Available | Selected | Selected with prior sessions |
 | --- | --- | ---: | ---: | ---: |
