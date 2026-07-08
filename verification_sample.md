@@ -1,6 +1,6 @@
 # Verification Sample
 
-I manually checked a small sample of the tool output to make sure the static flags were useful and to identify false positives. I also reviewed real completed dashboard traces so the sample was grounded in observed model behavior, not only prompt/verifier inspection.
+A small sample of the tool output was manually checked to make sure the static flags were useful and to identify false positives. Real completed dashboard traces were also reviewed so the sample was grounded in observed model behavior, not only prompt/verifier inspection.
 
 The static review answered: "Did the tool flag the right review leads?"
 
@@ -26,7 +26,7 @@ The tool bucketed this as `A_likely_good_spot_check`. Manual inspection supports
 
 ## Real Trace Calibration
 
-I also checked 20 representative completed dashboard traces: 5 from each recovery bucket. These are the examples I used to calibrate the static buckets against actual run outcomes.
+The trace sample covers 20 representative completed dashboard traces: 5 from each recovery bucket. These examples calibrate the static buckets against actual run outcomes.
 
 ### A: Likely Good Spot Check
 
@@ -76,7 +76,7 @@ Takeaway: C contains repairable tasks, not just rejects.
 
 Takeaway: D needs manual review, but it still contains false positives and one real pass.
 
-These 20 traces are why I added the post-run verification layer. The static tool tells reviewers where to look; trace review tells them whether the failure was a clean pass, a narrow repair, a partial completion, an environment issue, a task/seed ambiguity, or a broad side-effect failure.
+These 20 traces motivate the post-run verification layer. The static tool tells reviewers where to look; trace review tells them whether the failure was a clean pass, a narrow repair, a partial completion, an environment issue, a task/seed ambiguity, or a broad side-effect failure.
 
 ## Takeaway
 

@@ -1,6 +1,6 @@
 # Project One Trace Evidence
 
-This is the concrete run-evidence layer on top of the static triage. I used the Fleet dashboard session viewer to inspect completed sessions and record actual verifier output, final-answer behavior, and visible trace failures.
+This is the concrete run-evidence layer on top of the static triage. The Fleet dashboard session viewer was used to inspect completed sessions and record actual verifier output, final-answer behavior, and visible trace failures.
 
 The point is to show what happened in real runs, not just why a task looked risky from static analysis.
 
@@ -69,4 +69,4 @@ Takeaway: D deserves manual review. It includes some false positives and one pas
 - Some failed runs are not full task failures. `task_dlmkv6otfy07...` completed most invoice/email requirements and failed a narrow transfer-accounting check.
 - Some low-risk tasks still fail in concrete ways, usually from final send/complete/status issues.
 - Some high-risk tasks pass, so the high-risk bucket should not be treated as automatic rejection.
-- For handoff, I would rank tasks by both static bucket and observed trace evidence: pass traces first, narrow verifier failures next, partial-completion/environment-navigation failures after that, then broad ambiguous failures.
+- For handoff, rank tasks by both static bucket and observed trace evidence: pass traces first, narrow verifier failures next, partial-completion/environment-navigation failures after that, then broad ambiguous failures.

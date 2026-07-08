@@ -1,14 +1,14 @@
 # Project One QA Toolkit
 
-This repo is my handoff for Fleet Project One.
+This repo is a Fleet Project One handoff.
 
-In plain English: I built a repeatable QA workflow for deciding which tasks in `JUNE24-PSI-UNDELIVERED-EVALED` are good, which are close, which need repair, and which need deeper manual review.
+It contains a repeatable QA workflow for deciding which tasks in `JUNE24-PSI-UNDELIVERED-EVALED` are good, which are close, which need repair, and which need deeper manual review.
 
 The goal is to protect the training signal for agents. A task can fail because the prompt is unclear, the verifier checks hidden facts, the model misses a step, or the environment/tooling gets in the way. This repo separates those cases so a human reviewer can make a cleaner decision.
 
 ## Start Here
 
-If you only open three things:
+Recommended entry points:
 
 | Open | Why |
 | --- | --- |
@@ -20,9 +20,7 @@ For the fuller explanation, read [final_project_one_report.md](final_project_one
 
 ## The Three QA Layers
 
-I built three layers. The first two are static checks over the task/verifier. The third is a post-run check over completed traces.
-
-In conversation, you can describe them as the first QA check, second QA check, and third QA check.
+The workflow has three QA layers. The first two are static checks over the task/verifier. The third is a post-run check over completed traces.
 
 | Layer | Human Name | What It Answers | Script | Main Output |
 | --- | --- | --- | --- | --- |
@@ -186,16 +184,6 @@ python3 post_run_verifier.py \
   --triage-csv reports/task_triage.csv \
   --out-dir reports
 ```
-
-## What To Say In Human Terms
-
-The short version:
-
-> I built a three-layer QA system. First, it ranks tasks by static risk. Second, it extracts verifier constants that need seed-world proof. Third, it reviews completed run traces to separate clean passes, narrow repairs, partial completions, environment issues, ambiguity, and broad failures.
-
-The Fleet-specific version:
-
-> Fleet is building training environments for agents. My workflow protects the training signal by separating task quality, verifier quality, environment reliability, and model execution quality.
 
 ## Known Limits
 

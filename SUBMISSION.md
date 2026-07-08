@@ -85,4 +85,4 @@ python3 post_run_verifier.py \
 
 ## Limits
 
-The scripts are QA accelerators. They do not replace seed-world or recording review, and they do not use an LLM as the final judge. I added a dashboard trace sample and a post-run classifier so the handoff includes actual observed pass/fail behavior, not only static flags. The dashboard has aggregate score data, but the observed session API export did not include row-level scores, so the task-level decision path still rests on prompt/verifier/seed derivability plus visible trace review.
+The scripts are QA accelerators. They do not replace seed-world or recording review, and they do not use an LLM as the final judge. The dashboard trace sample and post-run classifier make the handoff include actual observed pass/fail behavior, not only static flags. The dashboard has aggregate score data, but the observed session API export did not include row-level scores, so the task-level decision path still rests on prompt/verifier/seed derivability plus visible trace review.

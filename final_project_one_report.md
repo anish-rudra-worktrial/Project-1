@@ -2,13 +2,13 @@
 
 ## Executive Summary
 
-I reviewed the `JUNE24-PSI-UNDELIVERED-EVALED` dataset with a three-layer QA process:
+The `JUNE24-PSI-UNDELIVERED-EVALED` dataset was reviewed with a three-layer QA process:
 
 1. A repeatable static QA tool that scored the 257-task scope from the Fleet dashboard dataset.
 2. A derivability worklist that extracts hidden verifier constants from that scoped task set and turns them into concrete review questions.
 3. A post-run verifier that converts completed-run evidence into an auditable repair/promote queue.
 
-I also kept two human-readable evidence logs: one manual prompt/verifier sample, and one 20-session dashboard trace sample with 5 completed traces from each recovery bucket. The dashboard score snapshot is supporting evidence, not the final judge.
+The handoff also includes two human-readable evidence logs: one manual prompt/verifier sample, and one 20-session dashboard trace sample with 5 completed traces from each recovery bucket. The dashboard score snapshot is supporting evidence, not the final judge.
 
 The goal was not to let an LLM decide what ships. The goal was to build a system that narrows the review queue, exposes likely failure modes, and leaves a human reviewer in control of the final call.
 
@@ -44,7 +44,7 @@ This means a conservative recovery path is:
 
 ## Tool Built
 
-I built three scripts.
+The toolkit includes three scripts.
 
 `triage_dataset.py` reads the dashboard dataset JSONL, joins task/session API exports, and applies the dashboard task scope used in this handoff.
 
@@ -102,7 +102,7 @@ The scoped derivability worklist found 689 amounts, 710 dates, 315 names/labels,
 
 ## Actual Trace Findings
 
-I added a 20-session trace-backed spot check in `trace_evidence.md` because the strongest signal is not just "this task looks risky"; it is what actually happened when a model ran it.
+The handoff includes a 20-session trace-backed spot check in `trace_evidence.md` because the strongest signal is not just "this task looks risky"; it is what actually happened when a model ran it.
 
 | Bucket | Traces reviewed | What the traces showed |
 | --- | ---: | --- |
@@ -119,7 +119,7 @@ Concrete examples from the trace sample:
 
 The full 20-row trace matrix is in `trace_evidence.md`.
 
-I then ran those 20 inspected traces through `post_run_verifier.py`. The post-run queue classified them as:
+Those 20 inspected traces were then run through `post_run_verifier.py`. The post-run queue classified them as:
 
 | Post-run category | Count |
 | --- | ---: |
@@ -155,7 +155,7 @@ These traces change the recovery plan:
 
 ## Human QA Sample
 
-I manually sampled eight tasks across all four buckets and both environments. The main question for each task was:
+The manual sample covered eight tasks across all four buckets and both environments. The main question for each task was:
 
 > Are the verifier's hidden constants and expected state changes uniquely derivable from the prompt and seed world?
 
@@ -180,7 +180,7 @@ The full manual sample is in `evidence_log.md`; the concrete session examples ar
 
 Many tasks ask the agent to derive a value from the world, while the verifier hardcodes the answer. That is acceptable only if the world makes the answer unique. Examples include specific amounts, doctor names, invoice/customer names, and appointment times.
 
-I built the derivability worklist specifically for this problem. Recommended process: for every verifier-only constant, record whether it is:
+The derivability worklist targets this problem directly. Recommended process: for every verifier-only constant, record whether it is:
 
 - explicitly in the prompt;
 - uniquely derivable from seed data;
@@ -225,7 +225,7 @@ All tasks are anchored to `2025-10-14`, so words like “today,” “yesterday,
 6. Run `post_run_verifier.py` over the trace evidence or downloaded completed-session transcripts.
 7. Promote only tasks where the verifier checks the same task the prompt describes.
 
-## What I Would Do Next
+## Recommended Next Steps
 
 Immediate next pass:
 
@@ -247,8 +247,8 @@ Two-week system build:
 - The derivability worklist is conservative and may include harmless verifier constants or no-change guards.
 - The post-run verifier is rule-based and intentionally transparent; it organizes completed evidence but does not replace human judgment.
 - The observed session API export did not include pass/fail scores or traces; trace details were inspected manually through the dashboard session viewer for the documented sample.
-- The live score snapshot is aggregate, not task-row-level in the committed CSV. I did not treat pass rate as a replacement for prompt/verifier/seed QA.
-- I did not use an LLM batch reviewer as the final judge.
+- The live score snapshot is aggregate, not task-row-level in the committed CSV. Pass rate was not treated as a replacement for prompt/verifier/seed QA.
+- An LLM batch reviewer was not used as the final judge.
 - The current evidence sample covers 8/257 in-scope tasks manually, with 20 completed dashboard traces inspected in detail.
 
 ## Bottom Line

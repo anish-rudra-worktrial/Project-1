@@ -27,7 +27,7 @@ This dashboard view is the source of truth for the 257-task scope used in the co
 
 ## Task-Set Check
 
-The live Tasks tab shows the same dataset slug and a 257-task table. I spot-checked visible task prefixes from the dashboard against the generated `reports/task_triage.csv`; all checked keys were present in the scoped local analysis:
+The live Tasks tab shows the same dataset slug and a 257-task table. Visible task prefixes from the dashboard were spot-checked against the generated `reports/task_triage.csv`; all checked keys were present in the scoped local analysis:
 
 - `task_nw14kiriuj0w`
 - `task_dlmkv6otfy07`
@@ -37,9 +37,9 @@ The live Tasks tab shows the same dataset slug and a 257-task table. I spot-chec
 
 Interpretation: this is the Project One dataset used for the deliverable, and the generated reports match the visible 257-task dashboard scope.
 
-## How I Use The Scores
+## How The Scores Are Used
 
-The dashboard scores are useful calibration: a 7.6% overall pass rate confirms that the dataset has real quality/recovery work to do. I do not use the aggregate pass rate as a shipping decision for individual tasks, because the committed session API export did not expose per-task score fields. The task-level handoff still relies on:
+The dashboard scores are useful calibration: a 7.6% overall pass rate confirms that the dataset has real quality/recovery work to do. The aggregate pass rate is not used as a shipping decision for individual tasks, because the committed session API export did not expose per-task score fields. The task-level handoff still relies on:
 
 - `reports/task_recovery_ranked.csv` for the ordered recovery queue;
 - `reports/task_triage.csv` for static QA signals and bucket assignment;

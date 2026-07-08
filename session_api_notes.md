@@ -20,13 +20,13 @@ The task list API maps the internal task UUID back to the human-readable task ke
 
 ## What It Did Not Return
 
-The session response I observed did not include verifier scores, pass/fail grading, recording payloads, or full traces. Those fields were not part of the session metadata response used by the scripts.
+The observed session response did not include verifier scores, pass/fail grading, recording payloads, or full traces. Those fields were not part of the session metadata response used by the scripts.
 
-I later inspected several completed sessions directly in the dashboard session viewer. Those trace findings are documented separately in `trace_evidence.md`.
+Several completed sessions were later inspected directly in the dashboard session viewer. Those trace findings are documented separately in `trace_evidence.md`.
 
 ## Dashboard Recheck
 
-I rechecked the live dashboard page on July 7, 2026. The dataset page showed:
+The live dashboard page was rechecked on July 7, 2026. The dataset page showed:
 
 - 257 tasks.
 - 712 total sessions.
@@ -49,4 +49,4 @@ That makes the score layer useful as calibration, but not enough to replace task
 
 ## About The Team API Key
 
-The key mentioned by the team is for programmatic access to Fleet APIs. I intentionally do not put live keys, bearer tokens, session headers, cookies, or Supabase authorization headers in public output files. The safer public pattern is to document the variable name and keep the real value local, for example `FLEET_API_KEY`.
+The key mentioned by the team is for programmatic access to Fleet APIs. Live keys, bearer tokens, session headers, cookies, and Supabase authorization headers are intentionally not included in public output files. The safer public pattern is to document the variable name and keep the real value local, for example `FLEET_API_KEY`.
