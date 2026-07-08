@@ -2,6 +2,12 @@
 
 Selected 48 tasks: 6 from each environment x bucket stratum.
 
+## Current Relevance
+
+This is historical run evidence from before Fleet clarified the no-session-task handling and before the dashboard score view was corrected. The final Project One analysis does not rely on this batch for dataset-level conclusions.
+
+The corrected dashboard view checked on July 7, 2026 shows the main analysis scope directly: 257 tasks, 712 total sessions, 658 scored sessions, 220 scored tasks, 7.6% overall pass rate, and 0.08 overall average score.
+
 ## Run Created
 
 - Job name: `codex-mixed-batch-48-stratified`
@@ -25,7 +31,7 @@ The dataset dashboard moved from 713 total sessions after the one-task spot chec
 - Overall average score on scored sessions: 0.29.
 - `anthropic/claude-fable-5` totals: 51 total sessions, 7 scored sessions, 6 scored tasks.
 
-I would not treat those 7 scored sessions as representative of the full dataset. They are useful as a smoke test showing that the batch run registered and some grading completed, while the Project One handoff should continue to lean on the scoped static triage, derivability worklist, and human verification sample.
+I would not treat those 7 scored sessions as representative of the full dataset. They are useful as a smoke test showing that the batch run registered and some grading completed, while the Project One handoff should continue to lean on the corrected 257-task dashboard view, scoped static triage, derivability worklist, and human verification sample.
 
 Scope note: this run plan was created before Fleet clarified that no-session tasks can be dropped from the analysis. The table below preserves the original stratified selection counts from the broader static pass. The final committed reports have since been regenerated on the 257 session-backed tasks only. One selected health `A` task had `sessions 0` in the original local export, so it is historical run evidence rather than part of the current scoped triage CSV.
 

@@ -36,6 +36,19 @@ Scope: session-backed tasks only. Per Fleet guidance, tasks with no visible sess
 | qwen3.6-27b | 52 |
 | claude-fable-5 | 2 |
 
+## Corrected Dashboard Score Snapshot
+
+Live dashboard checked on July 7, 2026:
+
+- Dashboard task count: 257.
+- Tasks scored: 220.
+- Scored sessions: 658.
+- Total sessions: 712.
+- Overall pass rate: 7.6%.
+- Overall average score: 0.08.
+
+These aggregate score fields were visible in the dashboard chart view but not present in the observed session API export, so they are not joined into individual CSV task rows.
+
 ## Static Buckets
 
 | Bucket | Tasks |
@@ -51,6 +64,8 @@ Bucket meanings:
 - `B_close_verify_derivability`: probably recoverable, but hidden dependencies or branching need checking.
 - `C_repair_candidate`: worth reviewing for repair, likely needs prompt/verifier/environment reconciliation.
 - `D_high_risk_manual_review`: highest-risk tasks by static signals; inspect before spending recovery time.
+
+The generated `task_recovery_ranked.csv` turns these buckets into an ordered recovery queue with the category, recommended action, risk score, and top reason for each task.
 
 ## Most Common Findings
 

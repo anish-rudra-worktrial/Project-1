@@ -465,6 +465,64 @@ def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
         writer.writerows(rows)
 
 
+RECOVERY_ORDER = {
+    "A_likely_good_spot_check": 0,
+    "B_close_verify_derivability": 1,
+    "C_repair_candidate": 2,
+    "D_high_risk_manual_review": 3,
+}
+
+
+BUCKET_ACTIONS = {
+    "A_likely_good_spot_check": "Spot-check and promote if seed/session evidence agrees.",
+    "B_close_verify_derivability": "Verify hidden constants are derivable, then promote or make a small verifier/prompt fix.",
+    "C_repair_candidate": "Review prompt/verifier/world alignment and repair before promotion.",
+    "D_high_risk_manual_review": "Manual-review first; do not spend recovery time until the core ambiguity is understood.",
+}
+
+
+def rank_reason(row: dict[str, Any]) -> str:
+    findings = [part for part in str(row.get("findings", "")).split("|") if part]
+    if not findings:
+        return "Low static risk; no major automated flags beyond domain side-effect review."
+    readable = ", ".join(finding.lower().replace("_", " ") for finding in findings[:4])
+    if len(findings) > 4:
+        readable += f", plus {len(findings) - 4} more"
+    return readable
+
+
+def ranked_recovery_rows(scored: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    ranked = []
+    sorted_rows = sorted(
+        scored,
+        key=lambda row: (
+            RECOVERY_ORDER.get(row["bucket"], 99),
+            float(row["risk_score"]),
+            -int(row.get("completed_sessions", 0) or 0),
+            row["key"],
+        ),
+    )
+    for rank, row in enumerate(sorted_rows, 1):
+        ranked.append(
+            {
+                "recovery_rank": rank,
+                "bucket": row["bucket"],
+                "recommended_action": BUCKET_ACTIONS.get(row["bucket"], "Review manually."),
+                "risk_score": row["risk_score"],
+                "env_id": row["env_id"],
+                "session_count": row.get("session_count", 0),
+                "completed_sessions": row.get("completed_sessions", 0),
+                "key": row["key"],
+                "primary_reason": rank_reason(row),
+                "findings": row["findings"],
+                "verifier_only_amounts": row["verifier_only_amounts"],
+                "verifier_only_user_values": row["verifier_only_user_values"],
+                "prompt_preview": row["prompt_preview"],
+            }
+        )
+    return ranked
+
+
 def read_json_or_cdp_body(path: Path) -> Any:
     payload = json.loads(path.read_text(encoding="utf-8"))
     if isinstance(payload, dict) and "body" in payload:
@@ -622,6 +680,8 @@ def build_summary(scored: list[dict[str, Any]], scope_note: str = "") -> str:
             "- `C_repair_candidate`: worth reviewing for repair, likely needs prompt/verifier/environment reconciliation.",
             "- `D_high_risk_manual_review`: highest-risk tasks by static signals; inspect before spending recovery time.",
             "",
+            "The generated `task_recovery_ranked.csv` turns these buckets into an ordered recovery queue with the category, recommended action, risk score, and top reason for each task.",
+            "",
             "## Most Common Findings",
             "",
             markdown_table([[k, v] for k, v in finding_counts.most_common(20)], ["Finding", "Tasks"]),
@@ -759,6 +819,7 @@ def main() -> None:
     args.out_dir.mkdir(parents=True, exist_ok=True)
 
     write_csv(args.out_dir / "task_triage.csv", scored)
+    write_csv(args.out_dir / "task_recovery_ranked.csv", ranked_recovery_rows(scored))
     (args.out_dir / "task_triage.json").write_text(
         json.dumps(scored, indent=2), encoding="utf-8"
     )
@@ -772,6 +833,7 @@ def main() -> None:
         print(f"Dropped {len(all_scored) - len(scored)} tasks without visible sessions")
         print(f"Scoped to {len(scored)} session-backed tasks")
     print(f"Wrote {args.out_dir / 'task_triage.csv'}")
+    print(f"Wrote {args.out_dir / 'task_recovery_ranked.csv'}")
     print(f"Wrote {args.out_dir / 'summary.md'}")
     print(f"Wrote {args.out_dir / 'manual_review_queue.md'}")
 

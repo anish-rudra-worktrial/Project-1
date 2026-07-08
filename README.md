@@ -11,6 +11,7 @@ Upload this folder as the Project One repository/root. The dataset export itself
 - `triage_dataset.py`: scoped static triage script.
 - `constant_derivability_worklist.py`: verifier-constant proof-obligation script.
 - `reports/task_triage.csv`: one row per task, bucketed for review.
+- `reports/task_recovery_ranked.csv`: ordered recovery queue with category, recommended action, and reason.
 - `reports/derivability_worklist.csv`: hidden verifier constants that need seed/session proof.
 - `evidence_log.md` and `verification_sample.md`: human-in-the-loop checks showing how I audited the tool output.
 - `live_dashboard_check.md` and `mixed_batch_run_plan.md`: live dashboard/session run notes.
@@ -70,6 +71,7 @@ Generated files:
 - `final_project_one_report.md`: final writeup with methodology, bucket counts, evidence sample summary, and next steps.
 - `evidence_log.md`: human-in-the-loop sample review across buckets and environments.
 - `reports/task_triage.csv`: one row per task with tags, scores, and bucket.
+- `reports/task_recovery_ranked.csv`: ordered task-level recovery queue with bucket, recommended action, primary reason, and run coverage.
 - `reports/task_triage.json`: same data as JSON.
 - `reports/summary.md`: dataset-level counts and top review queues.
 - `reports/manual_review_queue.md`: top 50 manual-review candidates with checkboxes.
@@ -85,26 +87,28 @@ Generated files:
 
 On the `JUNE24-PSI-UNDELIVERED-EVALED` export:
 
-- 520 tasks in the export.
+- 520 tasks in the original local export.
 - 257 session-backed tasks in scope after Fleet clarified that unrun/no-session tasks can be dropped for now.
+- The corrected live dashboard view now also shows 257 tasks, matching the committed analysis scope.
 - 263 tasks dropped from this analysis because they had no visible session rows in the observed dashboard API response.
 - 150 in-scope consumer-finance tasks.
 - 107 in-scope personal-health tasks.
 - 712 sessions joined to the 257 in-scope tasks.
-- A later live dashboard spot check showed 713 total sessions after creating one single-task spot-check run.
-- A mixed 48-task batch run was created from a stratified sample across both environments and all four triage buckets. A later dashboard recheck showed 761 total sessions, 7 scored sessions, 6 scored tasks, 28.6% pass rate, and 0.29 average score on the scored slice.
+- Corrected live dashboard score snapshot: 220 tasks scored, 658 scored sessions, 712 total sessions, 7.6% overall pass rate, and 0.08 overall average score.
 - Static buckets in the session-backed scope: 17 low-risk spot-check candidates, 92 close/verify-derivability, 109 repair candidates, 39 high-risk manual-review tasks.
 - Derivability worklist in the session-backed scope: 1,843 hidden verifier constants across 254 tasks, including 689 amounts, 710 dates, 315 names/labels, 120 emails, and 9 phone numbers.
 
 That second number is not a rejection count. It is the review workload made explicit: for each flagged constant, the human question is whether the value is uniquely derivable from the prompt plus seed world.
 
+The clearest task-level ranking is `reports/task_recovery_ranked.csv`. It orders tasks by recovery priority: likely-good spot checks first, close/derivability tasks next, repair candidates after that, and high-risk manual review last.
+
 ## What Session Enrichment Means
 
-In Fleet's dashboard, a task is the authored prompt/verifier/environment record. A session is an execution attempt against a task, usually from a model run or evaluation job. One task can have zero sessions, one session, or several sessions from different models. In this dataset, the dashboard showed 712 total sessions across 257 distinct tasks, while the export itself still contains 520 tasks.
+In Fleet's dashboard, a task is the authored prompt/verifier/environment record. A session is an execution attempt against a task, usually from a model run or evaluation job. One task can have zero sessions, one session, or several sessions from different models. In the original local pull, the dashboard session API showed 712 total sessions across 257 distinct tasks, while the exported JSONL contained 520 tasks.
 
-After Fleet clarified that tasks without runs can be dropped from Project One for now, the committed reports use the 257 session-backed tasks as the main analysis scope.
+After Fleet clarified that tasks without runs can be dropped from Project One for now, the committed reports use the 257 session-backed tasks as the main analysis scope. The corrected live dashboard now shows the same 257-task count.
 
-The session API data used here came from the dashboard's own task/session listing calls. It currently gives useful coverage signals such as run count, model name, and status (`completed`, `errored`, `cancelled`, or `in_progress`). The observed response did not include verifier scores or pass/fail results, so the tool does not treat session count as quality by itself.
+The session API data used here came from the dashboard's own task/session listing calls. It gives useful coverage signals such as run count, model name, and status (`completed`, `errored`, `cancelled`, or `in_progress`). The observed response did not include verifier scores or pass/fail results, so task-level scores are not joined into `task_triage.csv`. Aggregate score data is captured in `live_dashboard_check.md`.
 
 ## Known Limits
 
@@ -114,7 +118,7 @@ The session API data used here came from the dashboard's own task/session listin
 - Verifier-only amounts or names are not automatically bad; they may be valid hidden ground truth that the agent is supposed to derive.
 - The derivability worklist is intentionally conservative. It can still include harmless verifier constants or no-change guards.
 - Session records currently provide status/model coverage, but no verifier scores were present in the observed API response.
-- The later live dashboard recheck surfaced only 7 scored sessions across 6 tasks, so run results should be treated as a smoke test rather than a dataset-level conclusion.
+- The corrected dashboard score snapshot is aggregate, not a substitute for task-level prompt/verifier/seed review.
 - API keys and session headers are intentionally excluded from these files. Use local environment variables or dashboard-authenticated exports rather than publishing live credentials.
 
 ## What I Would Build Next
