@@ -198,6 +198,7 @@ python3 post_run_verifier.py \
 
 | Want More Detail On... | Open |
 | --- | --- |
+| Lightweight workflow walkthrough | [workflow_walkthrough.md](workflow_walkthrough.md) |
 | Overall method and conclusions | [final_project_one_report.md](final_project_one_report.md) |
 | Short handoff note | [SUBMISSION.md](SUBMISSION.md) |
 | Actual trace examples | [trace_evidence.md](trace_evidence.md) |
