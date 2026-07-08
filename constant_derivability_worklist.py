@@ -468,7 +468,7 @@ def markdown_table(rows: list[list[Any]], headers: list[str]) -> str:
     return "\n".join(out)
 
 
-def build_summary(worklist: list[dict[str, Any]], task_count: int) -> str:
+def build_summary(worklist: list[dict[str, Any]], task_count: int, scope_note: str = "") -> str:
     priority_counts = Counter(row["review_priority"] for row in worklist)
     type_counts = Counter(row["constant_type"] for row in worklist)
     app_counts = Counter(row["likely_source_app"] for row in worklist)
@@ -492,6 +492,18 @@ def build_summary(worklist: list[dict[str, Any]], task_count: int) -> str:
         "",
         "A row here is not automatically a bug. It is a concrete question for a human reviewer: can this verifier value be uniquely derived from the prompt and seed world?",
         "",
+    ]
+    if scope_note:
+        lines.extend(
+            [
+                "## Scope",
+                "",
+                scope_note,
+                "",
+            ]
+        )
+    lines.extend(
+        [
         "## Shape",
         "",
         f"- Tasks scanned: {task_count}",
@@ -541,7 +553,8 @@ def build_summary(worklist: list[dict[str, Any]], task_count: int) -> str:
         "- The likely source app is heuristic, especially for cross-app tasks.",
         "- Some constants are valid no-change guards or implementation details despite looking user-visible.",
         "- The best next step is to connect these rows to seed-data probes for the highest-volume apps.",
-    ]
+        ]
+    )
     return "\n".join(lines) + "\n"
 
 
@@ -570,6 +583,20 @@ def main() -> None:
 
     dataset_rows = load_jsonl(args.dataset)
     triage_rows = load_triage(args.triage_csv)
+    source_task_count = len(dataset_rows)
+    scope_note = "Scope: all exported tasks."
+    if args.triage_csv:
+        dataset_rows = [
+            row
+            for row in dataset_rows
+            if (row.get("key") or "") in triage_rows
+        ]
+        dropped_count = source_task_count - len(dataset_rows)
+        scope_note = (
+            "Scope: tasks present in the supplied triage CSV. With the current "
+            f"session-backed Project One triage, this scans {len(dataset_rows)} tasks "
+            f"and drops {dropped_count} tasks outside that triage scope."
+        )
     worklist = build_worklist(dataset_rows, triage_rows, args.include_prompt_mentioned)
     args.out_dir.mkdir(parents=True, exist_ok=True)
 
@@ -578,10 +605,12 @@ def main() -> None:
         json.dumps(worklist, indent=2), encoding="utf-8"
     )
     (args.out_dir / "derivability_summary.md").write_text(
-        build_summary(worklist, len(dataset_rows)), encoding="utf-8"
+        build_summary(worklist, len(dataset_rows), scope_note), encoding="utf-8"
     )
 
-    print(f"Loaded {len(dataset_rows)} tasks")
+    print(f"Loaded {source_task_count} tasks")
+    if args.triage_csv:
+        print(f"Scoped to {len(dataset_rows)} tasks present in {args.triage_csv}")
     print(f"Wrote {len(worklist)} derivability rows")
     print(f"Wrote {args.out_dir / 'derivability_worklist.csv'}")
     print(f"Wrote {args.out_dir / 'derivability_summary.md'}")

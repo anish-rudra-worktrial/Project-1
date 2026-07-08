@@ -25,7 +25,9 @@ The dataset dashboard moved from 713 total sessions after the one-task spot chec
 - Overall average score on scored sessions: 0.29.
 - `anthropic/claude-fable-5` totals: 51 total sessions, 7 scored sessions, 6 scored tasks.
 
-I would not treat those 7 scored sessions as representative of the full dataset. They are useful as a smoke test showing that the batch run registered and some grading completed, while the Project One handoff should continue to lean on the full static triage, derivability worklist, and human verification sample.
+I would not treat those 7 scored sessions as representative of the full dataset. They are useful as a smoke test showing that the batch run registered and some grading completed, while the Project One handoff should continue to lean on the scoped static triage, derivability worklist, and human verification sample.
+
+Scope note: this run plan was created before Fleet clarified that no-session tasks can be dropped from the analysis. The table below preserves the original stratified selection counts from the broader static pass. The final committed reports have since been regenerated on the 257 session-backed tasks only. One selected health `A` task had `sessions 0` in the original local export, so it is historical run evidence rather than part of the current scoped triage CSV.
 
 | Environment | Bucket | Available | Selected | Selected with prior sessions |
 | --- | --- | ---: | ---: | ---: |

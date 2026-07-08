@@ -8,6 +8,8 @@ The dashboard session API returned 712 sessions. A session is one model or agent
 
 At the time of this pull, the 712 session rows mapped to 257 distinct task IDs. That means 257 tasks had at least one visible run/session, while 263 of the 520 tasks had no session rows visible yet.
 
+Fleet later clarified that the no-session tasks can be dropped from Project One for now. The committed reports therefore use the 257 session-backed tasks as the main scope and exclude the 263 unrun tasks.
+
 ## What The Session API Returned
 
 The observed session response included fields like:

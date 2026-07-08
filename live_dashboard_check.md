@@ -14,6 +14,8 @@ Checked in Chrome on July 8, 2026.
 - Task Quality tab: 520 production tasks, 0 analyzed, 520 not analyzed.
 - QualityHill Filter: no runs visible. I did not start the full QualityHill run because it appears to be a dataset-wide analysis job across all 520 tasks.
 
+Fleet later clarified that no-session tasks can be dropped from Project One for now. The final committed triage therefore uses the 257 tasks with visible sessions as the main analysis scope, while this dashboard note preserves the full dataset-level state I observed.
+
 ## Later Dashboard Recheck After Mixed Batch
 
 Rechecked the dataset dashboard after the 48-task mixed batch had time to register.
@@ -61,4 +63,4 @@ Interpretation: the mixed batch did register and some completed/scored runs are 
 
 This confirms that sessions and recordings are accessible now, and that new runs can be created from the task-level dashboard. The later recheck added a small amount of pass/fail evidence, but it is still sparse: 7 scored sessions across 6 tasks out of 520.
 
-For the deliverable, I would treat live sessions as a final validation layer rather than a blocker. The existing toolkit is already useful because it analyzes all 520 task definitions and turns verifier risk into concrete human review queues. If more time is available, the highest-value follow-up is to run or inspect a small, representative set of sessions across the `A`, `B`, `C`, and `D` buckets, not to wait passively for the entire dataset to become scored.
+For the deliverable, I would treat live sessions as a final validation layer rather than a blocker. The existing toolkit is already useful because it analyzes the 257 session-backed task definitions and turns verifier risk into concrete human review queues. If more time is available, the highest-value follow-up is to run or inspect a small, representative set of sessions across the `A`, `B`, `C`, and `D` buckets, not to wait passively for the entire dataset to become scored.

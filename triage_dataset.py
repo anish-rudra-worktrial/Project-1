@@ -532,7 +532,7 @@ def markdown_table(rows: list[list[Any]], headers: list[str]) -> str:
     return "\n".join(out)
 
 
-def build_summary(scored: list[dict[str, Any]]) -> str:
+def build_summary(scored: list[dict[str, Any]], scope_note: str = "") -> str:
     by_env = Counter(row["env_id"] for row in scored)
     by_bucket = Counter(row["bucket"] for row in scored)
     finding_counts = Counter(
@@ -583,82 +583,95 @@ def build_summary(scored: list[dict[str, Any]]) -> str:
         "",
         "This report is a first-pass static triage over the exported JSONL dataset. It flags review leads; it does not replace environment inspection or human judgment.",
         "",
-        "## Dataset Shape",
-        "",
-        f"- Tasks: {len(scored)}",
-        f"- Risk score min/median/mean/max: {min(risk_scores):.2f} / {median(risk_scores):.2f} / {mean(risk_scores):.2f} / {max(risk_scores):.2f}",
-        "",
-        markdown_table([[k, v] for k, v in by_env.most_common()], ["Environment", "Tasks"]),
-        "",
-        "## Session Coverage",
-        "",
-        f"- Sessions joined to tasks: {total_sessions}",
-        f"- Tasks with at least one session: {tasks_with_sessions}",
-        "",
-        markdown_table([[k, v] for k, v in session_status_counts.items()], ["Session status", "Sessions"]),
-        "",
-        markdown_table([[k, v] for k, v in model_counts.most_common()], ["Model", "Sessions"]),
-        "",
-        "## Static Buckets",
-        "",
-        markdown_table([[k, v] for k, v in by_bucket.most_common()], ["Bucket", "Tasks"]),
-        "",
-        "Bucket meanings:",
-        "",
-        "- `A_likely_good_spot_check`: low static risk; still needs sample environment verification.",
-        "- `B_close_verify_derivability`: probably recoverable, but hidden dependencies or branching need checking.",
-        "- `C_repair_candidate`: worth reviewing for repair, likely needs prompt/verifier/environment reconciliation.",
-        "- `D_high_risk_manual_review`: highest-risk tasks by static signals; inspect before spending recovery time.",
-        "",
-        "## Most Common Findings",
-        "",
-        markdown_table([[k, v] for k, v in finding_counts.most_common(20)], ["Finding", "Tasks"]),
-        "",
-        "## Dependency Signals",
-        "",
-        markdown_table([[k, v] for k, v in dependency_counts.most_common(20)], ["Dependency", "Tasks"]),
-        "",
-        "## Prompt App Families Missing From Verifier Apps",
-        "",
-        markdown_table([[k, v] for k, v in app_gap_counts.most_common(20)], ["App cue", "Tasks"]),
-        "",
-        "## Highest-Priority Manual Review Queue",
-        "",
-        markdown_table(
-            [
-                [
-                    row["risk_score"],
-                    row["bucket"],
-                    row["env_id"],
-                    row["key"],
-                    row["findings"],
-                    row["prompt_preview"],
-                ]
-                for row in top_manual
-            ],
-            ["Risk", "Bucket", "Env", "Task", "Findings", "Prompt preview"],
-        ),
-        "",
-        "## Low-Risk Spot-Check Candidates",
-        "",
-        markdown_table(
-            [
-                [
-                    row["risk_score"],
-                    row["env_id"],
-                    row["key"],
-                    row["dependency_types"],
-                    row["prompt_preview"],
-                ]
-                for row in top_good
-            ],
-            ["Risk", "Env", "Task", "Dependencies", "Prompt preview"],
-        ),
-        "",
-        "## How To Use This",
-        "",
-        "Start with the highest-priority queue to learn failure modes, then sample each bucket and environment. Promote tasks only after checking that prompt facts, verifier expectations, and world data reconcile.",
     ]
+    if scope_note:
+        lines.extend(
+            [
+                "## Scope",
+                "",
+                scope_note,
+                "",
+            ]
+        )
+    lines.extend(
+        [
+            "## Dataset Shape",
+            "",
+            f"- Tasks: {len(scored)}",
+            f"- Risk score min/median/mean/max: {min(risk_scores):.2f} / {median(risk_scores):.2f} / {mean(risk_scores):.2f} / {max(risk_scores):.2f}",
+            "",
+            markdown_table([[k, v] for k, v in by_env.most_common()], ["Environment", "Tasks"]),
+            "",
+            "## Session Coverage",
+            "",
+            f"- Sessions joined to tasks: {total_sessions}",
+            f"- Tasks with at least one session: {tasks_with_sessions}",
+            "",
+            markdown_table([[k, v] for k, v in session_status_counts.items()], ["Session status", "Sessions"]),
+            "",
+            markdown_table([[k, v] for k, v in model_counts.most_common()], ["Model", "Sessions"]),
+            "",
+            "## Static Buckets",
+            "",
+            markdown_table([[k, v] for k, v in by_bucket.most_common()], ["Bucket", "Tasks"]),
+            "",
+            "Bucket meanings:",
+            "",
+            "- `A_likely_good_spot_check`: low static risk; still needs sample environment verification.",
+            "- `B_close_verify_derivability`: probably recoverable, but hidden dependencies or branching need checking.",
+            "- `C_repair_candidate`: worth reviewing for repair, likely needs prompt/verifier/environment reconciliation.",
+            "- `D_high_risk_manual_review`: highest-risk tasks by static signals; inspect before spending recovery time.",
+            "",
+            "## Most Common Findings",
+            "",
+            markdown_table([[k, v] for k, v in finding_counts.most_common(20)], ["Finding", "Tasks"]),
+            "",
+            "## Dependency Signals",
+            "",
+            markdown_table([[k, v] for k, v in dependency_counts.most_common(20)], ["Dependency", "Tasks"]),
+            "",
+            "## Prompt App Families Missing From Verifier Apps",
+            "",
+            markdown_table([[k, v] for k, v in app_gap_counts.most_common(20)], ["App cue", "Tasks"]),
+            "",
+            "## Highest-Priority Manual Review Queue",
+            "",
+            markdown_table(
+                [
+                    [
+                        row["risk_score"],
+                        row["bucket"],
+                        row["env_id"],
+                        row["key"],
+                        row["findings"],
+                        row["prompt_preview"],
+                    ]
+                    for row in top_manual
+                ],
+                ["Risk", "Bucket", "Env", "Task", "Findings", "Prompt preview"],
+            ),
+            "",
+            "## Low-Risk Spot-Check Candidates",
+            "",
+            markdown_table(
+                [
+                    [
+                        row["risk_score"],
+                        row["env_id"],
+                        row["key"],
+                        row["dependency_types"],
+                        row["prompt_preview"],
+                    ]
+                    for row in top_good
+                ],
+                ["Risk", "Env", "Task", "Dependencies", "Prompt preview"],
+            ),
+            "",
+            "## How To Use This",
+            "",
+            "Start with the highest-priority queue to learn failure modes, then sample each bucket and environment. Promote tasks only after checking that prompt facts, verifier expectations, and world data reconcile.",
+        ]
+    )
     return "\n".join(lines) + "\n"
 
 
@@ -719,21 +732,45 @@ def main() -> None:
         type=Path,
         help="Optional sessions API JSON, or a CDP Network.getResponseBody wrapper with a JSON body.",
     )
+    parser.add_argument(
+        "--require-sessions",
+        action="store_true",
+        help="Drop tasks with no visible sessions from generated outputs.",
+    )
     args = parser.parse_args()
 
     rows = load_jsonl(args.dataset)
     session_stats = load_session_stats(args.task_api_json, args.sessions_json)
-    scored = [score_task(row, session_stats) for row in rows]
+    all_scored = [score_task(row, session_stats) for row in rows]
+    scored = all_scored
+    scope_note = "Scope: all exported tasks."
+    if args.require_sessions:
+        scored = [
+            row
+            for row in all_scored
+            if int(row.get("session_count", 0) or 0) > 0
+        ]
+        dropped_count = len(all_scored) - len(scored)
+        scope_note = (
+            "Scope: session-backed tasks only. Per Fleet guidance, tasks with no visible "
+            f"sessions are dropped from this analysis for now. Included {len(scored)} "
+            f"tasks and dropped {dropped_count} unrun tasks from the {len(all_scored)}-task export."
+        )
     args.out_dir.mkdir(parents=True, exist_ok=True)
 
     write_csv(args.out_dir / "task_triage.csv", scored)
     (args.out_dir / "task_triage.json").write_text(
         json.dumps(scored, indent=2), encoding="utf-8"
     )
-    (args.out_dir / "summary.md").write_text(build_summary(scored), encoding="utf-8")
+    (args.out_dir / "summary.md").write_text(
+        build_summary(scored, scope_note), encoding="utf-8"
+    )
     write_manual_queue(args.out_dir / "manual_review_queue.md", scored)
 
     print(f"Loaded {len(rows)} tasks")
+    if args.require_sessions:
+        print(f"Dropped {len(all_scored) - len(scored)} tasks without visible sessions")
+        print(f"Scoped to {len(scored)} session-backed tasks")
     print(f"Wrote {args.out_dir / 'task_triage.csv'}")
     print(f"Wrote {args.out_dir / 'summary.md'}")
     print(f"Wrote {args.out_dir / 'manual_review_queue.md'}")

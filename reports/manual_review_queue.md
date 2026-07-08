@@ -2,51 +2,7 @@
 
 These are the top 50 tasks by static QA risk. Use this as a worklist, not as a rejection list.
 
-## 1. task_uafdddxsii5f_n_1781580009873_ye68x4ssy__ayush_20260624__worktrial_taskloss_20260707
-
-- Bucket: `D_high_risk_manual_review`
-- Risk score: `14.85`
-- Environment: `psi-personal-health`
-- Findings: `RELATIVE_DATE_ANCHORS|MANY_CROSS_SYSTEM_DEPENDENCIES|HIGH_BRANCHING|MANY_LOOKUPS|PROMPT_APP_NOT_VERIFIED|VERIFIER_ONLY_AMOUNTS|LONG_PROMPT|HEALTH_PRIVACY_REVIEW|FINANCE_SIDE_EFFECT_REVIEW`
-- Dependencies: `bank_transactions|calendar_source|conditional_branch|email_source|invoice_bill|math_or_aggregation|medical_record|personal_profile|provider_search`
-- Prompt apps: `fakelook|lifeline|medora|outlook|quickbooks`
-- Verifier apps: `lifeline|medora|outlook`
-- Prompt app families missing from verifier: `ledger`
-- Verifier-only amounts: `161.47|62.47`
-- Verifier-only user values: ``
-
-> I need to get my payments sorted for my health stuff as I have been getting calls, texts, etc., asking for payments. However, I have no idea why I still have money due. I thought I had paid it all off last month. Coul...
-
-Manual check:
-
-- [ ] Open task world or session trace.
-- [ ] Verify each prompt lookup fact is present in seed data.
-- [ ] Verify verifier-only constants are derivable from seed data.
-- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
-
-## 2. task_vgekb6ez2mk_n_1781691388858_cx87x0003__ayush_20260624__worktrial_taskloss_20260707
-
-- Bucket: `D_high_risk_manual_review`
-- Risk score: `14.55`
-- Environment: `psi-consumer-finance`
-- Findings: `MANY_CROSS_SYSTEM_DEPENDENCIES|HIGH_BRANCHING|MANY_LOOKUPS|VERIFIER_ONLY_AMOUNTS|VERIFIER_ONLY_USER_VALUES|FINANCE_SIDE_EFFECT_REVIEW`
-- Dependencies: `bank_transactions|calendar_source|conditional_branch|credit_card|email_source|invoice_bill|math_or_aggregation|personal_profile`
-- Prompt apps: `fakelook|harbor|meridian|outlook|quickbooks`
-- Verifier apps: `fakelook|harbor|meridian|quickbooks`
-- Prompt app families missing from verifier: ``
-- Verifier-only amounts: `1875|246.66|371.66|875`
-- Verifier-only user values: `2025-10-21 || Milo Property Services || North Loop Design Co || Review payment status for Milo Property Services || Review payment status for North Loop Design Co || billing+1@example.com || billing+3@example.com`
-
-> I want to proactively follow up on customers with outstanding balances while ensuring that expected incoming payments are properly tracked and reserved. In Ledger, identify the two customers with the highest open bala...
-
-Manual check:
-
-- [ ] Open task world or session trace.
-- [ ] Verify each prompt lookup fact is present in seed data.
-- [ ] Verify verifier-only constants are derivable from seed data.
-- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
-
-## 3. task_matgvxxwzl4t_n_1781541869363_1kostyx0x__ayush_20260624__worktrial_taskloss_20260707
+## 1. task_matgvxxwzl4t_n_1781541869363_1kostyx0x__ayush_20260624__worktrial_taskloss_20260707
 
 - Bucket: `D_high_risk_manual_review`
 - Risk score: `14.3`
@@ -68,29 +24,7 @@ Manual check:
 - [ ] Verify verifier-only constants are derivable from seed data.
 - [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
 
-## 4. task_g9jcqlioeg_n_1781363550879_h4ee24f4t__ayush_20260624__worktrial_taskloss_20260707
-
-- Bucket: `D_high_risk_manual_review`
-- Risk score: `13.75`
-- Environment: `psi-consumer-finance`
-- Findings: `MANY_CROSS_SYSTEM_DEPENDENCIES|HIGH_BRANCHING|MANY_LOOKUPS|VERIFIER_ONLY_AMOUNTS|VERIFIER_ONLY_USER_VALUES|LONG_PROMPT|FINANCE_SIDE_EFFECT_REVIEW`
-- Dependencies: `bank_transactions|conditional_branch|email_source|invoice_bill|math_or_aggregation|personal_profile`
-- Prompt apps: `fakelook|harbor|outlook|quickbooks`
-- Verifier apps: `fakelook|harbor|meridian|quickbooks`
-- Prompt app families missing from verifier: ``
-- Verifier-only amounts: `120|240|2400|40|4800|5040|738.75`
-- Verifier-only user values: `%Dashboard Build% || %Dashboard Design% || 2025-10-14 || 2025-11-28 || billing+5@example.com`
-
-> I'm getting a draft invoice ready for one of my customers and, as part of a promotion, I'd also like to send them a small reward while I finalize everything. In Ledger, find the customer "Elevate Embedded LLC" and upd...
-
-Manual check:
-
-- [ ] Open task world or session trace.
-- [ ] Verify each prompt lookup fact is present in seed data.
-- [ ] Verify verifier-only constants are derivable from seed data.
-- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
-
-## 5. task_nvpb0yuy1mj0_n_1781615257807_i11yigal7__ayush_20260624__worktrial_taskloss_20260707
+## 2. task_nvpb0yuy1mj0_n_1781615257807_i11yigal7__ayush_20260624__worktrial_taskloss_20260707
 
 - Bucket: `D_high_risk_manual_review`
 - Risk score: `13.7`
@@ -112,7 +46,7 @@ Manual check:
 - [ ] Verify verifier-only constants are derivable from seed data.
 - [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
 
-## 6. task_qmr6zgds3jyt_n_1781554267041_qznhql8vr__ayush_20260624__worktrial_taskloss_20260707
+## 3. task_qmr6zgds3jyt_n_1781554267041_qznhql8vr__ayush_20260624__worktrial_taskloss_20260707
 
 - Bucket: `D_high_risk_manual_review`
 - Risk score: `13.65`
@@ -134,29 +68,7 @@ Manual check:
 - [ ] Verify verifier-only constants are derivable from seed data.
 - [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
 
-## 7. task_icch7e5wbqm_n_1781757558776_dbq3igpwl__ayush_20260624__worktrial_taskloss_20260707
-
-- Bucket: `D_high_risk_manual_review`
-- Risk score: `13.6`
-- Environment: `psi-consumer-finance`
-- Findings: `RELATIVE_DATE_ANCHORS|MANY_CROSS_SYSTEM_DEPENDENCIES|MANY_LOOKUPS|VERIFIER_ONLY_AMOUNTS|VERIFIER_ONLY_USER_VALUES|LONG_PROMPT|FINANCE_SIDE_EFFECT_REVIEW`
-- Dependencies: `bank_transactions|calendar_source|conditional_branch|credit_card|email_source|invoice_bill`
-- Prompt apps: `fakelook|harbor|meridian|outlook|quickbooks`
-- Verifier apps: `fakelook|harbor|meridian|quickbooks`
-- Prompt app families missing from verifier: ``
-- Verifier-only amounts: `123.8|17.66|18.63|18.77|19.91|21.96|32.21|37.49|44.48|54.31|78.06`
-- Verifier-only user values: `%Adobe Creative% || %Canva Pro% || %Everyday Checking% || %Google Workspace% || %Ledger Online% || 2025-10-13 || 2025-10-16 || April 08, 2025 || April 8, 2025 || Google Workspace email || June 15, 2025 || October 10, 2025`
-
-> I need your help with a subscription billing audit. First, review the relevant subscription activity in Harbor and Ledger: - Compare the StreamBox bill payment in scheduled transfers in Harbor (Pay & Transfer) with th...
-
-Manual check:
-
-- [ ] Open task world or session trace.
-- [ ] Verify each prompt lookup fact is present in seed data.
-- [ ] Verify verifier-only constants are derivable from seed data.
-- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
-
-## 8. task_uflzxpdl2ii_n_1781214710280_xc3w85bsi__ayush_20260624__worktrial_taskloss_20260707
+## 4. task_uflzxpdl2ii_n_1781214710280_xc3w85bsi__ayush_20260624__worktrial_taskloss_20260707
 
 - Bucket: `D_high_risk_manual_review`
 - Risk score: `13.6`
@@ -178,7 +90,7 @@ Manual check:
 - [ ] Verify verifier-only constants are derivable from seed data.
 - [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
 
-## 9. task_leq16uslqvlv_n_1781275844925_0cgwctlkf__ayush_20260624__worktrial_taskloss_20260707
+## 5. task_leq16uslqvlv_n_1781275844925_0cgwctlkf__ayush_20260624__worktrial_taskloss_20260707
 
 - Bucket: `D_high_risk_manual_review`
 - Risk score: `13.35`
@@ -200,7 +112,7 @@ Manual check:
 - [ ] Verify verifier-only constants are derivable from seed data.
 - [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
 
-## 10. task_mkkgy4cmj0dr_n_1781644551453_p2xclptoe__ayush_20260624__worktrial_taskloss_20260707
+## 6. task_mkkgy4cmj0dr_n_1781644551453_p2xclptoe__ayush_20260624__worktrial_taskloss_20260707
 
 - Bucket: `D_high_risk_manual_review`
 - Risk score: `13.2`
@@ -222,7 +134,7 @@ Manual check:
 - [ ] Verify verifier-only constants are derivable from seed data.
 - [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
 
-## 11. task_bgsq2ryse7je_n_1781558918928_e04niybuz__ayush_20260624__worktrial_taskloss_20260707
+## 7. task_bgsq2ryse7je_n_1781558918928_e04niybuz__ayush_20260624__worktrial_taskloss_20260707
 
 - Bucket: `D_high_risk_manual_review`
 - Risk score: `13.15`
@@ -244,7 +156,7 @@ Manual check:
 - [ ] Verify verifier-only constants are derivable from seed data.
 - [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
 
-## 12. task_iuxflcdhcj1y_n_1781704569850_f35noviu1__ayush_20260624__worktrial_taskloss_20260707
+## 8. task_iuxflcdhcj1y_n_1781704569850_f35noviu1__ayush_20260624__worktrial_taskloss_20260707
 
 - Bucket: `D_high_risk_manual_review`
 - Risk score: `13.15`
@@ -266,7 +178,7 @@ Manual check:
 - [ ] Verify verifier-only constants are derivable from seed data.
 - [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
 
-## 13. task_dq9a2ad6xvfw_n_1781641058767_tkzomw5l4__ayush_20260624__worktrial_taskloss_20260707
+## 9. task_dq9a2ad6xvfw_n_1781641058767_tkzomw5l4__ayush_20260624__worktrial_taskloss_20260707
 
 - Bucket: `D_high_risk_manual_review`
 - Risk score: `12.9`
@@ -288,7 +200,7 @@ Manual check:
 - [ ] Verify verifier-only constants are derivable from seed data.
 - [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
 
-## 14. task_i3ktag4wf0_n_1781571533334_gmarzvzrj__ayush_20260624__worktrial_taskloss_20260707
+## 10. task_i3ktag4wf0_n_1781571533334_gmarzvzrj__ayush_20260624__worktrial_taskloss_20260707
 
 - Bucket: `D_high_risk_manual_review`
 - Risk score: `12.85`
@@ -310,29 +222,7 @@ Manual check:
 - [ ] Verify verifier-only constants are derivable from seed data.
 - [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
 
-## 15. task_g7z1w88tzgi_n_1781373040055_28w1j82eb__ayush_20260624__worktrial_taskloss_20260707
-
-- Bucket: `D_high_risk_manual_review`
-- Risk score: `12.6`
-- Environment: `psi-consumer-finance`
-- Findings: `RELATIVE_DATE_ANCHORS|MANY_CROSS_SYSTEM_DEPENDENCIES|HIGH_BRANCHING|MANY_LOOKUPS|VERIFIER_ONLY_AMOUNTS|VERIFIER_ONLY_USER_VALUES|FINANCE_SIDE_EFFECT_REVIEW`
-- Dependencies: `bank_transactions|conditional_branch|email_source|invoice_bill|math_or_aggregation`
-- Prompt apps: `fakelook|harbor|outlook|quickbooks`
-- Verifier apps: `fakelook|harbor|meridian|quickbooks`
-- Prompt app families missing from verifier: ``
-- Verifier-only amounts: `31.23|531.34`
-- Verifier-only user values: `Milo Property Services || Slate Studio || billing+2@example.com || billing+3@example.com`
-
-> A few client invoices in Ledger need attention before the next payment batch closes. Pull up the Sales Invoices view and check the status filter for Overdue, then separately check for Sent, combining both result sets....
-
-Manual check:
-
-- [ ] Open task world or session trace.
-- [ ] Verify each prompt lookup fact is present in seed data.
-- [ ] Verify verifier-only constants are derivable from seed data.
-- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
-
-## 16. task_bjqxsskmpxeq_n_1781476993426_gmm015kra__ayush_20260624__worktrial_taskloss_20260707
+## 11. task_bjqxsskmpxeq_n_1781476993426_gmm015kra__ayush_20260624__worktrial_taskloss_20260707
 
 - Bucket: `D_high_risk_manual_review`
 - Risk score: `12.15`
@@ -354,7 +244,7 @@ Manual check:
 - [ ] Verify verifier-only constants are derivable from seed data.
 - [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
 
-## 17. task_agnnvwbuhxbb_n_1781684922865_jlcx55wg5__ayush_20260624__worktrial_taskloss_20260707
+## 12. task_agnnvwbuhxbb_n_1781684922865_jlcx55wg5__ayush_20260624__worktrial_taskloss_20260707
 
 - Bucket: `D_high_risk_manual_review`
 - Risk score: `12.05`
@@ -376,7 +266,7 @@ Manual check:
 - [ ] Verify verifier-only constants are derivable from seed data.
 - [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
 
-## 18. task_k7ngh0g7q71x_n_1781992664263_8h2gytbji__ayush_20260624__worktrial_taskloss_20260707
+## 13. task_k7ngh0g7q71x_n_1781992664263_8h2gytbji__ayush_20260624__worktrial_taskloss_20260707
 
 - Bucket: `D_high_risk_manual_review`
 - Risk score: `12.05`
@@ -398,7 +288,7 @@ Manual check:
 - [ ] Verify verifier-only constants are derivable from seed data.
 - [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
 
-## 19. task_z4ahj9ulywql_n_1781550013842_qu78voj1r__ayush_20260624__worktrial_taskloss_20260707
+## 14. task_z4ahj9ulywql_n_1781550013842_qu78voj1r__ayush_20260624__worktrial_taskloss_20260707
 
 - Bucket: `D_high_risk_manual_review`
 - Risk score: `12.05`
@@ -420,51 +310,7 @@ Manual check:
 - [ ] Verify verifier-only constants are derivable from seed data.
 - [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
 
-## 20. task_asvghzavjtzg_n_1781585241181_ywf3rxzj3__ayush_20260624__worktrial_taskloss_20260707
-
-- Bucket: `D_high_risk_manual_review`
-- Risk score: `12.0`
-- Environment: `psi-consumer-finance`
-- Findings: `MANY_CROSS_SYSTEM_DEPENDENCIES|HIGH_BRANCHING|MANY_LOOKUPS|VERIFIER_ONLY_AMOUNTS|VERIFIER_ONLY_USER_VALUES|LONG_PROMPT|FINANCE_SIDE_EFFECT_REVIEW`
-- Dependencies: `bank_transactions|conditional_branch|credit_card|email_source|math_or_aggregation`
-- Prompt apps: `fakelook|harbor|meridian|outlook`
-- Verifier apps: `fakelook|harbor|meridian|quickbooks`
-- Prompt app families missing from verifier: ``
-- Verifier-only amounts: `1213.99|213.99`
-- Verifier-only user values: `2025-10-05 || 2025-10-07 || 2025-10-09 || 2025-10-10 || 2025-10-16 || is not Oct 5, 7, or 9 || is outside Oct 5-10 range || is within Oct 5-10 date range`
-
-> I was on a trip with my friend from October 5 to October 10 and paid for some of the expenses that we had together to simplify things. We agreed that we would split up these expenses later. Now, after the trip, I want...
-
-Manual check:
-
-- [ ] Open task world or session trace.
-- [ ] Verify each prompt lookup fact is present in seed data.
-- [ ] Verify verifier-only constants are derivable from seed data.
-- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
-
-## 21. task_iegiud4ie8sa_n_1781547489845_yey638yu1__ayush_20260624__worktrial_taskloss_20260707
-
-- Bucket: `D_high_risk_manual_review`
-- Risk score: `12.0`
-- Environment: `psi-personal-health`
-- Findings: `RELATIVE_DATE_ANCHORS|MANY_CROSS_SYSTEM_DEPENDENCIES|HIGH_BRANCHING|VERIFIER_ONLY_AMOUNTS|VERIFIER_ONLY_USER_VALUES|HEALTH_PRIVACY_REVIEW|FINANCE_SIDE_EFFECT_REVIEW`
-- Dependencies: `calendar_source|conditional_branch|credit_card|medical_record|personal_profile|provider_search`
-- Prompt apps: `fakelook|lifeline|medora`
-- Verifier apps: `lifeline|medora|outlook`
-- Prompt app families missing from verifier: ``
-- Verifier-only amounts: `40|62.47`
-- Verifier-only user values: `2025-10-15 || 212-555-0185 || 7344 Anderson Ln || 7344 Anderson Ln, Raleigh, NC 27601 || Urgent Care Visit`
-
-> I broke my tooth and I need to schedule an urgent visit to a dentist ASAP. Please schedule an appointment in Medora with a dentist that has availability for an urgent visit at the earliest time, on 10/15. I can't spea...
-
-Manual check:
-
-- [ ] Open task world or session trace.
-- [ ] Verify each prompt lookup fact is present in seed data.
-- [ ] Verify verifier-only constants are derivable from seed data.
-- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
-
-## 22. task_qzuenxoozak_n_1781195720034_vv4ic4hmb__ayush_20260624__worktrial_taskloss_20260707
+## 15. task_qzuenxoozak_n_1781195720034_vv4ic4hmb__ayush_20260624__worktrial_taskloss_20260707
 
 - Bucket: `D_high_risk_manual_review`
 - Risk score: `12.0`
@@ -486,7 +332,7 @@ Manual check:
 - [ ] Verify verifier-only constants are derivable from seed data.
 - [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
 
-## 23. task_z5zra8ojflf_n_1781340792001_t94q3vmad__ayush_20260624__worktrial_taskloss_20260707
+## 16. task_z5zra8ojflf_n_1781340792001_t94q3vmad__ayush_20260624__worktrial_taskloss_20260707
 
 - Bucket: `D_high_risk_manual_review`
 - Risk score: `11.95`
@@ -508,73 +354,7 @@ Manual check:
 - [ ] Verify verifier-only constants are derivable from seed data.
 - [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
 
-## 24. task_edbhacdtf15c_n_1781591126430_n3nla40f5__ayush_20260624__worktrial_taskloss_20260707
-
-- Bucket: `D_high_risk_manual_review`
-- Risk score: `11.85`
-- Environment: `psi-consumer-finance`
-- Findings: `RELATIVE_DATE_ANCHORS|MANY_CROSS_SYSTEM_DEPENDENCIES|HIGH_BRANCHING|VERIFIER_ONLY_AMOUNTS|LONG_PROMPT|FINANCE_SIDE_EFFECT_REVIEW`
-- Dependencies: `bank_transactions|conditional_branch|invoice_bill|math_or_aggregation|personal_profile`
-- Prompt apps: `harbor|quickbooks`
-- Verifier apps: `fakelook|harbor|meridian|quickbooks`
-- Prompt app families missing from verifier: ``
-- Verifier-only amounts: `18.63|30|514.82`
-- Verifier-only user values: `2025-10-14 || 2025-11-13`
-
-> My tasks for today are to pay outstanding bills for this month, to update bills in Ledger, if necessary, and to check if I have enough money on my Harbor account for upcoming expenses and bills. I also do not want to ...
-
-Manual check:
-
-- [ ] Open task world or session trace.
-- [ ] Verify each prompt lookup fact is present in seed data.
-- [ ] Verify verifier-only constants are derivable from seed data.
-- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
-
-## 25. task_h5krxt4vgizt_n_1781612831028_di2o7s7lk__ayush_20260624__worktrial_taskloss_20260707
-
-- Bucket: `D_high_risk_manual_review`
-- Risk score: `11.85`
-- Environment: `psi-consumer-finance`
-- Findings: `RELATIVE_DATE_ANCHORS|MANY_CROSS_SYSTEM_DEPENDENCIES|HIGH_BRANCHING|VERIFIER_ONLY_AMOUNTS|LONG_PROMPT|FINANCE_SIDE_EFFECT_REVIEW`
-- Dependencies: `bank_transactions|calendar_source|conditional_branch|credit_card|email_source|invoice_bill|math_or_aggregation`
-- Prompt apps: `fakelook|harbor|meridian|outlook|quickbooks`
-- Verifier apps: `fakelook|harbor|meridian|quickbooks`
-- Prompt app families missing from verifier: ``
-- Verifier-only amounts: `140|250|286.6|389.6|427.85|500|572.15|627.97`
-- Verifier-only user values: `2025-10-15 || 2025-10-17`
-
-> Hi, a bunch of payments are about to hit my Harbor checking over the next day or two, and my Meridian card payment is coming out of the same account, so I want to make sure my checking does not drop below my safety fl...
-
-Manual check:
-
-- [ ] Open task world or session trace.
-- [ ] Verify each prompt lookup fact is present in seed data.
-- [ ] Verify verifier-only constants are derivable from seed data.
-- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
-
-## 26. task_pdzpnhz0cm7p_n_1781625470054_jq7yq6rxw__ayush_20260624__worktrial_taskloss_20260707
-
-- Bucket: `D_high_risk_manual_review`
-- Risk score: `11.75`
-- Environment: `psi-consumer-finance`
-- Findings: `RELATIVE_DATE_ANCHORS|HIGH_BRANCHING|MANY_LOOKUPS|VERIFIER_ONLY_AMOUNTS|LONG_PROMPT|FINANCE_SIDE_EFFECT_REVIEW`
-- Dependencies: `bank_transactions|conditional_branch|credit_card`
-- Prompt apps: `harbor|meridian`
-- Verifier apps: `fakelook|harbor|meridian|quickbooks`
-- Prompt app families missing from verifier: ``
-- Verifier-only amounts: `120|14366.83|14486.83|200|2313.17|2433.17|290.69|340.69`
-- Verifier-only user values: `Maya Rivera`
-
-> So, my wedding anniversary is coming up. I want to plan a beautiful gateway for me and my husband. But I am also on a budget constraint. I would like it if I could as less cash as possible. An option I want to explore...
-
-Manual check:
-
-- [ ] Open task world or session trace.
-- [ ] Verify each prompt lookup fact is present in seed data.
-- [ ] Verify verifier-only constants are derivable from seed data.
-- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
-
-## 27. task_uegzt3a3alnr_n_1781718004093_kojk830fp__ayush_20260624__worktrial_taskloss_20260707
+## 17. task_uegzt3a3alnr_n_1781718004093_kojk830fp__ayush_20260624__worktrial_taskloss_20260707
 
 - Bucket: `D_high_risk_manual_review`
 - Risk score: `11.65`
@@ -596,7 +376,7 @@ Manual check:
 - [ ] Verify verifier-only constants are derivable from seed data.
 - [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
 
-## 28. task_w6gnjtwmquh5_n_1781290281803_tqfgsxjic__ayush_20260624__worktrial_taskloss_20260707
+## 18. task_w6gnjtwmquh5_n_1781290281803_tqfgsxjic__ayush_20260624__worktrial_taskloss_20260707
 
 - Bucket: `D_high_risk_manual_review`
 - Risk score: `11.65`
@@ -618,117 +398,7 @@ Manual check:
 - [ ] Verify verifier-only constants are derivable from seed data.
 - [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
 
-## 29. task_wpigk0jmkp3_n_1781556283663_7la5bw13h__ayush_20260624__worktrial_taskloss_20260707
-
-- Bucket: `D_high_risk_manual_review`
-- Risk score: `11.6`
-- Environment: `psi-personal-health`
-- Findings: `RELATIVE_DATE_ANCHORS|MANY_CROSS_SYSTEM_DEPENDENCIES|HIGH_BRANCHING|VERIFIER_ONLY_USER_VALUES|HEALTH_PRIVACY_REVIEW|FINANCE_SIDE_EFFECT_REVIEW`
-- Dependencies: `calendar_source|conditional_branch|credit_card|math_or_aggregation|medical_record|provider_search`
-- Prompt apps: `fakelook|lifeline|medora`
-- Verifier apps: `lifeline|medora|outlook`
-- Prompt app families missing from verifier: ``
-- Verifier-only amounts: ``
-- Verifier-only user values: `2025-10-14 || 2025-10-16 || Dr. King || Dr. Thompson || is before Thursday 2025-10-16 || is not after 2025-10-14 || is on or after Thursday 2025-10-16`
-
-> I have been dealing with a few issues, and I want to schedule some appointments in Medora. First, I have been having some ongoing issues with an upset stomach that is starting to greatly impact my life, and I would li...
-
-Manual check:
-
-- [ ] Open task world or session trace.
-- [ ] Verify each prompt lookup fact is present in seed data.
-- [ ] Verify verifier-only constants are derivable from seed data.
-- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
-
-## 30. task_uie3badamyzk_n_1781520506149_84x4sunuf__ayush_20260624__worktrial_taskloss_20260707
-
-- Bucket: `D_high_risk_manual_review`
-- Risk score: `11.5`
-- Environment: `psi-consumer-finance`
-- Findings: `RELATIVE_DATE_ANCHORS|MANY_CROSS_SYSTEM_DEPENDENCIES|VERIFIER_ONLY_AMOUNTS|VERIFIER_ONLY_USER_VALUES|FINANCE_SIDE_EFFECT_REVIEW`
-- Dependencies: `bank_transactions|calendar_source|conditional_branch|credit_card|email_source|invoice_bill|math_or_aggregation|personal_profile`
-- Prompt apps: `fakelook|harbor|meridian|outlook|quickbooks`
-- Verifier apps: `fakelook|harbor|meridian|quickbooks`
-- Prompt app families missing from verifier: ``
-- Verifier-only amounts: `128500|141350|1875|82400|90640`
-- Verifier-only user values: `%Milo Property Services% || 2025-10-14 || Dear North Loop Design Co || Payment Link for North Loop Design Co || billing+1@example.com`
-
-> Firstly, my annual income and total assets have risen by 10% each. Hence, could you help increase my annual income and total assets value stated in Meridian by correctly calculating their new values? Next, find the un...
-
-Manual check:
-
-- [ ] Open task world or session trace.
-- [ ] Verify each prompt lookup fact is present in seed data.
-- [ ] Verify verifier-only constants are derivable from seed data.
-- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
-
-## 31. task_z2rocn884bvz_n_1781645366910_a7nbbrdn8__ayush_20260624__worktrial_taskloss_20260707
-
-- Bucket: `D_high_risk_manual_review`
-- Risk score: `11.5`
-- Environment: `psi-consumer-finance`
-- Findings: `HIGH_BRANCHING|MANY_LOOKUPS|VERIFIER_ONLY_AMOUNTS|VERIFIER_ONLY_USER_VALUES|LONG_PROMPT|FINANCE_SIDE_EFFECT_REVIEW`
-- Dependencies: `bank_transactions|conditional_branch|email_source|invoice_bill`
-- Prompt apps: `fakelook|harbor|outlook|quickbooks`
-- Verifier apps: `fakelook|harbor|meridian|quickbooks`
-- Prompt app families missing from verifier: ``
-- Verifier-only amounts: `121|2149|315.7|372.36`
-- Verifier-only user values: `%Genesis Data% || %Hourly Advisory% || %Process Optimization Consulting% || %Workflow Automation Tools% || 2025-10-14 || 2025-11-28`
-
-> I have been somewhat complacent about verifying customer deposits, specifically for the month of May 2025. Please take a look at my Bank of Harbor checking account for the month of May. Determine whether the expected ...
-
-Manual check:
-
-- [ ] Open task world or session trace.
-- [ ] Verify each prompt lookup fact is present in seed data.
-- [ ] Verify verifier-only constants are derivable from seed data.
-- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
-
-## 32. task_zgp4orqdpb0_n_1781512927273_bw57xtk3a__ayush_20260624__worktrial_taskloss_20260707
-
-- Bucket: `D_high_risk_manual_review`
-- Risk score: `11.45`
-- Environment: `psi-personal-health`
-- Findings: `MANY_CROSS_SYSTEM_DEPENDENCIES|HIGH_BRANCHING|MANY_LOOKUPS|HEALTH_PRIVACY_REVIEW|FINANCE_SIDE_EFFECT_REVIEW`
-- Dependencies: `bank_transactions|calendar_source|conditional_branch|email_source|medical_record|personal_profile`
-- Prompt apps: `fakelook|lifeline|medora|outlook`
-- Verifier apps: `lifeline|medora|outlook`
-- Prompt app families missing from verifier: ``
-- Verifier-only amounts: `62.47`
-- Verifier-only user values: `350 Fifth Avenue || 350 Fifth Avenue, Suite 4200, New York, NY 10118 || New York`
-
-> I want to prepare for my upcoming appointments, and schedule new appointments. In Medora, please navigate to all upcoming appointments that require additional preparation. For any of these that do not have a photo ID ...
-
-Manual check:
-
-- [ ] Open task world or session trace.
-- [ ] Verify each prompt lookup fact is present in seed data.
-- [ ] Verify verifier-only constants are derivable from seed data.
-- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
-
-## 33. task_pukb1eshzc1k_n_1781701090123_uwa276ndg__ayush_20260624__worktrial_taskloss_20260707
-
-- Bucket: `D_high_risk_manual_review`
-- Risk score: `11.4`
-- Environment: `psi-consumer-finance`
-- Findings: `RELATIVE_DATE_ANCHORS|MANY_CROSS_SYSTEM_DEPENDENCIES|HIGH_BRANCHING|VERIFIER_ONLY_AMOUNTS|FINANCE_SIDE_EFFECT_REVIEW`
-- Dependencies: `bank_transactions|calendar_source|conditional_branch|credit_card|email_source|math_or_aggregation|personal_profile`
-- Prompt apps: `fakelook|harbor|meridian|outlook`
-- Verifier apps: `fakelook|harbor|meridian|quickbooks`
-- Prompt app families missing from verifier: ``
-- Verifier-only amounts: `14486.83|16371.92|16800|371.92|4817.45|486.83|817.45|858.75`
-- Verifier-only user values: `%Household Finance% || 2025-10-14 || 2025-10-30`
-
-> I want to sort my card payment and savings sorted today before I forget again. In Meridian, pay the credit card in full using the linked Harbor Bank payment account. Use the full total balance shown in Meridian, and k...
-
-Manual check:
-
-- [ ] Open task world or session trace.
-- [ ] Verify each prompt lookup fact is present in seed data.
-- [ ] Verify verifier-only constants are derivable from seed data.
-- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
-
-## 34. task_vzcjibyaetrk_n_1781615300595_i4qiu5ili__ayush_20260624__worktrial_taskloss_20260707
+## 19. task_vzcjibyaetrk_n_1781615300595_i4qiu5ili__ayush_20260624__worktrial_taskloss_20260707
 
 - Bucket: `D_high_risk_manual_review`
 - Risk score: `11.4`
@@ -750,7 +420,7 @@ Manual check:
 - [ ] Verify verifier-only constants are derivable from seed data.
 - [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
 
-## 35. task_hu7u8hnudhu_n_1781411729307_bvabegg9q__ayush_20260624__worktrial_taskloss_20260707
+## 20. task_hu7u8hnudhu_n_1781411729307_bvabegg9q__ayush_20260624__worktrial_taskloss_20260707
 
 - Bucket: `D_high_risk_manual_review`
 - Risk score: `11.35`
@@ -772,7 +442,7 @@ Manual check:
 - [ ] Verify verifier-only constants are derivable from seed data.
 - [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
 
-## 36. task_udwrcq8akbx8_n_1781633202566_j8zdw3grb__ayush_20260624__worktrial_taskloss_20260707
+## 21. task_udwrcq8akbx8_n_1781633202566_j8zdw3grb__ayush_20260624__worktrial_taskloss_20260707
 
 - Bucket: `D_high_risk_manual_review`
 - Risk score: `11.35`
@@ -794,7 +464,7 @@ Manual check:
 - [ ] Verify verifier-only constants are derivable from seed data.
 - [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
 
-## 37. task_im4kbgyiwrpj_n_1781447840042_frjo4ut91__ayush_20260624__worktrial_taskloss_20260707
+## 22. task_im4kbgyiwrpj_n_1781447840042_frjo4ut91__ayush_20260624__worktrial_taskloss_20260707
 
 - Bucket: `D_high_risk_manual_review`
 - Risk score: `11.3`
@@ -816,7 +486,7 @@ Manual check:
 - [ ] Verify verifier-only constants are derivable from seed data.
 - [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
 
-## 38. task_gth4zs74wcai_n_1781415785576_qzz51p63n__ayush_20260624__worktrial_taskloss_20260707
+## 23. task_gth4zs74wcai_n_1781415785576_qzz51p63n__ayush_20260624__worktrial_taskloss_20260707
 
 - Bucket: `D_high_risk_manual_review`
 - Risk score: `11.25`
@@ -838,29 +508,7 @@ Manual check:
 - [ ] Verify verifier-only constants are derivable from seed data.
 - [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
 
-## 39. task_sfjed1tt1gst_n_1781652381399_3vhhv330i__ayush_20260624__worktrial_taskloss_20260707
-
-- Bucket: `D_high_risk_manual_review`
-- Risk score: `11.25`
-- Environment: `psi-consumer-finance`
-- Findings: `MANY_CROSS_SYSTEM_DEPENDENCIES|HIGH_BRANCHING|MANY_LOOKUPS|VERIFIER_ONLY_USER_VALUES|FINANCE_SIDE_EFFECT_REVIEW`
-- Dependencies: `bank_transactions|conditional_branch|email_source|invoice_bill|math_or_aggregation`
-- Prompt apps: `fakelook|harbor|outlook|quickbooks`
-- Verifier apps: `fakelook|harbor|meridian|quickbooks`
-- Prompt app families missing from verifier: ``
-- Verifier-only amounts: `31.23`
-- Verifier-only user values: `INV-00009 is overdue as of 02/23/2025 || INV-00044 is overdue as of 02/02/2025 || INV-00119 is overdue as of 03/25/2025 || Milo Property Services || Slate Studio || billing+2@example.com || billing+3@example.com`
-
-> I have a couple of overdue invoices that need to be resolved. We're going to start with invoices that are 'not due yet' and then work on 'overdue'. In Ledger, filter for invoices that show up having the status 'not du...
-
-Manual check:
-
-- [ ] Open task world or session trace.
-- [ ] Verify each prompt lookup fact is present in seed data.
-- [ ] Verify verifier-only constants are derivable from seed data.
-- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
-
-## 40. task_izn1wcinqm0z_n_1781652793067_3qijsf8bc__ayush_20260624__worktrial_taskloss_20260707
+## 24. task_izn1wcinqm0z_n_1781652793067_3qijsf8bc__ayush_20260624__worktrial_taskloss_20260707
 
 - Bucket: `D_high_risk_manual_review`
 - Risk score: `11.2`
@@ -882,7 +530,7 @@ Manual check:
 - [ ] Verify verifier-only constants are derivable from seed data.
 - [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
 
-## 41. task_zo1had3vycvn_n_1781706559433_y744ddaat__ayush_20260624__worktrial_taskloss_20260707
+## 25. task_zo1had3vycvn_n_1781706559433_y744ddaat__ayush_20260624__worktrial_taskloss_20260707
 
 - Bucket: `D_high_risk_manual_review`
 - Risk score: `11.15`
@@ -904,7 +552,7 @@ Manual check:
 - [ ] Verify verifier-only constants are derivable from seed data.
 - [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
 
-## 42. task_i8xzvmzsxsql_n_1781700231775_h6zh3s0cg__ayush_20260624__worktrial_taskloss_20260707
+## 26. task_i8xzvmzsxsql_n_1781700231775_h6zh3s0cg__ayush_20260624__worktrial_taskloss_20260707
 
 - Bucket: `D_high_risk_manual_review`
 - Risk score: `11.1`
@@ -926,29 +574,7 @@ Manual check:
 - [ ] Verify verifier-only constants are derivable from seed data.
 - [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
 
-## 43. task_v7koqmbuaya5_n_1781552099121_jk2e798b6__ayush_20260624__worktrial_taskloss_20260707
-
-- Bucket: `D_high_risk_manual_review`
-- Risk score: `11.05`
-- Environment: `psi-personal-health`
-- Findings: `RELATIVE_DATE_ANCHORS|MANY_CROSS_SYSTEM_DEPENDENCIES|HIGH_BRANCHING|PROMPT_APP_NOT_VERIFIED|VERIFIER_ONLY_AMOUNTS|VERIFIER_ONLY_USER_VALUES|HEALTH_PRIVACY_REVIEW|FINANCE_SIDE_EFFECT_REVIEW`
-- Dependencies: `calendar_source|conditional_branch|email_source|invoice_bill|medical_record`
-- Prompt apps: `fakelook|lifeline|outlook|quickbooks`
-- Verifier apps: `lifeline|medora|outlook`
-- Prompt app families missing from verifier: `ledger`
-- Verifier-only amounts: `12.47|137.4|187.4|62.47`
-- Verifier-only user values: `2028-10-14 || 2028-10-15 || amy.rivera@riverapierce.example || jordan.pierce@riverapierce.example`
-
-> I'm looking to grant access on Lifeline to a couple of my family members. First, head over to Latch. Gather the contact email for Jordan Pierce and Amy Rivera. After doing so, head back into Lifeline to give them both...
-
-Manual check:
-
-- [ ] Open task world or session trace.
-- [ ] Verify each prompt lookup fact is present in seed data.
-- [ ] Verify verifier-only constants are derivable from seed data.
-- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
-
-## 44. task_oovp9nyfyo0_n_1781566654585_xyu47p2qg__ayush_20260624__worktrial_taskloss_20260707
+## 27. task_oovp9nyfyo0_n_1781566654585_xyu47p2qg__ayush_20260624__worktrial_taskloss_20260707
 
 - Bucket: `D_high_risk_manual_review`
 - Risk score: `11.0`
@@ -970,7 +596,7 @@ Manual check:
 - [ ] Verify verifier-only constants are derivable from seed data.
 - [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
 
-## 45. task_snomzyg0aaz_n_1781541336492_kon2jr7io__ayush_20260624__worktrial_taskloss_20260707
+## 28. task_snomzyg0aaz_n_1781541336492_kon2jr7io__ayush_20260624__worktrial_taskloss_20260707
 
 - Bucket: `D_high_risk_manual_review`
 - Risk score: `10.95`
@@ -992,73 +618,7 @@ Manual check:
 - [ ] Verify verifier-only constants are derivable from seed data.
 - [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
 
-## 46. task_fl7vfmuvegbg_n_1781660573933_rxumgonk3__ayush_20260624__worktrial_taskloss_20260707
-
-- Bucket: `D_high_risk_manual_review`
-- Risk score: `10.9`
-- Environment: `psi-consumer-finance`
-- Findings: `MANY_CROSS_SYSTEM_DEPENDENCIES|HIGH_BRANCHING|MANY_LOOKUPS|VERIFIER_ONLY_AMOUNTS|VERIFIER_ONLY_USER_VALUES|FINANCE_SIDE_EFFECT_REVIEW`
-- Dependencies: `bank_transactions|conditional_branch|email_source|invoice_bill|math_or_aggregation`
-- Prompt apps: `outlook|quickbooks`
-- Verifier apps: `fakelook|harbor|meridian|quickbooks`
-- Prompt app families missing from verifier: ``
-- Verifier-only amounts: `110.55|1237.63|159.68|237.63|31.23|324.15|371.66|483.83|79.32|865.97`
-- Verifier-only user values: `Interest Applied to INV-00009 || Interest Applied to INV-00044 || Interest Applied to INV-00119 || billing+2@example.com || billing+3@example.com`
-
-> I was reviewing aged receivables and noticed that a number of invoices have remained outstanding for an unusually long period of time. Rather than continuing to carry these balances unchanged, I would like the records...
-
-Manual check:
-
-- [ ] Open task world or session trace.
-- [ ] Verify each prompt lookup fact is present in seed data.
-- [ ] Verify verifier-only constants are derivable from seed data.
-- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
-
-## 47. task_wyrsgiwdci3q_n_1781529659099_779nii14o__ayush_20260624__worktrial_taskloss_20260707
-
-- Bucket: `D_high_risk_manual_review`
-- Risk score: `10.85`
-- Environment: `psi-personal-health`
-- Findings: `RELATIVE_DATE_ANCHORS|MANY_CROSS_SYSTEM_DEPENDENCIES|MANY_LOOKUPS|VERIFIER_ONLY_AMOUNTS|HEALTH_PRIVACY_REVIEW|FINANCE_SIDE_EFFECT_REVIEW`
-- Dependencies: `bank_transactions|calendar_source|conditional_branch|credit_card|email_source|math_or_aggregation|personal_profile|provider_search`
-- Prompt apps: `medora|outlook`
-- Verifier apps: `lifeline|medora|outlook`
-- Prompt app families missing from verifier: ``
-- Verifier-only amounts: `20|62.47`
-- Verifier-only user values: `2025-10-21 || Oct 22`
-
-> My husband has been nudging me for some time to get a new credit card that offers better rewards points for our medical related expenses, which I finally have. We’ve also been planning to book Omar’s annual physical c...
-
-Manual check:
-
-- [ ] Open task world or session trace.
-- [ ] Verify each prompt lookup fact is present in seed data.
-- [ ] Verify verifier-only constants are derivable from seed data.
-- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
-
-## 48. task_abnoxqu8myxh_n_1781539233132_asy21q4wt__ayush_20260624__worktrial_taskloss_20260707
-
-- Bucket: `D_high_risk_manual_review`
-- Risk score: `10.8`
-- Environment: `psi-consumer-finance`
-- Findings: `RELATIVE_DATE_ANCHORS|HIGH_BRANCHING|VERIFIER_ONLY_AMOUNTS|FINANCE_SIDE_EFFECT_REVIEW`
-- Dependencies: `bank_transactions|calendar_source|conditional_branch|credit_card`
-- Prompt apps: `fakelook|harbor|meridian`
-- Verifier apps: `fakelook|harbor|meridian|quickbooks`
-- Prompt app families missing from verifier: ``
-- Verifier-only amounts: `13777.05|14486.83|182.55|22.95|3022.95|709.78|777.05`
-- Verifier-only user values: `2025-10-14 || 2025-10-31`
-
-> One formatting note, write any dollar amount as $0.00, like $1,234.56. First, the card. Open my Meridian Gold Card and check whether AutoPay is on. If AutoPay is on, then the minimum is already covered, so instead I w...
-
-Manual check:
-
-- [ ] Open task world or session trace.
-- [ ] Verify each prompt lookup fact is present in seed data.
-- [ ] Verify verifier-only constants are derivable from seed data.
-- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
-
-## 49. task_ilyr5jkkljrf_n_1781571007260_wxumiflc4__ayush_20260624__worktrial_taskloss_20260707
+## 29. task_ilyr5jkkljrf_n_1781571007260_wxumiflc4__ayush_20260624__worktrial_taskloss_20260707
 
 - Bucket: `D_high_risk_manual_review`
 - Risk score: `10.8`
@@ -1080,7 +640,7 @@ Manual check:
 - [ ] Verify verifier-only constants are derivable from seed data.
 - [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
 
-## 50. task_itxsazhocgr_n_1781289458817_snuiks36m__ayush_20260624__worktrial_taskloss_20260707
+## 30. task_itxsazhocgr_n_1781289458817_snuiks36m__ayush_20260624__worktrial_taskloss_20260707
 
 - Bucket: `D_high_risk_manual_review`
 - Risk score: `10.8`
@@ -1094,6 +654,446 @@ Manual check:
 - Verifier-only user values: `2025-11-08 || 2025-11-10`
 
 > We are nearing the end of this month (October, 2025), and I'm thinking that I should evaluate how my spending has been, along with paying the credit card bill and sorting out my emergency fund savings account. Help me...
+
+Manual check:
+
+- [ ] Open task world or session trace.
+- [ ] Verify each prompt lookup fact is present in seed data.
+- [ ] Verify verifier-only constants are derivable from seed data.
+- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
+
+## 31. task_olqncx5cxrq4_n_1781574270429_uhfhk55t2__ayush_20260624__worktrial_taskloss_20260707
+
+- Bucket: `D_high_risk_manual_review`
+- Risk score: `10.8`
+- Environment: `psi-personal-health`
+- Findings: `MANY_CROSS_SYSTEM_DEPENDENCIES|HIGH_BRANCHING|MANY_LOOKUPS|VERIFIER_ONLY_USER_VALUES|HEALTH_PRIVACY_REVIEW|FINANCE_SIDE_EFFECT_REVIEW`
+- Dependencies: `calendar_source|conditional_branch|credit_card|medical_record|personal_profile|provider_search`
+- Prompt apps: `fakelook|lifeline|medora`
+- Verifier apps: `lifeline|medora|outlook`
+- Prompt app families missing from verifier: ``
+- Verifier-only amounts: ``
+- Verifier-only user values: `2025-10-16 || 2025-10-23 || 3000 Madison St || Dr. James Wu, MD || Dr. Margaret Hall, MD`
+
+> I would like some help booking an appointment at a specialist as well as getting an appointment booked online for my primary care doctor for a referral or else my insurance doesn't cover the specialist visit. Find me ...
+
+Manual check:
+
+- [ ] Open task world or session trace.
+- [ ] Verify each prompt lookup fact is present in seed data.
+- [ ] Verify verifier-only constants are derivable from seed data.
+- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
+
+## 32. task_poegykqfexl8_n_1781525501332_9z2rupgb3__ayush_20260624__worktrial_taskloss_20260707
+
+- Bucket: `D_high_risk_manual_review`
+- Risk score: `10.8`
+- Environment: `psi-consumer-finance`
+- Findings: `RELATIVE_DATE_ANCHORS|MANY_CROSS_SYSTEM_DEPENDENCIES|VERIFIER_ONLY_AMOUNTS|VERIFIER_ONLY_USER_VALUES|FINANCE_SIDE_EFFECT_REVIEW`
+- Dependencies: `bank_transactions|calendar_source|conditional_branch|credit_card|email_source|math_or_aggregation`
+- Prompt apps: `fakelook|harbor|meridian|outlook`
+- Verifier apps: `fakelook|harbor|meridian|quickbooks`
+- Prompt app families missing from verifier: ``
+- Verifier-only amounts: `155.23|37.49|39.68|78.06`
+- Verifier-only user values: `2025-10-13 || 2025-10-14 || 2025-10-15 || 2025-10-31 || 2025-11-13 || 2025-11-14 || 2025-11-15`
+
+> To save some money each month, I'm going to start cancelling some of my Meridian Gold Card subscriptions. Pull up this month's card activity and find what I spent this month on three I'm done using: Adobe Creative Clo...
+
+Manual check:
+
+- [ ] Open task world or session trace.
+- [ ] Verify each prompt lookup fact is present in seed data.
+- [ ] Verify verifier-only constants are derivable from seed data.
+- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
+
+## 33. task_qehlqyjkuoqy_n_1781640416463_7t94nlq5c__ayush_20260624__worktrial_taskloss_20260707
+
+- Bucket: `D_high_risk_manual_review`
+- Risk score: `10.8`
+- Environment: `psi-consumer-finance`
+- Findings: `RELATIVE_DATE_ANCHORS|MANY_CROSS_SYSTEM_DEPENDENCIES|HIGH_BRANCHING|MANY_LOOKUPS|VERIFIER_ONLY_AMOUNTS|FINANCE_SIDE_EFFECT_REVIEW`
+- Dependencies: `bank_transactions|conditional_branch|credit_card|email_source|invoice_bill`
+- Prompt apps: `fakelook|harbor|meridian|outlook|quickbooks`
+- Verifier apps: `fakelook|harbor|meridian|quickbooks`
+- Prompt app families missing from verifier: ``
+- Verifier-only amounts: `402.48|858.75`
+- Verifier-only user values: `2025-10-14`
+
+> I want to ensure that my recent transactions are properly categorized, and also reconcile my expenses for the last week. Go to Meridian and go through my statements and activity. Note the vendor and amount for all tra...
+
+Manual check:
+
+- [ ] Open task world or session trace.
+- [ ] Verify each prompt lookup fact is present in seed data.
+- [ ] Verify verifier-only constants are derivable from seed data.
+- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
+
+## 34. task_glvi0nyc1p6y_n_1781782792093_gihqex5xi__ayush_20260624__worktrial_taskloss_20260707
+
+- Bucket: `D_high_risk_manual_review`
+- Risk score: `10.6`
+- Environment: `psi-consumer-finance`
+- Findings: `RELATIVE_DATE_ANCHORS|MANY_CROSS_SYSTEM_DEPENDENCIES|HIGH_BRANCHING|VERIFIER_ONLY_AMOUNTS|FINANCE_SIDE_EFFECT_REVIEW`
+- Dependencies: `bank_transactions|conditional_branch|credit_card|email_source|math_or_aggregation|personal_profile`
+- Prompt apps: `fakelook|harbor|meridian|outlook`
+- Verifier apps: `fakelook|harbor|meridian|quickbooks`
+- Prompt app families missing from verifier: ``
+- Verifier-only amounts: `114.91|11702.54|14486.83|16800|486.83|702.54`
+- Verifier-only user values: `2025-10-14 || Missing Meridian ACH debit transaction on account 1`
+
+> I want to clear my credit card balances today and make sure everything is set up properly afterward, then send my husband a quick update once it's all done. In Meridian, identify the total outstanding balance on the c...
+
+Manual check:
+
+- [ ] Open task world or session trace.
+- [ ] Verify each prompt lookup fact is present in seed data.
+- [ ] Verify verifier-only constants are derivable from seed data.
+- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
+
+## 35. task_yqupdaywlvqb_n_1781306014106_ejs854ja4__ayush_20260624__worktrial_taskloss_20260707
+
+- Bucket: `D_high_risk_manual_review`
+- Risk score: `10.55`
+- Environment: `psi-consumer-finance`
+- Findings: `RELATIVE_DATE_ANCHORS|MANY_CROSS_SYSTEM_DEPENDENCIES|PROMPT_APP_NOT_VERIFIED|VERIFIER_ONLY_AMOUNTS|HEALTH_PRIVACY_REVIEW|FINANCE_SIDE_EFFECT_REVIEW`
+- Dependencies: `bank_transactions|calendar_source|conditional_branch|credit_card|email_source|invoice_bill|math_or_aggregation|medical_record`
+- Prompt apps: `fakelook|harbor|lifeline|meridian|outlook|quickbooks`
+- Verifier apps: `fakelook|harbor|meridian|quickbooks`
+- Prompt app families missing from verifier: `lifeline`
+- Verifier-only amounts: `187.5|6`
+- Verifier-only user values: `October Medical OOP expenses have BrightPath claim memo || is not categorized as Medical Out of Pocket || support+5@vendor.example`
+
+> We're on a high-deductible plan with BrightPath Insurance and I track our medical out-of-pocket spending every month. I want October's claim filed and the books squared away today. Start by making sure the books are c...
+
+Manual check:
+
+- [ ] Open task world or session trace.
+- [ ] Verify each prompt lookup fact is present in seed data.
+- [ ] Verify verifier-only constants are derivable from seed data.
+- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
+
+## 36. task_ivnptdiryl3z_n_1781663573660_22n9ikfo2__ayush_20260624__worktrial_taskloss_20260707
+
+- Bucket: `D_high_risk_manual_review`
+- Risk score: `10.5`
+- Environment: `psi-personal-health`
+- Findings: `RELATIVE_DATE_ANCHORS|MANY_CROSS_SYSTEM_DEPENDENCIES|PROMPT_APP_NOT_VERIFIED|VERIFIER_ONLY_AMOUNTS|LONG_PROMPT|HEALTH_PRIVACY_REVIEW|FINANCE_SIDE_EFFECT_REVIEW`
+- Dependencies: `bank_transactions|calendar_source|credit_card|email_source|invoice_bill|math_or_aggregation|medical_record`
+- Prompt apps: `fakelook|lifeline|outlook|quickbooks`
+- Verifier apps: `lifeline|medora|outlook`
+- Prompt app families missing from verifier: `ledger`
+- Verifier-only amounts: `20|30|35|62.47|82.47`
+- Verifier-only user values: `Jul 5, 2025 || Reminder Jordan to pay his Lifeline balance`
+
+> It's my monthly household medical-bill cleanup in Lifeline. I manage four records there: my own (Maya Rivera, MRN-RP-9001), Lena Rivera (MRN-RP-9003), Jordan Pierce (MRN-RP-9002), and Omar Pierce (MRN-RP-9004). Go thr...
+
+Manual check:
+
+- [ ] Open task world or session trace.
+- [ ] Verify each prompt lookup fact is present in seed data.
+- [ ] Verify verifier-only constants are derivable from seed data.
+- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
+
+## 37. task_us4sqtokm_n_1781710895603_wujeck8m9__ayush_20260624__worktrial_taskloss_20260707
+
+- Bucket: `D_high_risk_manual_review`
+- Risk score: `10.5`
+- Environment: `psi-personal-health`
+- Findings: `MANY_CROSS_SYSTEM_DEPENDENCIES|HIGH_BRANCHING|VERIFIER_ONLY_USER_VALUES|HEALTH_PRIVACY_REVIEW|FINANCE_SIDE_EFFECT_REVIEW`
+- Dependencies: `calendar_source|conditional_branch|credit_card|medical_record|personal_profile|provider_search`
+- Prompt apps: `fakelook|lifeline|medora`
+- Verifier apps: `lifeline|medora|outlook`
+- Prompt app families missing from verifier: ``
+- Verifier-only amounts: `40`
+- Verifier-only user values: `2025-10-27 || 2025-10-28 || 3833 Lewis St || Dr. Donna Anderson, MD || Midtown Clinic || Oct 28`
+
+> I'm currently in New York and will be traveling to Arizona soon. Since I'll be there for a while, I'd like to schedule a dental appointment in Arizona during my stay. In Medora, first check if I already have a dentist...
+
+Manual check:
+
+- [ ] Open task world or session trace.
+- [ ] Verify each prompt lookup fact is present in seed data.
+- [ ] Verify verifier-only constants are derivable from seed data.
+- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
+
+## 38. task_bldwgko1jup_n_1781355522269_qwmhwh80q__ayush_20260624__worktrial_taskloss_20260707
+
+- Bucket: `D_high_risk_manual_review`
+- Risk score: `10.2`
+- Environment: `psi-consumer-finance`
+- Findings: `RELATIVE_DATE_ANCHORS|MANY_CROSS_SYSTEM_DEPENDENCIES|PROMPT_APP_NOT_VERIFIED|VERIFIER_ONLY_AMOUNTS|VERIFIER_ONLY_USER_VALUES|HEALTH_PRIVACY_REVIEW|FINANCE_SIDE_EFFECT_REVIEW`
+- Dependencies: `bank_transactions|credit_card|email_source|invoice_bill|math_or_aggregation|medical_record|personal_profile`
+- Prompt apps: `harbor|lifeline|meridian|outlook|quickbooks`
+- Verifier apps: `fakelook|harbor|meridian|quickbooks`
+- Prompt app families missing from verifier: `lifeline`
+- Verifier-only amounts: `14486.83|2400|400|546`
+- Verifier-only user values: `2025-10-13 || 2025-10-14 || 2025-11-13 || billing+11@example.com`
+
+> Let's update Ledger with expenses and an invoice from yesterday and today. First, we need to link my Meridian Gold credit card with Ledger. Name the account Meridian Credit Card, the bank should just be Meridian, and ...
+
+Manual check:
+
+- [ ] Open task world or session trace.
+- [ ] Verify each prompt lookup fact is present in seed data.
+- [ ] Verify verifier-only constants are derivable from seed data.
+- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
+
+## 39. task_tvfwhbgglh_n_1781741268121_a1rgym0s6__ayush_20260624__worktrial_taskloss_20260707
+
+- Bucket: `D_high_risk_manual_review`
+- Risk score: `10.2`
+- Environment: `psi-personal-health`
+- Findings: `MANY_CROSS_SYSTEM_DEPENDENCIES|MANY_LOOKUPS|VERIFIER_ONLY_USER_VALUES|LONG_PROMPT|HEALTH_PRIVACY_REVIEW|FINANCE_SIDE_EFFECT_REVIEW`
+- Dependencies: `calendar_source|conditional_branch|credit_card|email_source|medical_record|provider_search`
+- Prompt apps: `fakelook|lifeline|medora|outlook`
+- Verifier apps: `lifeline|medora|outlook`
+- Prompt app families missing from verifier: ``
+- Verifier-only amounts: `40`
+- Verifier-only user values: `2025-10-14 || Appointment Date label || Appointment Time label || Benjamin Lopez || Dr. Benjamin Lopez || appointment date 2025-10-14 || provider name Benjamin Lopez`
+
+> In Lifeline, open the conversation "Dermatology appointment waitlist and insurance card" and verify that the active in-network insurance plan is Aetna Choice POS II Commercial. Then, in Medora, search for Dermatology ...
+
+Manual check:
+
+- [ ] Open task world or session trace.
+- [ ] Verify each prompt lookup fact is present in seed data.
+- [ ] Verify verifier-only constants are derivable from seed data.
+- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
+
+## 40. task_i9oc3bualpdt_n_1781194988200_9cibwav0i__ayush_20260624__worktrial_taskloss_20260707
+
+- Bucket: `C_repair_candidate`
+- Risk score: `9.95`
+- Environment: `psi-consumer-finance`
+- Findings: `MANY_CROSS_SYSTEM_DEPENDENCIES|HIGH_BRANCHING|VERIFIER_ONLY_AMOUNTS|FINANCE_SIDE_EFFECT_REVIEW`
+- Dependencies: `bank_transactions|conditional_branch|email_source|invoice_bill|personal_profile`
+- Prompt apps: `fakelook|harbor|outlook|quickbooks`
+- Verifier apps: `fakelook|harbor|meridian|quickbooks`
+- Prompt app families missing from verifier: ``
+- Verifier-only amounts: `85.88|858.75`
+- Verifier-only user values: `2025-10-14 || Garden Gate Furniture Delivery || dispatch@garden-gate-furniture-delivery.example`
+
+> There have been some home maintenance and renovation scheduled recently. Go to Latch and find the most recent email with "Furniture Delivery" in the sender name. Extract the sender contact information and go to Quickb...
+
+Manual check:
+
+- [ ] Open task world or session trace.
+- [ ] Verify each prompt lookup fact is present in seed data.
+- [ ] Verify verifier-only constants are derivable from seed data.
+- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
+
+## 41. task_xtkbdlah8qjb_n_1781611160477_smfh8nikh__ayush_20260624__worktrial_taskloss_20260707
+
+- Bucket: `C_repair_candidate`
+- Risk score: `9.9`
+- Environment: `psi-personal-health`
+- Findings: `MANY_CROSS_SYSTEM_DEPENDENCIES|HIGH_BRANCHING|HEALTH_PRIVACY_REVIEW`
+- Dependencies: `calendar_source|conditional_branch|email_source|medical_record|personal_profile|provider_search`
+- Prompt apps: `fakelook|lifeline|medora|outlook`
+- Verifier apps: `lifeline|medora|outlook`
+- Prompt app families missing from verifier: ``
+- Verifier-only amounts: `62.47`
+- Verifier-only user values: `2025-10-15 || Andrew Mitchell, DO`
+
+> I need to take care of a few things for my parent, Omar Pierce. First, in my Lifeline profile, check if there are any outstanding bills in Lifeline. If there are any outstanding bills, pay the full amount due for each...
+
+Manual check:
+
+- [ ] Open task world or session trace.
+- [ ] Verify each prompt lookup fact is present in seed data.
+- [ ] Verify verifier-only constants are derivable from seed data.
+- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
+
+## 42. task_imh4x0euefpz_n_1781685541540_34riemivo__ayush_20260624__worktrial_taskloss_20260707
+
+- Bucket: `C_repair_candidate`
+- Risk score: `9.8`
+- Environment: `psi-personal-health`
+- Findings: `MANY_CROSS_SYSTEM_DEPENDENCIES|HIGH_BRANCHING|MANY_LOOKUPS|VERIFIER_ONLY_USER_VALUES|HEALTH_PRIVACY_REVIEW|FINANCE_SIDE_EFFECT_REVIEW`
+- Dependencies: `calendar_source|conditional_branch|credit_card|email_source|medical_record|personal_profile|provider_search`
+- Prompt apps: `fakelook|lifeline|medora|outlook`
+- Verifier apps: `lifeline|medora|outlook`
+- Prompt app families missing from verifier: ``
+- Verifier-only amounts: ``
+- Verifier-only user values: `2025-10-22 || 801 Medical Plaza || Dr. Ramos || New York`
+
+> I have obtained a BCBS Basic HMO coverage, so set it as my medical insurance. You don't have to enter the membership ID. Using this coverage, search for a cardiologist who is available two days after my appointment wh...
+
+Manual check:
+
+- [ ] Open task world or session trace.
+- [ ] Verify each prompt lookup fact is present in seed data.
+- [ ] Verify verifier-only constants are derivable from seed data.
+- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
+
+## 43. task_bshwzmkvvma2_n_1781628770617_53s1xjj5t__ayush_20260624__worktrial_taskloss_20260707
+
+- Bucket: `C_repair_candidate`
+- Risk score: `9.75`
+- Environment: `psi-personal-health`
+- Findings: `MANY_CROSS_SYSTEM_DEPENDENCIES|HIGH_BRANCHING|VERIFIER_ONLY_USER_VALUES|HEALTH_PRIVACY_REVIEW`
+- Dependencies: `calendar_source|conditional_branch|email_source|medical_record|provider_search`
+- Prompt apps: `fakelook|lifeline|medora|outlook`
+- Verifier apps: `lifeline|medora|outlook`
+- Prompt app families missing from verifier: ``
+- Verifier-only amounts: ``
+- Verifier-only user values: `2025-10-17 || 2025-10-20 || 2025-11-03 || 2025-12-02 || December 2 || Dr Patel || Dr. Wu calendar events || James Wu || November 3 || Oct 17 || Oct 20 || October 17`
+
+> I just moved to Arizona for grad school and my schedule is already a mess before classes even start. I have four appointments coming up in Medora and I need to get organized before I lose track of everything. In Medor...
+
+Manual check:
+
+- [ ] Open task world or session trace.
+- [ ] Verify each prompt lookup fact is present in seed data.
+- [ ] Verify verifier-only constants are derivable from seed data.
+- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
+
+## 44. task_hlt1v2oseidr_n_1781499374015_4d1avgc01__ayush_20260624__worktrial_taskloss_20260707
+
+- Bucket: `C_repair_candidate`
+- Risk score: `9.75`
+- Environment: `psi-consumer-finance`
+- Findings: `RELATIVE_DATE_ANCHORS|MANY_CROSS_SYSTEM_DEPENDENCIES|HIGH_BRANCHING|FINANCE_SIDE_EFFECT_REVIEW`
+- Dependencies: `bank_transactions|conditional_branch|credit_card|email_source|invoice_bill|personal_profile`
+- Prompt apps: `meridian|outlook|quickbooks`
+- Verifier apps: `fakelook|harbor|meridian|quickbooks`
+- Prompt app families missing from verifier: ``
+- Verifier-only amounts: ``
+- Verifier-only user values: `%To Dispute%`
+
+> I have received an email that I need to add my mailing address and update my ATM PIN. Using Meridian, verify whether a home address is on my profile. If a home address exists, update my mailing address to be the same ...
+
+Manual check:
+
+- [ ] Open task world or session trace.
+- [ ] Verify each prompt lookup fact is present in seed data.
+- [ ] Verify verifier-only constants are derivable from seed data.
+- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
+
+## 45. task_dto2ool7uks3_n_1781761877684_t7kvv6x09__ayush_20260624__worktrial_taskloss_20260707
+
+- Bucket: `C_repair_candidate`
+- Risk score: `9.7`
+- Environment: `psi-personal-health`
+- Findings: `MANY_CROSS_SYSTEM_DEPENDENCIES|HIGH_BRANCHING|LONG_PROMPT|HEALTH_PRIVACY_REVIEW|FINANCE_SIDE_EFFECT_REVIEW`
+- Dependencies: `calendar_source|conditional_branch|credit_card|email_source|medical_record|personal_profile|provider_search`
+- Prompt apps: `fakelook|lifeline|medora|outlook`
+- Verifier apps: `lifeline|medora|outlook`
+- Prompt app families missing from verifier: ``
+- Verifier-only amounts: `40`
+- Verifier-only user values: `2025-10-17 || 705 Clinic Way || Park Cardiologist Clinic`
+
+> I have been meaning to arrange a cardiology consultation for some time, but finding a suitable appointment that works around family commitments has been difficult. Since my spouse will likely be driving me to and from...
+
+Manual check:
+
+- [ ] Open task world or session trace.
+- [ ] Verify each prompt lookup fact is present in seed data.
+- [ ] Verify verifier-only constants are derivable from seed data.
+- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
+
+## 46. task_m7tc4brunifj_n_1781636191630_fg6qpd5ch__ayush_20260624__worktrial_taskloss_20260707
+
+- Bucket: `C_repair_candidate`
+- Risk score: `9.7`
+- Environment: `psi-consumer-finance`
+- Findings: `RELATIVE_DATE_ANCHORS|MANY_CROSS_SYSTEM_DEPENDENCIES|VERIFIER_ONLY_AMOUNTS|VERIFIER_ONLY_USER_VALUES|FINANCE_SIDE_EFFECT_REVIEW`
+- Dependencies: `bank_transactions|calendar_source|conditional_branch|credit_card|email_source|invoice_bill`
+- Prompt apps: `fakelook|harbor|meridian|outlook|quickbooks`
+- Verifier apps: `fakelook|harbor|meridian|quickbooks`
+- Prompt app families missing from verifier: ``
+- Verifier-only amounts: `2858.86|5971.69|858.86|971.69`
+- Verifier-only user values: `2025-10-14 || 2025-10-15 || Meeting Invitation || elena.pierce@riverapierce.example || is not Dining or Shopping || jordan.pierce@riverapierce.example || luis.rivera@riverapierce.example || maya.rivera@riverapierce.example || tom.alvarez@mapleridge.example`
+
+> In Meridian, add a tag of "optional" to all transactions in the "Dining" or "Shopping" category that have occurred since the last Meridian Gold Card statement. Send a Latch email to Jordan Pierce, Luis Rivera, and Ele...
+
+Manual check:
+
+- [ ] Open task world or session trace.
+- [ ] Verify each prompt lookup fact is present in seed data.
+- [ ] Verify verifier-only constants are derivable from seed data.
+- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
+
+## 47. task_lhywptsxf6rj_n_1781648186758_kafn22w68__ayush_20260624__worktrial_taskloss_20260707
+
+- Bucket: `C_repair_candidate`
+- Risk score: `9.6`
+- Environment: `psi-consumer-finance`
+- Findings: `RELATIVE_DATE_ANCHORS|MANY_CROSS_SYSTEM_DEPENDENCIES|HIGH_BRANCHING|VERIFIER_ONLY_AMOUNTS|FINANCE_SIDE_EFFECT_REVIEW`
+- Dependencies: `bank_transactions|conditional_branch|credit_card|invoice_bill|math_or_aggregation`
+- Prompt apps: `fakelook|harbor|meridian|quickbooks`
+- Verifier apps: `fakelook|harbor|meridian|quickbooks`
+- Prompt app families missing from verifier: ``
+- Verifier-only amounts: `12343.5|143.33|14486.83|14656.67|2143.33|343.5|484.75|858.75`
+- Verifier-only user values: `2025-10-14 || 2025-10-15 || Bank Payment`
+
+> I have decided to clear most of my dues today, as well as make accompanying changes to stay updated regarding my upcoming dues. Start off with Meridian Gold Card. Pay the statement balance if the amount is less than 4...
+
+Manual check:
+
+- [ ] Open task world or session trace.
+- [ ] Verify each prompt lookup fact is present in seed data.
+- [ ] Verify verifier-only constants are derivable from seed data.
+- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
+
+## 48. task_tyjimqjpvqva_n_1781613811643_jxblp7b38__ayush_20260624__worktrial_taskloss_20260707
+
+- Bucket: `C_repair_candidate`
+- Risk score: `9.6`
+- Environment: `psi-consumer-finance`
+- Findings: `RELATIVE_DATE_ANCHORS|MANY_CROSS_SYSTEM_DEPENDENCIES|HIGH_BRANCHING|VERIFIER_ONLY_AMOUNTS|FINANCE_SIDE_EFFECT_REVIEW`
+- Dependencies: `bank_transactions|conditional_branch|credit_card|email_source|math_or_aggregation`
+- Prompt apps: `fakelook|harbor|meridian|outlook`
+- Verifier apps: `fakelook|harbor|meridian|quickbooks`
+- Prompt app families missing from verifier: ``
+- Verifier-only amounts: `1997.32|3994.63|500|994.63`
+- Verifier-only user values: `2025-10-15 || 2025-10-21`
+
+> I want to do some bookkeeping of finances in my Harbor bank and Meridian. In Harbor, verify the only bank recipient account that isn't verified yet. Thereafter, view the transactions in my Everyday Checking account fo...
+
+Manual check:
+
+- [ ] Open task world or session trace.
+- [ ] Verify each prompt lookup fact is present in seed data.
+- [ ] Verify verifier-only constants are derivable from seed data.
+- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
+
+## 49. task_xojc6xarjoh_n_1781646774710_2ukoc3g99__ayush_20260624__worktrial_taskloss_20260707
+
+- Bucket: `C_repair_candidate`
+- Risk score: `9.6`
+- Environment: `psi-consumer-finance`
+- Findings: `MANY_CROSS_SYSTEM_DEPENDENCIES|VERIFIER_ONLY_AMOUNTS|VERIFIER_ONLY_USER_VALUES|LONG_PROMPT|FINANCE_SIDE_EFFECT_REVIEW`
+- Dependencies: `bank_transactions|calendar_source|conditional_branch|credit_card|email_source|invoice_bill|math_or_aggregation|personal_profile`
+- Prompt apps: `fakelook|harbor|meridian|outlook|quickbooks`
+- Verifier apps: `fakelook|harbor|meridian|quickbooks`
+- Prompt app families missing from verifier: ``
+- Verifier-only amounts: `11800|14486.83|16800|2313.17|25|2686.83|313.17|686.83|825`
+- Verifier-only user values: `2025-10-13 || 2025-10-14 || Hilton Hotels || jordan.pierce@riverapierce.example`
+
+> I am so burned out and really need to take some time for myself. I’ve decided I’m taking a trip to NYC to see The Lost Boys on Broadway! I need some help getting my finances in order for the trip so help me out. I thi...
+
+Manual check:
+
+- [ ] Open task world or session trace.
+- [ ] Verify each prompt lookup fact is present in seed data.
+- [ ] Verify verifier-only constants are derivable from seed data.
+- [ ] Decide: deliver as-is / small prompt fix / verifier fix / reject.
+
+## 50. task_yrckqhw8zmb_n_1781714885872_m5paxmwgo__ayush_20260624__worktrial_taskloss_20260707
+
+- Bucket: `C_repair_candidate`
+- Risk score: `9.5`
+- Environment: `psi-personal-health`
+- Findings: `MANY_CROSS_SYSTEM_DEPENDENCIES|HIGH_BRANCHING|HEALTH_PRIVACY_REVIEW|FINANCE_SIDE_EFFECT_REVIEW`
+- Dependencies: `calendar_source|conditional_branch|credit_card|medical_record|personal_profile|provider_search`
+- Prompt apps: `fakelook|lifeline|medora`
+- Verifier apps: `lifeline|medora|outlook`
+- Prompt app families missing from verifier: ``
+- Verifier-only amounts: `40`
+- Verifier-only user values: `2025-10-16 || Dr. Xu`
+
+> In Lifeline, check for any abnormality in the most recent fasting metabolic and lipid profile test result. If there is any abnormality, it is time to book a cardiologist appointment for myself. Update my insurance pla...
 
 Manual check:
 

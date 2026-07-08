@@ -4,45 +4,47 @@
 
 I reviewed the `JUNE24-PSI-UNDELIVERED-EVALED` dataset with a three-layer process:
 
-1. A repeatable static QA tool that scored all 520 tasks.
-2. A derivability worklist that extracts hidden verifier constants and turns them into concrete review questions.
+1. A repeatable static QA tool that scored the 257 tasks with visible sessions after Fleet clarified that no-session tasks can be dropped for now.
+2. A derivability worklist that extracts hidden verifier constants from that scoped task set and turns them into concrete review questions.
 3. A human evidence log that sampled tasks across buckets and checked prompt/verifier/session alignment.
 
 The goal was not to let an LLM decide what ships. The goal was to build a system that narrows the review queue, exposes likely failure modes, and leaves a human reviewer in control of the final call.
 
 ## Dataset Shape
 
-- Total tasks: 520.
-- Consumer finance tasks: 313.
-- Personal health tasks: 207.
+- Total tasks in export: 520.
+- In-scope tasks with at least one visible session: 257.
+- Dropped from this analysis per Fleet guidance: 263 no-session tasks.
+- In-scope consumer finance tasks: 150.
+- In-scope personal health tasks: 107.
 - Current date in task environments: `2025-10-14`.
-- Session metadata joined: 712 sessions across 257 tasks.
+- Session metadata joined: 712 sessions across the 257 in-scope tasks.
 - Session rows with verifier scores/traces available in the observed API response: none.
 - Live dashboard check after a one-task spot-check run: 713 total sessions, 0 scored sessions, 520/520 tasks not analyzed in Task Quality.
 - Later dashboard recheck after the 48-task mixed batch registered: 761 total sessions, 7 scored sessions, 6 scored tasks, 28.6% pass rate, and 0.29 average score on the scored slice.
-- Hidden verifier constants surfaced for review: 3,729 across 513 tasks.
+- Hidden verifier constants surfaced for review in the in-scope set: 1,843 across 254 tasks.
 
 ## Static Triage Results
 
 | Bucket | Count | Meaning |
 | --- | ---: | --- |
-| `A_likely_good_spot_check` | 39 | Low static risk. Should be spot-checked against seed/session evidence before promotion. |
-| `B_close_verify_derivability` | 201 | Likely recoverable. Main work is proving hidden verifier constants are derivable from the world. |
-| `C_repair_candidate` | 214 | Worth saving, but likely needs prompt/verifier reconciliation or stronger seed checks. |
-| `D_high_risk_manual_review` | 66 | Highest risk. Review before spending recovery time. |
+| `A_likely_good_spot_check` | 17 | Low static risk. Should be spot-checked against seed/session evidence before promotion. |
+| `B_close_verify_derivability` | 92 | Likely recoverable. Main work is proving hidden verifier constants are derivable from the world. |
+| `C_repair_candidate` | 109 | Worth saving, but likely needs prompt/verifier reconciliation or stronger seed checks. |
+| `D_high_risk_manual_review` | 39 | Highest risk. Review before spending recovery time. |
 
 This means a conservative recovery path is:
 
-- Promote the 39 likely-good tasks only after spot checks.
-- Work the 201 close tasks next; many are probably recoverable if seed data supports the hidden answers.
-- Use the 214 repair candidates as the main fix backlog.
-- Treat the 66 high-risk tasks as manual-review-first, not automatic rejects.
+- Promote the 17 likely-good tasks only after spot checks.
+- Work the 92 close tasks next; many are probably recoverable if seed data supports the hidden answers.
+- Use the 109 repair candidates as the main fix backlog.
+- Treat the 39 high-risk tasks as manual-review-first, not automatic rejects.
 
 ## Tool Built
 
 I built two scripts.
 
-`triage_dataset.py` reads the dataset JSONL and optionally joins task/session API exports.
+`triage_dataset.py` reads the dataset JSONL, joins task/session API exports, and can apply the final `--require-sessions` scope so unrun tasks are dropped from generated outputs.
 
 It flags:
 
@@ -76,22 +78,22 @@ Outputs:
 - `evidence_log.md`
 - `live_dashboard_check.md`
 
-The derivability worklist found 1,462 amounts, 1,425 dates, 606 names/labels, 222 emails, and 14 phone numbers that should be proven against seed/session evidence before promotion.
+The scoped derivability worklist found 689 amounts, 710 dates, 315 names/labels, 120 emails, and 9 phone numbers that should be proven against seed/session evidence before promotion.
 
 ## Most Common Static Signals
 
 | Finding | Count |
 | --- | ---: |
-| Finance side-effect review | 408 |
-| Many cross-system dependencies | 337 |
-| Verifier-only amounts | 247 |
-| Health privacy review | 220 |
-| Verifier-only user values | 193 |
-| Relative date anchors | 190 |
-| High branching | 152 |
-| Many lookups | 77 |
-| Long prompt | 40 |
-| Prompt app family missing from verifier | 34 |
+| Finance side-effect review | 195 |
+| Many cross-system dependencies | 178 |
+| Verifier-only amounts | 121 |
+| Health privacy review | 115 |
+| Verifier-only user values | 97 |
+| Relative date anchors | 93 |
+| High branching | 86 |
+| Many lookups | 31 |
+| Long prompt | 23 |
+| Prompt app family missing from verifier | 20 |
 
 ## Human QA Sample
 
@@ -151,7 +153,7 @@ All tasks are anchored to `2025-10-14`, so words like “today,” “yesterday,
 
 ## Recommended Human Review Workflow
 
-1. Run the triage tool over the full dataset.
+1. Run the triage tool with session exports and `--require-sessions` so the analysis matches the clarified Project One scope.
 2. Run the derivability worklist and filter to high-priority rows in `D_high_risk_manual_review`, then `C_repair_candidate`, then `B_close_verify_derivability`.
 3. Start with tasks that have sessions or many hidden constants.
 4. For each task, inspect prompt, verifier, session metadata, and visible recordings/traces if available.
@@ -182,12 +184,13 @@ Two-week system build:
 ## Known Limits
 
 - The static tool is not a substitute for seed-world verification.
+- The main committed reports intentionally exclude the 263 no-session tasks because Fleet said those can be dropped for this task.
 - The derivability worklist is conservative and may include harmless verifier constants or no-change guards.
 - Session metadata did not include pass/fail scores or traces in the observed response.
 - The final dashboard recheck showed only 7 scored sessions across 6 tasks, so live run evidence is still sparse and should not be over-weighted.
 - I did not use an LLM batch reviewer as the final judge.
-- The current evidence sample covers 8/520 tasks manually.
+- The current evidence sample covers 8/257 in-scope tasks manually.
 
 ## Bottom Line
 
-The dataset likely contains a meaningful number of recoverable tasks. The fastest safe path is not to hand-review all 520 from scratch; it is to use the tool to prioritize, then manually verify derivability for the highest-impact buckets. The strongest recovery pool is the 201 close/verify-derivability tasks plus the 39 likely-good spot-check tasks.
+The session-backed scope likely contains a meaningful number of recoverable tasks. The fastest safe path is not to hand-review all 257 in-scope tasks from scratch; it is to use the tool to prioritize, then manually verify derivability for the highest-impact buckets. The strongest recovery pool is the 92 close/verify-derivability tasks plus the 17 likely-good spot-check tasks.
