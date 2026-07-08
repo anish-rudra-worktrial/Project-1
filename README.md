@@ -1,165 +1,96 @@
 # Project One QA Toolkit
 
-This repo is a handoff for Fleet Project One. It contains a repeatable QA workflow for deciding which tasks in `JUNE24-PSI-UNDELIVERED-EVALED` are easiest to recover, which need repair, and which should go to deeper manual review.
+This repo is my handoff for Fleet Project One.
 
-The goal is not to let an LLM decide what ships. The goal is to make the repetitive QA work faster, consistent, and easy for a human reviewer to audit.
+In plain English: I built a repeatable QA workflow for deciding which tasks in `JUNE24-PSI-UNDELIVERED-EVALED` are good, which are close, which need repair, and which need deeper manual review.
+
+The goal is to protect the training signal for agents. A task can fail because the prompt is unclear, the verifier checks hidden facts, the model misses a step, or the environment/tooling gets in the way. This repo separates those cases so a human reviewer can make a cleaner decision.
 
 ## Start Here
 
-| If you are... | Open first | Why |
-| --- | --- | --- |
-| A product manager or operator | `SUBMISSION.md` | Short scope, outputs, and bottom-line handoff. |
-| Reviewing task quality | `reports/task_recovery_ranked.csv` | Ordered queue of tasks to spot-check, recover, repair, or manually review. |
-| Reviewing the analysis | `final_project_one_report.md` | Concise method, findings, bucket counts, and next steps. |
-| Reviewing actual runs | `trace_evidence.md` and `reports/post_run_verification_summary.md` | Concrete completed-session findings plus a post-run category queue. |
-| Reviewing the tool | `triage_dataset.py`, `constant_derivability_worklist.py`, and `post_run_verifier.py` | The scripts that generate the QA outputs. |
-| Checking human judgment | `evidence_log.md` | Manual sample showing how I audited the tool output. |
+If you only open three things:
 
-## Current Scope
-
-The source of truth for this handoff is the Fleet dashboard dataset:
-[JUNE24-PSI-UNDELIVERED-EVALED](https://www.fleetai.com/dashboard/datasets/JUNE24-PSI-UNDELIVERED-EVALED).
-
-I scoped the committed analysis to the dashboard/evaluated task set shown there.
-
-| Item | Count |
-| --- | ---: |
-| Fleet dashboard task scope | 257 tasks |
-| Consumer-finance tasks in scope | 150 tasks |
-| Personal-health tasks in scope | 107 tasks |
-| Total sessions in scope | 712 sessions |
-| Scored sessions on dashboard | 658 sessions |
-| Tasks scored on dashboard | 220 tasks |
-| Dashboard pass rate | 7.6% |
-| Dashboard average score | 0.08 |
-| Trace spot-checks documented | 20 sessions |
-
-## Main Deliverables
-
-| File | What it is for |
+| Open | Why |
 | --- | --- |
-| `reports/task_recovery_ranked.csv` | Main recovery queue. Start here when deciding what to review next. |
-| `reports/task_triage.csv` | Full task-level static QA output with risk score, bucket, findings, session count, and prompt preview. |
-| `reports/derivability_worklist.csv` | Verifier constants that need proof from the prompt, seed data, or session evidence. |
-| `reports/post_run_verification.csv` | Completed-run evidence classified into pass, narrow repair, partial, environment, ambiguity, or broad-failure queues. |
-| `reports/post_run_verification_summary.md` | Human-readable summary of the post-run verification layer. |
-| `reports/manual_review_queue.md` | Top 50 high-risk tasks with manual-review checklist prompts. |
-| `trace_evidence.md` | Concrete session-level examples: 5 completed traces from each recovery bucket. |
-| `final_project_one_report.md` | Summary of method, results, recovery strategy, and limits. |
-| `evidence_log.md` | Human-in-the-loop sample across buckets and environments. |
-| `live_dashboard_check.md` | Dashboard score snapshot and task-set check. |
+| [SUBMISSION.md](SUBMISSION.md) | Short handoff: scope, outputs, bucket counts, and how to run the tools. |
+| [reports/task_recovery_ranked.csv](reports/task_recovery_ranked.csv) | The main task queue, sorted by what to review first. |
+| [reports/post_run_verification_summary.md](reports/post_run_verification_summary.md) | The completed-run trace summary: clean passes, narrow repairs, partial completions, environment issues, ambiguity, and broad failures. |
 
-The dataset export, API keys, browser cookies, bearer tokens, and local request headers are intentionally not committed.
+For the fuller explanation, read [final_project_one_report.md](final_project_one_report.md).
 
-## How The Workflow Works
+## The Three QA Layers
 
-1. Start from the Fleet dashboard dataset scope and session metadata.
-2. Run static triage over each task prompt and verifier.
-3. Bucket each task by recovery priority.
-4. Extract verifier constants that are not obviously present in the prompt.
-5. Inspect actual completed traces for representative pass/fail behavior.
-6. Run the post-run verifier to turn completed trace evidence into a repair/promote queue.
-7. Turn static flags and trace outcomes into concrete repair/promote decisions.
+I built three layers. The first two are static checks over the task/verifier. The third is a post-run check over completed traces.
 
-## Recovery Buckets
+In conversation, you can describe them as the first QA check, second QA check, and third QA check.
 
-| Bucket | Meaning | What to do |
-| --- | --- | --- |
-| `A_likely_good_spot_check` | Low static risk. | Spot-check seed/session evidence, then consider promotion. |
-| `B_close_verify_derivability` | Likely recoverable. | Prove hidden verifier constants are derivable. |
-| `C_repair_candidate` | Worth saving, but needs cleanup. | Reconcile prompt, verifier, and seed-world facts. |
-| `D_high_risk_manual_review` | Highest static risk. | Inspect manually before spending recovery time. |
+| Layer | Human Name | What It Answers | Script | Main Output |
+| --- | --- | --- | --- | --- |
+| 1 | Static task triage | "Which tasks look easiest to recover, and which look risky?" | [triage_dataset.py](triage_dataset.py) | [reports/task_recovery_ranked.csv](reports/task_recovery_ranked.csv) |
+| 2 | Verifier constant review | "Is the verifier checking facts the agent could actually derive?" | [constant_derivability_worklist.py](constant_derivability_worklist.py) | [reports/derivability_worklist.csv](reports/derivability_worklist.csv) |
+| 3 | Post-run trace review | "What actually happened when a model ran the task?" | [post_run_verifier.py](post_run_verifier.py) | [reports/post_run_verification.csv](reports/post_run_verification.csv) |
 
-The bucket is not pass/fail. It is a review priority.
+There are also two human-readable evidence files:
 
-## Current Results
-
-| Bucket | Count |
-| --- | ---: |
-| `A_likely_good_spot_check` | 17 |
-| `B_close_verify_derivability` | 92 |
-| `C_repair_candidate` | 109 |
-| `D_high_risk_manual_review` | 39 |
-
-The strongest near-term recovery pool is the 17 likely-good tasks plus the 92 close/derivability tasks. The 109 repair candidates are the main fix backlog. The 39 high-risk tasks should be inspected before investing recovery time.
-
-The derivability worklist found 1,843 verifier constants across 254 scoped tasks. That is not a rejection count. It is a list of proof obligations: for each hidden amount, date, name, email, or phone number, a reviewer should confirm whether it is uniquely derivable from the prompt plus the seed world.
-
-The trace sample adds concrete calibration:
-
-- `task_nw14kiriuj0w...`: Ledger expense succeeded, but Harbor/Zelle and Latch reply did not complete.
-- `task_dlmkv6otfy07...`: invoice and email work mostly passed, but the transfer/accounting-line check failed.
-- `task_a3usg9top92...`: health task passed with clean appointment, refill, payment, cancellation, and calendar checks.
-
-The post-run verifier classified the 20 inspected completed traces as 6 clean passes, 1 pass with high static risk, 5 narrow verifier/state failures, 3 partial completions, 2 environment/navigation failures, 1 task-or-seed ambiguity, and 2 broad side-effect failures.
-
-## How To Run
-
-From the repo root, with the dashboard dataset JSONL and API exports available locally:
-
-```bash
-python3 triage_dataset.py \
-  path/to/JUNE24-PSI-UNDELIVERED-EVALED.jsonl \
-  --task-api-json path/to/tasks_all.json \
-  --sessions-json path/to/sessions_all.json \
-  --require-sessions \
-  --out-dir reports
-```
-
-Then generate the verifier-constant worklist:
-
-```bash
-python3 constant_derivability_worklist.py \
-  path/to/JUNE24-PSI-UNDELIVERED-EVALED.jsonl \
-  --triage-csv reports/task_triage.csv \
-  --out-dir reports
-```
-
-Then classify completed-run evidence after model runs have finished:
-
-```bash
-python3 post_run_verifier.py \
-  --trace-evidence trace_evidence.md \
-  --triage-csv reports/task_triage.csv \
-  --out-dir reports
-```
-
-If you download raw completed-session transcripts from the dashboard, run the same post-run layer at larger scale:
-
-```bash
-python3 post_run_verifier.py \
-  --transcript-dir path/to/downloaded/session_transcripts \
-  --triage-csv reports/task_triage.csv \
-  --out-dir reports
-```
-
-## How To Read The Ranked CSV
-
-Open `reports/task_recovery_ranked.csv`. The most useful columns are:
-
-| Column | Meaning |
+| File | What It Shows |
 | --- | --- |
-| `recovery_rank` | Suggested order for review. |
-| `bucket` | Recovery category. |
-| `recommended_action` | What a reviewer should do next. |
-| `risk_score` | Static risk score from the triage script. |
-| `session_count` / `completed_sessions` | Run coverage from session metadata. |
-| `primary_reason` | Plain-English summary of why the task landed where it did. |
-| `findings` | Machine-readable QA flags. |
-| `verifier_only_amounts` / `verifier_only_user_values` | Hidden verifier constants to prove. |
+| [trace_evidence.md](trace_evidence.md) | 20 real completed traces: 5 from each bucket. |
+| [verification_sample.md](verification_sample.md) | A readable sample explaining static checks plus the 5-traces-per-bucket trace calibration. |
 
-## What The Tool Flags
+## Layer 1: Static Task Triage
 
-Static triage flags:
+This is the first pass.
 
-- Relative-date anchors that need a shared current-date interpretation.
-- Cross-system tasks with many app dependencies.
-- Conditional branches and lookup-heavy prompts.
-- Prompt app cues that do not appear in verifier app usage.
-- Verifier-only money amounts, dates, names, emails, and phone numbers.
-- Health and finance side effects that deserve careful review.
+It reads the task dataset and checks each prompt/verifier for review signals:
 
-Post-run verification categories:
+- too many cross-system dependencies;
+- relative date anchors;
+- high branching or lookup burden;
+- finance and health side-effect risk;
+- prompt apps that may not be verified;
+- verifier-only amounts or user-visible facts;
+- session coverage when available.
+
+It does not decide whether a task is good or bad. It creates a review queue.
+
+Outputs:
+
+- [reports/task_recovery_ranked.csv](reports/task_recovery_ranked.csv): best first file for task review.
+- [reports/task_triage.csv](reports/task_triage.csv): full task-level static QA table.
+- [reports/manual_review_queue.md](reports/manual_review_queue.md): top high-risk tasks.
+- [reports/summary.md](reports/summary.md): static triage summary.
+
+## Layer 2: Verifier Constant Review
+
+This is the second pass.
+
+It looks for constants inside verifiers that are not obvious in the prompt, such as:
+
+- money amounts;
+- dates;
+- names and labels;
+- emails;
+- phone numbers.
+
+Those constants are not automatically wrong. They are proof obligations. A reviewer should confirm whether each one is uniquely derivable from the prompt plus the seed world.
+
+Outputs:
+
+- [reports/derivability_worklist.csv](reports/derivability_worklist.csv): verifier constants to prove.
+- [reports/derivability_summary.md](reports/derivability_summary.md): summary of constant counts and types.
+
+## Layer 3: Post-Run Trace Review
+
+This is the third pass.
+
+It runs after model sessions already exist. It does not create Fleet runs, submit model responses, or post anything to Fleet's platform.
+
+It parses completed-run evidence from:
+
+- [trace_evidence.md](trace_evidence.md), or
+- downloaded completed-session transcripts.
+
+Then it classifies what happened:
 
 - `PASS_CLEAN`
 - `PASS_BUT_STATIC_RISK`
@@ -170,17 +101,118 @@ Post-run verification categories:
 - `BROAD_SIDE_EFFECT_FAILURE`
 - `UNSCORED_OR_TRACE_UNAVAILABLE`
 
-These flags are review leads. They are not automatic failures.
+Outputs:
+
+- [reports/post_run_verification.csv](reports/post_run_verification.csv): sortable completed-run QA queue.
+- [reports/post_run_verification_summary.md](reports/post_run_verification_summary.md): readable post-run summary.
+
+## Current Results
+
+Source of truth: [JUNE24-PSI-UNDELIVERED-EVALED](https://www.fleetai.com/dashboard/datasets/JUNE24-PSI-UNDELIVERED-EVALED)
+
+| Metric | Count |
+| --- | ---: |
+| Dashboard task scope | 257 tasks |
+| Consumer-finance tasks | 150 tasks |
+| Personal-health tasks | 107 tasks |
+| Total sessions joined | 712 sessions |
+| Scored sessions on dashboard | 658 sessions |
+| Tasks scored on dashboard | 220 tasks |
+| Completed traces inspected | 20 sessions |
+
+Static task buckets:
+
+| Bucket | Count | Human Meaning |
+| --- | ---: | --- |
+| `A_likely_good_spot_check` | 17 | Start here. Low static risk; spot-check before promotion. |
+| `B_close_verify_derivability` | 92 | Likely recoverable; prove hidden constants are derivable. |
+| `C_repair_candidate` | 109 | Worth saving, but needs prompt/verifier/seed repair. |
+| `D_high_risk_manual_review` | 39 | Inspect manually before spending repair time. |
+
+Post-run trace summary from the 20 inspected completed sessions:
+
+| Post-Run Category | Count |
+| --- | ---: |
+| `PASS_CLEAN` | 6 |
+| `PASS_BUT_STATIC_RISK` | 1 |
+| `NARROW_VERIFIER_FAILURE` | 5 |
+| `PARTIAL_COMPLETION` | 3 |
+| `ENVIRONMENT_OR_NAVIGATION_FAILURE` | 2 |
+| `TASK_OR_SEED_AMBIGUITY` | 1 |
+| `BROAD_SIDE_EFFECT_FAILURE` | 2 |
+
+## How To Run
+
+Run these commands from the repo root in Terminal.
+
+The generated reports are already committed. You only need to rerun the scripts if you have fresh Fleet exports or new completed-session transcripts.
+
+### 1. Run Static Task Triage
+
+```bash
+python3 triage_dataset.py \
+  path/to/JUNE24-PSI-UNDELIVERED-EVALED.jsonl \
+  --task-api-json path/to/tasks_all.json \
+  --sessions-json path/to/sessions_all.json \
+  --require-sessions \
+  --out-dir reports
+```
+
+### 2. Run Verifier Constant Review
+
+```bash
+python3 constant_derivability_worklist.py \
+  path/to/JUNE24-PSI-UNDELIVERED-EVALED.jsonl \
+  --triage-csv reports/task_triage.csv \
+  --out-dir reports
+```
+
+### 3. Run Post-Run Trace Review
+
+Use the committed trace evidence:
+
+```bash
+python3 post_run_verifier.py \
+  --trace-evidence trace_evidence.md \
+  --triage-csv reports/task_triage.csv \
+  --out-dir reports
+```
+
+Or use downloaded completed-session transcripts:
+
+```bash
+python3 post_run_verifier.py \
+  --transcript-dir path/to/downloaded/session_transcripts \
+  --triage-csv reports/task_triage.csv \
+  --out-dir reports
+```
+
+## What To Say In Human Terms
+
+The short version:
+
+> I built a three-layer QA system. First, it ranks tasks by static risk. Second, it extracts verifier constants that need seed-world proof. Third, it reviews completed run traces to separate clean passes, narrow repairs, partial completions, environment issues, ambiguity, and broad failures.
+
+The Fleet-specific version:
+
+> Fleet is building training environments for agents. My workflow protects the training signal by separating task quality, verifier quality, environment reliability, and model execution quality.
 
 ## Known Limits
 
-- The scripts are static QA accelerators, not final graders.
-- The scripts do not open seed databases or session recordings by themselves; `trace_evidence.md` documents a manual dashboard trace sample, and `post_run_verifier.py` parses that evidence or downloaded transcripts.
-- The dashboard score snapshot is aggregate; it is not joined to each task row.
-- Verifier-only constants are not always bad. Many are valid hidden ground truth if they are uniquely derivable.
-- App mapping is heuristic, especially where health billing and finance billing use similar words.
-- Human review is still required before promoting or rejecting tasks.
+- The tools accelerate QA; they do not replace human review.
+- The first two scripts are static checks, so they do not prove seed-world truth by themselves.
+- The third script parses trace evidence after runs exist; it does not create Fleet runs.
+- Verifier-only constants are not automatically bad. They need derivability proof.
+- App mapping is heuristic, especially where health billing and finance billing share similar language.
+- API keys, browser cookies, bearer tokens, request headers, and raw private exports are intentionally not committed.
 
-## What I Would Build Next
+## More Detail
 
-The next improvement would connect `reports/derivability_worklist.csv` directly to seed-data probes or session traces. That would turn each hidden verifier constant into one of three labels: derivable, ambiguous, or not derivable. I would also add a lightweight review UI so operators can approve, repair, or reject tasks while preserving the evidence trail.
+| Want More Detail On... | Open |
+| --- | --- |
+| Overall method and conclusions | [final_project_one_report.md](final_project_one_report.md) |
+| Short handoff note | [SUBMISSION.md](SUBMISSION.md) |
+| Actual trace examples | [trace_evidence.md](trace_evidence.md) |
+| Sample verification logic | [verification_sample.md](verification_sample.md) |
+| Session/API notes | [session_api_notes.md](session_api_notes.md) |
+| Dashboard score snapshot | [live_dashboard_check.md](live_dashboard_check.md) |
